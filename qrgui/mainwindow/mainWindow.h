@@ -257,14 +257,14 @@ private slots:
 
 	void showGestures();
 	void showAlignment(bool isChecked);
-	void switchGrid(bool isChecked);
-	void switchAlignment(bool isChecked);
 
 	void setData(QString const &data, QPersistentModelIndex const &index, int const &role);
 	void setReference(QString const &data, QPersistentModelIndex const &index, int const &role);
 	void openShapeEditor();
 
 	void updatePaletteIcons();
+
+	void cut();
 
 private:
 	QHash<EditorView*, QPair<CodeArea *, QPair<QPersistentModelIndex, int> > > *mOpenedTabsWithEditor;
@@ -310,8 +310,6 @@ private:
 
 	void setShowGrid(bool isChecked);
 	void setShowAlignment(bool isChecked);
-	void setSwitchGrid(bool isChecked);
-	void setSwitchAlignment(bool isChecked);
 
 	void addActionOrSubmenu(QMenu *target, ActionInfo const &actionOrMenu);
 

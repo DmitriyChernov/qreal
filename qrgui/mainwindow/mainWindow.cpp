@@ -152,8 +152,6 @@ void MainWindow::connectActions()
 {
 	mUi->actionShow_grid->setChecked(SettingsManager::value("ShowGrid").toBool());
 	mUi->actionShow_alignment->setChecked(SettingsManager::value("ShowAlignment").toBool());
-	mUi->actionSwitch_on_grid->setChecked(SettingsManager::value("ActivateGrid").toBool());
-	mUi->actionSwitch_on_alignment->setChecked(SettingsManager::value("ActivateAlignment").toBool());
 	connect(mUi->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
 
 	connect(mUi->actionShowSplash, SIGNAL(toggled(bool)), this, SLOT (toggleShowSplash(bool)));
@@ -162,10 +160,14 @@ void MainWindow::connectActions()
 	connect(mUi->actionSave_as, SIGNAL(triggered()), mProjectManager, SLOT(suggestToSaveAs()));
 	connect(mUi->actionSave_diagram_as_a_picture, SIGNAL(triggered()), this, SLOT(saveDiagramAsAPicture()));
 	connect(mUi->actionPrint, SIGNAL(triggered()), this, SLOT(print()));
+	connect(mUi->actionFilePrint, SIGNAL(triggered()), this, SLOT(print()));
+
 	connect(mUi->actionMakeSvg, SIGNAL(triggered()), this, SLOT(makeSvg()));
 
 	connect(mUi->actionNew_Diagram, SIGNAL(triggered()), mProjectManager, SLOT(suggestToCreateDiagram()));
 	connect(mUi->actionNewProject, SIGNAL(triggered()), this, SLOT(createProject()));
+	connect(mUi->actionNew_diagram, SIGNAL(triggered()), mProjectManager, SLOT(suggestToCreateDiagram()));
+	connect(mUi->actionNew_project, SIGNAL(triggered()), this, SLOT(createProject()));
 
 	connect(mUi->actionDeleteFromDiagram, SIGNAL(triggered()), this, SLOT(deleteFromDiagram()));
 	connect(mUi->actionCopyElementsOnDiagram, SIGNAL(triggered()), this, SLOT(copyElementsOnDiagram()));
@@ -179,8 +181,6 @@ void MainWindow::connectActions()
 
 	connect(mUi->actionShow_grid, SIGNAL(toggled(bool)), this, SLOT(showGrid(bool)));
 	connect(mUi->actionShow_alignment, SIGNAL(toggled(bool)), this, SLOT(showAlignment(bool)));
-	connect(mUi->actionSwitch_on_grid, SIGNAL(toggled(bool)), this, SLOT(switchGrid(bool)));
-	connect(mUi->actionSwitch_on_alignment, SIGNAL(toggled(bool)), this, SLOT(switchAlignment(bool)));
 
 	connect(mUi->actionHelp, SIGNAL(triggered()), this, SLOT(showHelp()));
 	connect(mUi->actionAbout, SIGNAL(triggered()), this, SLOT(showAbout()));
@@ -191,6 +191,10 @@ void MainWindow::connectActions()
 	connect(mUi->actionFullscreen, SIGNAL(triggered()), this, SLOT(fullscreen()));
 
 	connect (mUi->actionFind, SIGNAL(triggered()), this, SLOT(showFindDialog()));
+
+	connect (mUi->actionCut, SIGNAL(triggered()), this, SLOT(cut()));
+	connect (mUi->actionCopy, SIGNAL(triggered()), this, SLOT(copyElementsOnDiagram()));
+	connect (mUi->actionPaste, SIGNAL(triggered()), this, SLOT(pasteOnDiagram()));
 
 	connect(mFindReplaceDialog, SIGNAL(replaceClicked(QStringList&)), mFindHelper, SLOT(handleReplaceDialog(QStringList&)));
 	connect(mFindReplaceDialog, SIGNAL(findModelByName(QStringList)), mFindHelper, SLOT(handleFindDialog(QStringList)));
@@ -1294,8 +1298,8 @@ void MainWindow::setDefaultShortcuts()
 	mUi->actionNewProject->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_N));
 	mUi->actionNew_Diagram->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));
 
-	// TODO: bind Ctrl+P to print when it will be repaired
-	// TODO: bind Ctrl+F to find dialog when it will be repaired
+	mUi->actionPrint->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_P));
+	mUi->actionFind->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F));
 
 	HotKeyManager::setCommand("File.Open", tr("Open project"), mUi->actionOpen);
 	HotKeyManager::setCommand("File.Save", tr("Save project"), mUi->actionSave);
@@ -1441,17 +1445,6 @@ void MainWindow::showAlignment(bool isChecked)
 	setShowAlignment(isChecked);
 }
 
-void MainWindow::switchGrid(bool isChecked)
-{
-	SettingsManager::setValue("ActivateGrid", isChecked);
-	setSwitchGrid(isChecked);
-}
-
-void MainWindow::switchAlignment(bool isChecked)
-{
-	SettingsManager::setValue("ActivateAlignment", isChecked);
-	setSwitchAlignment(isChecked);
-}
 
 void MainWindow::setShowGrid(bool isChecked)
 {
@@ -1459,6 +1452,18 @@ void MainWindow::setShowGrid(bool isChecked)
 		EditorView *const tab = (dynamic_cast<EditorView *>(mUi->tabs->widget(i)));
 		if (tab != NULL) {
 			tab->setDrawSceneGrid(isChecked);
+		}
+	}
+	for (int i = 0; i < mUi->tabs->count(); i++) {
+		EditorView  const *tab = (dynamic_cast<EditorView *>(mUi->tabs->widget(i)));
+		if (tab != NULL) {
+			QList<QGraphicsItem *> const list = tab->scene()->items();
+			foreach (QGraphicsItem *const item, list) {
+				NodeElement * const nodeItem = dynamic_cast<NodeElement*>(item);
+				if (nodeItem != NULL) {
+					nodeItem->switchGrid(isChecked);
+				}
+			}
 		}
 	}
 }
@@ -1477,26 +1482,6 @@ void MainWindow::setShowAlignment(bool isChecked)
 			}
 		}
 	}
-}
-
-void MainWindow::setSwitchGrid(bool isChecked)
-{
-	for (int i = 0; i < mUi->tabs->count(); i++) {
-		EditorView  const *tab = (dynamic_cast<EditorView *>(mUi->tabs->widget(i)));
-		if (tab != NULL) {
-			QList<QGraphicsItem *> const list = tab->scene()->items();
-			foreach (QGraphicsItem *const item, list) {
-				NodeElement * const nodeItem = dynamic_cast<NodeElement*>(item);
-				if (nodeItem != NULL) {
-					nodeItem->switchGrid(isChecked);
-				}
-			}
-		}
-	}
-}
-
-void MainWindow::setSwitchAlignment(bool isChecked)
-{
 	for (int i = 0; i < mUi->tabs->count(); i++) {
 		EditorView *const tab = (dynamic_cast<EditorView *>(mUi->tabs->widget(i)));
 		if (tab != NULL) {
@@ -1676,7 +1661,7 @@ void MainWindow::applySettings()
 		EditorViewScene *scene = dynamic_cast <EditorViewScene *> (tab->scene());
 		if (scene) {
 			if (SettingsManager::value("SquareLine", false).toBool()
-					|| SettingsManager::value("ActivateGrid").toBool()) {
+					|| SettingsManager::value("ShowGrod").toBool()) {
 				scene->updateEdgeElements();
 			}
 			scene->invalidate();
@@ -1805,8 +1790,6 @@ void MainWindow::initToolPlugins()
 	foreach (ActionInfo const action, actions) {
 		if (action.menuName() == "tools") {
 			addActionOrSubmenu(mUi->menuTools, action);
-		} else if (action.menuName() == "settings") {
-			addActionOrSubmenu(mUi->menuSettings, action);
 		}
 	}
 
@@ -1909,9 +1892,6 @@ void MainWindow::initDocks()
 
 void MainWindow::initGridProperties()
 {
-	mUi->actionSwitch_on_grid->blockSignals(false);
-	mUi->actionSwitch_on_grid->setChecked(SettingsManager::value("ActivateGrid").toBool());
-
 	mUi->actionShow_grid->blockSignals(false);
 	mUi->actionShow_grid->setChecked(SettingsManager::value("ShowGrid").toBool());
 }
@@ -2084,4 +2064,10 @@ void MainWindow::setVersion(QString const &version)
 {
 	// TODO: update title
 	SettingsManager::setValue("version", version);
+}
+
+void MainWindow::cut()
+{
+	copyElementsOnDiagram();
+	deleteFromDiagram();
 }
