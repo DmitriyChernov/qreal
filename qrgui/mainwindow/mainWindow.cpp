@@ -1165,7 +1165,7 @@ void MainWindow::openNewTab(QModelIndex const &arg)
 	if (tabNumber != -1) {
 		mUi->tabs->setCurrentIndex(tabNumber);
 	} else {
-		EditorView * const view = new EditorView(this);
+		EditorView * const view = new EditorView(this, mUi->minimapView);
 		if (view) {
 			Id const diagramId = mModels->graphicalModelAssistApi().idByIndex(index);
 			mController->diagramOpened(diagramId);
@@ -1320,7 +1320,6 @@ void MainWindow::currentTabChanged(int newIndex)
 {
 	switchToTab(newIndex);
 	mUi->minimapView->changeSource(newIndex);
-
 	bool const isEditorTab = getCurrentTab() != NULL;
 
 	mUi->actionSave_diagram_as_a_picture->setEnabled(isEditorTab);
@@ -1329,6 +1328,7 @@ void MainWindow::currentTabChanged(int newIndex)
 	} else if (getCurrentTab()->mvIface() != NULL) {
 		Id const currentTabId = getCurrentTab()->mvIface()->rootId();
 		mToolManager.activeTabChanged(currentTabId);
+		replaceMiniMap(newIndex);
 	}
 
 	mUi->actionZoom_In->setEnabled(isEditorTab);
@@ -1880,6 +1880,7 @@ void MainWindow::initTabs()
 	mUi->tabs->setMovable(true);
 	connect(mUi->tabs, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged(int)));
 	connect(mUi->tabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+	connect(mUi->tabs, SIGNAL(currentChanged(int)), this, SLOT(replaceMiniMap(int)));
 }
 
 void MainWindow::initDocks()
@@ -2070,4 +2071,14 @@ void MainWindow::cut()
 {
 	copyElementsOnDiagram();
 	deleteFromDiagram();
+}
+
+void MainWindow::replaceMiniMap(int index)
+{
+	mUi->minimapView->parentWidget()->layout()->removeWidget(mUi->minimapView);
+	EditorView *currentTab = dynamic_cast<EditorView *>(mUi->tabs->widget(index));
+	mUi->minimapView->changeSource(index);
+	if (currentTab) {
+		currentTab->replaceMiniMap();
+	}
 }

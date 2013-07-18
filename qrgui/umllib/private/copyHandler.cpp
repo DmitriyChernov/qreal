@@ -12,7 +12,7 @@ CopyHandler::CopyHandler(NodeElement * const copyringElement, GraphicalModelAssi
 
 NodeElement *CopyHandler::clone(bool toCursorPos, bool searchForParents)
 {
-	EditorViewScene *evscene = dynamic_cast<EditorViewScene *>(mNode->scene());
+	qReal::EditorViewScene *evscene = dynamic_cast<qReal::EditorViewScene *>(mNode->scene());
 
 	qReal::Id typeId = mNode->id().type();
 	qReal::Id resultId = evscene->createElement(typeId.toString(), QPointF(), searchForParents);

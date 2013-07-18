@@ -276,7 +276,7 @@ void NodeElement::mousePressEvent(QGraphicsSceneMouseEvent *event)
 		return;
 	}
 
-	mResizeCommand = new ResizeCommand(dynamic_cast<EditorViewScene *>(scene()), id());
+	mResizeCommand = new ResizeCommand(dynamic_cast<qReal::EditorViewScene *>(scene()), id());
 	mResizeCommand->startTracking();
 	if (isSelected()) {
 		if (QRectF(mContents.topLeft(), QSizeF(4, 4)).contains(event->pos()) && mElementImpl->isResizeable()) {
@@ -345,7 +345,7 @@ void NodeElement::recalculateHighlightedNode(QPointF const &mouseScenePos) {
 			break;
 	}
 
-	EditorViewScene *evScene = dynamic_cast<EditorViewScene*>(scene());
+	qReal::EditorViewScene *evScene = dynamic_cast<qReal::EditorViewScene*>(scene());
 	NodeElement *newParent = evScene->findNewParent(newParentInnerPoint, this);
 
 	// it would be nice optimization to do nothing in case of
@@ -354,7 +354,7 @@ void NodeElement::recalculateHighlightedNode(QPointF const &mouseScenePos) {
 
 	if (newParent != NULL) {
 		mHighlightedNode = newParent;
-		mHighlightedNode->drawPlaceholder(EditorViewScene::getPlaceholder(), mouseScenePos);
+		mHighlightedNode->drawPlaceholder(qReal::EditorViewScene::getPlaceholder(), mouseScenePos);
 	} else if (mHighlightedNode != NULL) {
 		mHighlightedNode->erasePlaceholder(true);
 		mHighlightedNode = NULL;
@@ -497,7 +497,7 @@ void NodeElement::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 		Element::mouseReleaseEvent(event);
 	}
 
-	EditorViewScene *evScene = dynamic_cast<EditorViewScene *>(scene());
+	qReal::EditorViewScene *evScene = dynamic_cast<qReal::EditorViewScene *>(scene());
 	QList<NodeElement*> element;
 	element.append(this);
 	QSize size = mGraphicalAssistApi->editorManagerInterface().iconSize(id());
@@ -1008,7 +1008,7 @@ void NodeElement::updateByChild(NodeElement* item, bool isItemAddedOrDeleted)
 
 void NodeElement::updateByNewParent()
 {
-	EditorViewScene *editorScene = dynamic_cast<EditorViewScene *>(scene());
+	qReal::EditorViewScene *editorScene = dynamic_cast<qReal::EditorViewScene *>(scene());
 	if (editorScene) {
 		editorScene->onElementParentChanged(this);
 	}
@@ -1188,7 +1188,7 @@ void NodeElement::updateNodeEdges()
 
 AbstractCommand *NodeElement::changeParentCommand(Id const &newParent, QPointF const &position) const
 {
-	EditorViewScene *evScene = dynamic_cast<EditorViewScene *>(scene());
+	qReal::EditorViewScene *evScene = dynamic_cast<qReal::EditorViewScene *>(scene());
 	Element *oldParentElem = dynamic_cast<Element *>(parentItem());
 	Id const oldParent = oldParentElem ? oldParentElem->id() : evScene->rootItemId();
 	if (oldParent == newParent) {

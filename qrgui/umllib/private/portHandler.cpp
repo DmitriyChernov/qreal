@@ -83,7 +83,7 @@ QPointF PortHandler::transformPortForNodeSize(StatPoint const &port) const
 void PortHandler::connectTemporaryRemovedLinksToPort(IdList const &temporaryRemovedLinks, QString const &direction)
 {
 	foreach (Id const &edgeId, temporaryRemovedLinks) {
-		EdgeElement *edge = dynamic_cast<EdgeElement *>(static_cast<EditorViewScene *>(mNode->scene())->getElem(edgeId));
+		EdgeElement *edge = dynamic_cast<EdgeElement *>(static_cast<qReal::EditorViewScene *>(mNode->scene())->getElem(edgeId));
 		if (edge == NULL) {
 			continue;
 		}

@@ -1,4 +1,8 @@
 #include "miniMap.h"
+#include "../view/editorView.h"
+#include "../view/editorViewScene.h"
+
+using namespace qReal;
 
 MiniMap::MiniMap(QWidget *parent)
 		: QGraphicsView(parent)

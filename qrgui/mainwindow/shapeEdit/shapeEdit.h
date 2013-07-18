@@ -20,6 +20,9 @@ class ShapeEdit;
 
 namespace qReal {
 
+class EditorViewScene;
+class EditorView;
+
 class ShapeEdit : public QWidget {
 	Q_OBJECT
 

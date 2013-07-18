@@ -12,6 +12,7 @@
 #include "nodeElement.h"
 #include "private/reshapeEdgeCommand.h"
 #include "../view/editorViewScene.h"
+#include "../view/editorView.h"
 
 using namespace qReal;
 

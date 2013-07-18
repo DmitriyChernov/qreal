@@ -22,7 +22,7 @@ namespace commands
 {
 class ReshapeEdgeCommand;
 }
-}
+
 
 class EdgeElement : public Element
 {
@@ -260,3 +260,4 @@ private:
 
 	qReal::commands::ReshapeEdgeCommand *mReshapeCommand;
 };
+}

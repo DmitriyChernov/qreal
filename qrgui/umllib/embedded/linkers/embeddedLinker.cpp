@@ -95,7 +95,7 @@ void EmbeddedLinker::setDirected(const bool directed)
 
 void EmbeddedLinker::initTitle()
 {
-	EditorManagerInterface const &editorManagerInterface = dynamic_cast<EditorViewScene*>(scene())->mainWindow()->editorManager();
+	EditorManagerInterface const &editorManagerInterface = dynamic_cast<qReal::EditorViewScene*>(scene())->mainWindow()->editorManager();
 	QString edgeTypeFriendly = editorManagerInterface.friendlyName(Id::loadFromString("qrm:/"+ mMaster->id().editor() + "/" + mMaster->id().diagram() + "/" + mEdgeType.element()));
 
 	float textWidth = edgeTypeFriendly.size()*10;
@@ -219,7 +219,7 @@ void EmbeddedLinker::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 	if (mPressed) {
 		mPressed = false;
-		EditorViewScene *scene = dynamic_cast<EditorViewScene*>(mMaster->scene());
+		qReal::EditorViewScene *scene = dynamic_cast<qReal::EditorViewScene*>(mMaster->scene());
 
 		if (!scene) {
 			return;
@@ -273,7 +273,7 @@ void EmbeddedLinker::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 	updateMasterEdges();
 	hide();
 	mMaster->selectionState(false);
-	EditorViewScene* scene = dynamic_cast<EditorViewScene*>(mMaster->scene());
+	qReal::EditorViewScene* scene = dynamic_cast<qReal::EditorViewScene*>(mMaster->scene());
 
 	if (!mPressed && scene && mEdge) {
 		mEdge->hide();

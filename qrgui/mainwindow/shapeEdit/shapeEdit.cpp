@@ -4,6 +4,8 @@
 #include "../../../qrutils/xmlUtils.h"
 #include "xmlLoader.h"
 #include "../../../qrutils/graphicsUtils/colorlisteditor.h"
+#include "../../view/editorViewScene.h"
+#include "../../view/editorView.h"
 
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QGraphicsItem>

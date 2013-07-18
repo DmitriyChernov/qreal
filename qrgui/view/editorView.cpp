@@ -4,12 +4,18 @@
 #include <QtOpenGL/QGLWidget>
 #endif
 
+#include "../mainwindow/miniMap.h"
 #include "editorView.h"
 
 using namespace qReal;
 
-EditorView::EditorView(QWidget *parent)
-	: QGraphicsView(parent), mMouseOldPosition(), mWheelPressed(false), mZoom(0)
+EditorView::EditorView(QWidget *parent, MiniMap *mm)
+	: QGraphicsView(parent)
+	,mMouseOldPosition()
+	,mWheelPressed(false)
+	,mZoom(0)
+	,mAuxiliaryLayout(NULL)
+	,mMainLayout(NULL)
 {
 	setRenderHint(QPainter::Antialiasing, true);
 
@@ -31,6 +37,8 @@ EditorView::EditorView(QWidget *parent)
 	setMouseTracking(true);
 
 	setAlignment(Qt::AlignCenter);
+
+	addMiniMap(mm);
 }
 
 EditorView::~EditorView()
@@ -44,7 +52,7 @@ EditorViewMViface *EditorView::mvIface() const
 	return mMVIface;
 }
 
-EditorViewScene *EditorView::editorViewScene() const
+qReal::EditorViewScene *EditorView::editorViewScene() const
 {
 	return mScene;
 }
@@ -232,4 +240,21 @@ void EditorView::ensureElementVisible(Element const * const element
 void EditorView::setTitlesVisible(bool visible)
 {
 	mScene->setTitlesVisible(visible);
+}
+
+void EditorView::addMiniMap(MiniMap *mm)
+{
+	mMiniMap = mm;
+	mAuxiliaryLayout = new QVBoxLayout();
+	mMainLayout = new QHBoxLayout();
+	mAuxiliaryLayout->addStretch(0);
+	mAuxiliaryLayout->addWidget(mMiniMap);
+	mMainLayout->addStretch(0);
+	mMainLayout->addLayout(mAuxiliaryLayout);
+	this->setLayout(mMainLayout);
+}
+
+void EditorView::replaceMiniMap()
+{
+	mAuxiliaryLayout->addWidget(mMiniMap);
 }

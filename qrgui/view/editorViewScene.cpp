@@ -4,12 +4,14 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMessageBox>
 
-#include "editorViewScene.h"
+
 #include "math.h"
 
 #include "editorViewMVIface.h"
 #include "editorView.h"
+#include "editorViewScene.h"
 #include "../mainwindow/mainWindow.h"
+#include "../mainwindow/miniMap.h"
 #include "../dialogs/metamodelingOnFly/propertiesDialog.h"
 
 #include "../controller/commands/createElementCommand.h"

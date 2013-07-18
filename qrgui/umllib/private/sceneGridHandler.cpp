@@ -27,7 +27,7 @@ SceneGridHandler::~SceneGridHandler()
 
 void SceneGridHandler::delUnusedLines()
 {
-	EditorViewScene *evScene = dynamic_cast<EditorViewScene *>(mNode->scene());
+	qReal::EditorViewScene *evScene = dynamic_cast<qReal::EditorViewScene *>(mNode->scene());
 	evScene->deleteFromForeground(mGuidesPixmap);
 	delete mGuidesPixmap;
 	mGuidesPixmap = NULL;
@@ -279,7 +279,7 @@ void SceneGridHandler::drawGuides()
 
 
 	if (mLines.size()) {
-		EditorViewScene *evScene = dynamic_cast<EditorViewScene *>(mNode->scene());
+		qReal::EditorViewScene *evScene = dynamic_cast<qReal::EditorViewScene *>(mNode->scene());
 
 		mGuidesPixmap = new QPixmap(sceneRect.width(), sceneRect.height());
 		mGuidesPixmap->fill(Qt::transparent);

@@ -3,10 +3,14 @@
 #include <QtWidgets>
 #include <QObject>
 
-#include "../view/editorView.h"
-#include "../view/editorViewScene.h"
 #include "mainWindow.h"
 
+namespace qReal {
+
+class MainWindow;
+class EditorViewScene;
+class EditorView;
+}
 /** @brief Minimap for the current viewed diagram
   *
   * Displays the scene of current diagram. The area of the scene, visible in the
@@ -53,7 +57,7 @@ private:
 
 	qReal::MainWindow *mWindow;
 
-	EditorView *mEditorView;
+	qReal::EditorView *mEditorView;
 	/// in the scene coordinates
 	QRectF mEditorViewRect;
 

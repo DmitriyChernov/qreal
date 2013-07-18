@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QGraphicsView>
 
+#include "../mainwindow/miniMap.h"
 #include "editorViewScene.h"
 #include "editorViewMVIface.h"
 
@@ -15,7 +16,7 @@ namespace qReal {
 		Q_OBJECT
 
 	public:
-		explicit EditorView(QWidget *parent);
+		explicit EditorView(QWidget *parent, MiniMap *mm);
 		~EditorView();
 
 		EditorViewMViface *mvIface() const;
@@ -33,6 +34,7 @@ namespace qReal {
 		void zoomIn();
 		void zoomOut();
 		void invalidateScene();
+		void replaceMiniMap();
 
 	protected:
 		virtual void mouseMoveEvent(QMouseEvent *event);
@@ -46,9 +48,13 @@ namespace qReal {
 	private:
 		EditorViewMViface *mMVIface;
 		EditorViewScene *mScene;
+		MiniMap *mMiniMap;
 		QPointF mMouseOldPosition;
+		QVBoxLayout *mAuxiliaryLayout;
+		QHBoxLayout *mMainLayout;
 		bool mWheelPressed;
 		void checkGrid();
+		void addMiniMap(MiniMap *mm);
 		int mZoom;
 	};
 

@@ -15,6 +15,7 @@
 #include "gesturesPainterInterface.h"
 #include "findManager.h"
 #include "referenceList.h"
+#include "miniMap.h"
 
 #include "projectManager/projectManager.h"
 
@@ -47,6 +48,7 @@ class MainWindowUi;
 namespace qReal {
 
 class EditorView;
+class EditorViewScene;
 class ListenerManager;
 class SceneCustomizer;
 
@@ -265,6 +267,8 @@ private slots:
 	void updatePaletteIcons();
 
 	void cut();
+
+	void replaceMiniMap(int index);
 
 private:
 	QHash<EditorView*, QPair<CodeArea *, QPair<QPersistentModelIndex, int> > > *mOpenedTabsWithEditor;

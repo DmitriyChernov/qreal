@@ -10,11 +10,14 @@
 #include "gestures/mouseMovementManager.h"
 #include "copyPaste/clipboardHandler.h"
 
+#include "../mainwindow/miniMap.h"
+
 #include "editorViewMVIface.h"
 
 const int arrowMoveOffset = 5;
 
 namespace qReal {
+
 class EditorViewMViface;
 class EditorView;
 class MainWindow;
@@ -22,7 +25,6 @@ class MainWindow;
 namespace commands
 {
 class CreateElementCommand;
-}
 }
 
 class EditorViewScene : public QGraphicsScene
@@ -268,3 +270,4 @@ private:
 
 	friend class qReal::EditorViewMViface;
 };
+}

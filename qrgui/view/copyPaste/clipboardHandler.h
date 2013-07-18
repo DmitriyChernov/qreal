@@ -6,11 +6,12 @@
 #include "../../umllib/edgeElement.h"
 #include "../../umllib/serializationData.h"
 
-class EditorViewScene;
+
 
 namespace qReal
 {
 
+class EditorViewScene;
 class EditorViewMViface;
 
 class ClipboardHandler
