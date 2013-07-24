@@ -14,6 +14,7 @@ PreferencesEditorPage::PreferencesEditorPage(QAction * const showGridAction, QAc
 		, mFontButtonWasPressed(false)
 		, mWidthGrid(SettingsManager::value("GridWidth").toInt())
 		, mIndexGrid(SettingsManager::value("IndexGrid").toInt())
+        , mMiniMapSize(SettingsManager::value("MiniMapSize").toInt())
 		, mShowGridAction(showGridAction)
 		, mShowAlignmentAction(showAlignmentAction)
 		, mActivateGridAction(activateGridAction)
@@ -25,10 +26,10 @@ PreferencesEditorPage::PreferencesEditorPage(QAction * const showGridAction, QAc
 	// changing grid size in QReal:Robots is forbidden
 	connect(mUi->gridWidthSlider, SIGNAL(sliderMoved(int)), this, SLOT(widthGridSliderMoved(int)));
 	connect(mUi->indexGridSlider, SIGNAL(sliderMoved(int)), this, SLOT(indexGridSliderMoved(int)));
+    connect(mUi->miniMapSize, SIGNAL(sliderMoved(int)), this, SLOT(miniMapSizeSliderMoved(int)));
 	connect(mUi->fontCheckBox, SIGNAL(toggled(bool)), this, SLOT(manualFontCheckBoxChecked(bool)));
 	connect(mUi->fontSelectionButton, SIGNAL(clicked()),this, SLOT(fontSelectionButtonClicked()));
-	connect(mUi->paletteComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(paletteComboBoxClicked(int)));
-
+    connect(mUi->paletteComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(paletteComboBoxClicked(int)));
 	connect(mShowGridAction, SIGNAL(toggled(bool)), this, SLOT(showGrid(bool)));
 	connect(mShowAlignmentAction, SIGNAL(toggled(bool)), this, SLOT(showAlignment(bool)));
 	connect(mActivateGridAction, SIGNAL(toggled(bool)), this, SLOT(activateGrid(bool)));
@@ -39,6 +40,9 @@ PreferencesEditorPage::PreferencesEditorPage(QAction * const showGridAction, QAc
 
 	mUi->gridWidthSlider->setValue(mWidthGrid);
 	mUi->indexGridSlider->setValue(mIndexGrid);
+
+    mUi->miniMapSize->setMinimum(50);
+    mUi->miniMapSize->setMaximum(250);
 
 	restoreSettings();
 }
@@ -97,6 +101,12 @@ void PreferencesEditorPage::indexGridSliderMoved(int value)
 	emit gridChanged();
 }
 
+void PreferencesEditorPage::miniMapSizeSliderMoved(int value)
+{
+    SettingsManager::setValue("MiniMapSize", value);
+    emit  miniMapSizeChanged();
+}
+
 void PreferencesEditorPage::save()
 {
 	SettingsManager::setValue("EmbeddedLinkerIndent", mUi->embeddedLinkerIndentSlider->value());
@@ -114,8 +124,10 @@ void PreferencesEditorPage::save()
 
 	mWidthGrid = mUi->gridWidthSlider->value();
 	mIndexGrid = mUi->indexGridSlider->value();
+    mMiniMapSize = mUi->miniMapSize->value();
 	SettingsManager::setValue("GridWidth", mWidthGrid);
 	SettingsManager::setValue("IndexGrid", mIndexGrid);
+    SettingsManager::setValue("MiniMapSize", mMiniMapSize);
 
 	mShowGridAction->setChecked(mUi->showGridCheckBox->isChecked());
 	mShowAlignmentAction->setChecked(mUi->showAlignmentCheckBox->isChecked());
@@ -141,6 +153,7 @@ void PreferencesEditorPage::restoreSettings()
 	mUi->embeddedLinkerIndentSlider->setValue(SettingsManager::value("EmbeddedLinkerIndent").toInt());
 	mUi->embeddedLinkerSizeSlider->setValue(SettingsManager::value("EmbeddedLinkerSize").toInt());
 	mUi->zoomFactorSlider->setValue(SettingsManager::value("zoomFactor").toInt());
+    mUi->miniMapSize->setValue(SettingsManager::value("MiniMapSize").toInt());
 
 	mUi->fontCheckBox->setChecked(SettingsManager::value("CustomFont").toBool());
 	mUi->fontSelectionButton->setVisible(SettingsManager::value("CustomFont").toBool());

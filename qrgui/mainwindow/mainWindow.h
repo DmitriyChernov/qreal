@@ -393,6 +393,8 @@ private:
 
 	/// A field for storing file name passed as console argument
 	QString mInitialFileToOpen;
+
+	MiniMap *mMiniMap;
 };
 
 }

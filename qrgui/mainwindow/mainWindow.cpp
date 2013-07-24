@@ -80,6 +80,7 @@ MainWindow::MainWindow(QString const &fileToOpen)
 		, mStartDialog(new StartDialog(*this, *mProjectManager))
 		, mSceneCustomizer(new SceneCustomizer(this))
 		, mInitialFileToOpen(fileToOpen)
+		, mMiniMap(new MiniMap(this))
 {
 	mUi->setupUi(this);
 	mUi->paletteTree->initMainWindow(this);
@@ -336,8 +337,8 @@ void MainWindow::addEditorElementsToPalette(Id const &editor, Id const &diagram)
 
 void MainWindow::adjustMinimapZoom(int zoom)
 {
-	mUi->minimapView->resetMatrix();
-	mUi->minimapView->scale(0.01 * zoom, 0.01 * zoom);
+	mMiniMap->resetMatrix();
+	mMiniMap->scale(0.01 * zoom, 0.01 * zoom);
 }
 
 void MainWindow::selectItemWithError(Id const &id)
@@ -928,6 +929,7 @@ void MainWindow::showPreferencesDialog()
 	disconnect(&mPreferencesDialog);
 	if (getCurrentTab() != NULL) {
 		connect(&mPreferencesDialog, SIGNAL(gridChanged()), getCurrentTab(), SLOT(invalidateScene()));
+        connect(&mPreferencesDialog, SIGNAL(miniMapSizeChanged()), getCurrentTab(), SLOT(updateMiniMap()));
 		connect(&mPreferencesDialog, SIGNAL(iconsetChanged()), this, SLOT(updatePaletteIcons()));
 		connect(&mPreferencesDialog, SIGNAL(settingsApplied()), this, SLOT(applySettings()));
 		connect(&mPreferencesDialog, SIGNAL(fontChanged()), this, SLOT(setSceneFont()));
@@ -1165,7 +1167,7 @@ void MainWindow::openNewTab(QModelIndex const &arg)
 	if (tabNumber != -1) {
 		mUi->tabs->setCurrentIndex(tabNumber);
 	} else {
-		EditorView * const view = new EditorView(this, mUi->minimapView);
+		EditorView * const view = new EditorView(this, mMiniMap);
 		if (view) {
 			Id const diagramId = mModels->graphicalModelAssistApi().idByIndex(index);
 			mController->diagramOpened(diagramId);
@@ -1319,7 +1321,7 @@ void MainWindow::setDefaultShortcuts()
 void MainWindow::currentTabChanged(int newIndex)
 {
 	switchToTab(newIndex);
-	mUi->minimapView->changeSource(newIndex);
+	//mMiniMap->changeSource(newIndex);
 	bool const isEditorTab = getCurrentTab() != NULL;
 
 	mUi->actionSave_diagram_as_a_picture->setEnabled(isEditorTab);
@@ -1709,13 +1711,11 @@ void MainWindow::fullscreen()
 	mIsFullscreen = !mIsFullscreen;
 
 	if (mIsFullscreen) {
-		hideDockWidget(mUi->minimapDock, "minimap");
 		hideDockWidget(mUi->graphicalModelDock, "graphicalModel");
 		hideDockWidget(mUi->logicalModelDock, "logicalModel");
 		hideDockWidget(mUi->propertyDock, "propertyEditor");
 		hideDockWidget(mUi->errorDock, "errorReporter");
 	} else {
-		showDockWidget(mUi->minimapDock, "minimap");
 		showDockWidget(mUi->graphicalModelDock, "graphicalModel");
 		showDockWidget(mUi->logicalModelDock, "logicalModel");
 		showDockWidget(mUi->propertyDock, "propertyEditor");
@@ -1871,7 +1871,7 @@ void MainWindow::initToolManager()
 
 void MainWindow::initMiniMap()
 {
-	mUi->minimapView->init(this);
+	mMiniMap->init(this);
 }
 
 void MainWindow::initTabs()
@@ -2075,9 +2075,9 @@ void MainWindow::cut()
 
 void MainWindow::replaceMiniMap(int index)
 {
-	mUi->minimapView->parentWidget()->layout()->removeWidget(mUi->minimapView);
+	mMiniMap->parentWidget()->layout()->removeWidget(mMiniMap);
 	EditorView *currentTab = dynamic_cast<EditorView *>(mUi->tabs->widget(index));
-	mUi->minimapView->changeSource(index);
+	mMiniMap->changeSource(index);
 	if (currentTab) {
 		currentTab->replaceMiniMap();
 	}

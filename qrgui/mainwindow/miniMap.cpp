@@ -1,6 +1,8 @@
 #include "miniMap.h"
+#include "mainWindow.h"
 #include "../view/editorView.h"
 #include "../view/editorViewScene.h"
+#include "../../qrkernel/settingsManager.h"
 
 using namespace qReal;
 
@@ -8,6 +10,7 @@ MiniMap::MiniMap(QWidget *parent)
 		: QGraphicsView(parent)
 		, mEditorView(NULL)
 		, mMode(None)
+        , showMiniMap(TRUE)
 {}
 
 void MiniMap::init(qReal::MainWindow *window)
@@ -16,9 +19,12 @@ void MiniMap::init(qReal::MainWindow *window)
 
 	setRenderHint(QPainter::Antialiasing, true);
 
+    int size = SettingsManager::value("MiniMapSize").toInt();
+
 	setInteractive(false);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFixedSize(size,size);
 }
 
 void MiniMap::changeSource(int index)
@@ -151,4 +157,20 @@ QList<QRectF> MiniMap::getNonExistentAreas(QRectF const &rect)
 			<< QRectF(QPointF(rect.left(), existent.bottom()), rect.bottomRight());
 
 	return areas;
+}
+
+void MiniMap::turnMiniMap()
+{
+    if (showMiniMap){
+        this->show();
+    } else {
+        this->hide();
+    }
+    showMiniMap = !showMiniMap;
+}
+
+void MiniMap::changeSize()
+{
+    int size = SettingsManager::value("MiniMapSize").toInt();
+    this->setFixedSize(size, size);
 }

@@ -27,10 +27,12 @@ signals:
 	void gridChanged();
 	void fontChanged();
 	void paletteRepresentationChanged();
+    void miniMapSizeChanged();
 
 private slots:
 	void widthGridSliderMoved(int value);
 	void indexGridSliderMoved(int value);
+    void miniMapSizeSliderMoved(int value);
 	void manualFontCheckBoxChecked(bool);
 	void fontSelectionButtonClicked();
 	void paletteComboBoxClicked(int index);
@@ -46,6 +48,7 @@ private:
 	bool mFontButtonWasPressed;
 	int mWidthGrid;
 	int mIndexGrid;
+    int mMiniMapSize;
 	QString mFont;
 
 	QAction * const mShowGridAction;

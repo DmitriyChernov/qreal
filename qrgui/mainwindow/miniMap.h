@@ -3,14 +3,14 @@
 #include <QtWidgets>
 #include <QObject>
 
-#include "mainWindow.h"
+//#include "mainWindow.h"
 
 namespace qReal {
 
 class MainWindow;
 class EditorViewScene;
 class EditorView;
-}
+
 /** @brief Minimap for the current viewed diagram
   *
   * Displays the scene of current diagram. The area of the scene, visible in the
@@ -31,10 +31,13 @@ public:
 
 	void setScene(QGraphicsScene *scene);
 
+    void changeSize();
+
 public slots:
 	/// makes the minimap display only items of the scene
 	void showScene();
 	void ensureVisible(QList<QRectF> region);
+    void turnMiniMap();
 
 protected:
 	void wheelEvent(QWheelEvent *event);
@@ -62,4 +65,7 @@ private:
 	QRectF mEditorViewRect;
 
 	Mode mMode;
+
+    bool showMiniMap;
 };
+}

@@ -5,17 +5,19 @@
 #endif
 
 #include "../mainwindow/miniMap.h"
+#include "miniMapShell.h"
 #include "editorView.h"
 
 using namespace qReal;
 
 EditorView::EditorView(QWidget *parent, MiniMap *mm)
 	: QGraphicsView(parent)
-	,mMouseOldPosition()
-	,mWheelPressed(false)
-	,mZoom(0)
-	,mAuxiliaryLayout(NULL)
-	,mMainLayout(NULL)
+    , mMouseOldPosition()
+    , mWheelPressed(false)
+    , mZoom(0)
+    , mAuxiliaryLayout(NULL)
+    , mMainLayout(NULL)
+    , mMiniMapShell(NULL)
 {
 	setRenderHint(QPainter::Antialiasing, true);
 
@@ -244,11 +246,12 @@ void EditorView::setTitlesVisible(bool visible)
 
 void EditorView::addMiniMap(MiniMap *mm)
 {
-	mMiniMap = mm;
+    mMiniMap = mm;
+    mMiniMapShell = new MiniMapShell(this, mm);
 	mAuxiliaryLayout = new QVBoxLayout();
 	mMainLayout = new QHBoxLayout();
 	mAuxiliaryLayout->addStretch(0);
-	mAuxiliaryLayout->addWidget(mMiniMap);
+    mAuxiliaryLayout->addWidget(mMiniMapShell);
 	mMainLayout->addStretch(0);
 	mMainLayout->addLayout(mAuxiliaryLayout);
 	this->setLayout(mMainLayout);
@@ -256,5 +259,12 @@ void EditorView::addMiniMap(MiniMap *mm)
 
 void EditorView::replaceMiniMap()
 {
-	mAuxiliaryLayout->addWidget(mMiniMap);
+    mMiniMapShell->currentTabChanged();
+    mAuxiliaryLayout->addWidget(mMiniMapShell);
+}
+
+void EditorView::updateMiniMap()
+{
+    mMiniMapShell->changeSize();
+    mMiniMap->changeSize();
 }
