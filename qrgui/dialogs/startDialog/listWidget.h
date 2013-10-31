@@ -1,4 +1,5 @@
 #pragma once
+
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QPushButton>
@@ -27,15 +28,17 @@ signals:
 	void userDataSelected(QString const &userData);
 
 private slots:
+	void okActivate();
+	void okButtonHandler();
 	void doubleClickHandler(QListWidgetItem *item);
 
 private:
-
 	QString userData(QListWidgetItem *item);
 
-protected:
+	static int const mOkButtonMinimumHeight = 32;
 
 	QListWidget *mListWidget;
+	QPushButton *mOkButton;
 };
 
 }

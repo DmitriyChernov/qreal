@@ -1,26 +1,31 @@
 #pragma once
+
 #include <QtWidgets/QComboBox>
-#include "../utilsDeclSpec.h"
+#include <QtGui/QColor>
 
-class QColor;
-class QWidget;
+#include <qrutils/utilsDeclSpec.h>
 
-namespace graphicsUtils
-{
+namespace graphicsUtils {
+
 class QRUTILS_EXPORT ColorListEditor : public QComboBox
 {
 	Q_OBJECT
-public:
-	ColorListEditor(QWidget *widget = 0);
 
 public:
-        void setColorList(QStringList const &ColorList);
+	explicit ColorListEditor(QWidget *widget = 0);
+
+public:
+	void setColorList(QStringList const &colorList, QStringList const &translatedColorList = QStringList());
 	QColor color() const;
-	void setColor(QColor c);
+	QColor colorByIndex(int index) const;
+	void setColor(QColor const &color);
 
 private:
-	QColor mColor;
-        QStringList mColorList;
 	void populateList();
+
+	QColor mColor;
+	QStringList mColorList;
+	QStringList mTranslatedColorList;
 };
+
 }

@@ -2,16 +2,19 @@
 
 #include <QtCore/QModelIndex>
 #include <QtWidgets/QDialog>
+#include <QtCore/QSettings>
+#include <QtWidgets/QFileDialog>
 
-#include "preferencesPages/preferencesPage.h"
+#include <qrkernel/settingsManager.h>
+#include <qrutils/qRealDialog.h>
 
-#include "../../qrkernel/settingsManager.h"
+#include "dialogs/preferencesPages/preferencesPage.h"
 
 namespace Ui {
 	class PreferencesDialog;
 }
 
-class PreferencesDialog : public QDialog
+class PreferencesDialog : public utils::QRealDialog
 {
 	Q_OBJECT
 
@@ -46,8 +49,11 @@ private slots:
 	void restoreSettings();
 	void saveAndClose();
 	void chooseTab(const QModelIndex &);
+	void exportSettings();
+	void importSettings();
 
 private:
+
 	Ui::PreferencesDialog *ui;
 	QMap<QString, PreferencesPage *> mCustomPages;
 };
