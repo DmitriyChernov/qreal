@@ -24,6 +24,11 @@ HEADERS += \
 	$$PWD/palette/draggableElement.h \
 	$$PWD/palette/paletteTreeWidgets.h \
 	$$PWD/palette/paletteElement.h \
+    mainwindow/startWidget/suggestToCreateDiagramWidget.h \
+    mainwindow/startWidget/startwidget.h \
+    mainwindow/startWidget/recentProjectsListWidget.h \
+    mainwindow/startWidget/recentProjectItem.h \
+    mainwindow/startWidget/listWidget.h
 
 SOURCES += \
 	$$PWD/mainWindow.cpp \
@@ -46,6 +51,11 @@ SOURCES += \
 	$$PWD/palette/draggableElement.cpp \
 	$$PWD/palette/paletteTreeWidgets.cpp \
 	$$PWD/palette/paletteElement.cpp \
+    mainwindow/startWidget/suggestToCreateDiagramWidget.cpp \
+    mainwindow/startWidget/startWidget.cpp \
+    mainwindow/startWidget/recentProjectsListWidget.cpp \
+    mainwindow/startWidget/recentProjectItem.cpp \
+    mainwindow/startWidget/listWidget.cpp
 
 win32 {
 	HEADERS += \

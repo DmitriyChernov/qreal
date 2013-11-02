@@ -31,7 +31,7 @@
 
 #include "dialogs/preferencesDialog.h"
 #include "dialogs/findReplaceDialog.h"
-#include "dialogs/startDialog/startDialog.h"
+#include "mainwindow/startWidget/startWidget.h"
 #include "mainwindow/propertyEditorProxyModel.h"
 #include "mainwindow/gesturesPainterInterface.h"
 #include "dialogs/gesturesShow/gesturesWidget.h"
@@ -190,7 +190,7 @@ private slots:
 	void createProject();
 
 	/// Diagram opening must happen after plugins initialization
-	void initPluginsAndStartDialog();
+    void initPluginsAndStartWidget();
 	void initToolPlugins();
 
 	/// handler for menu 'button find' pressed
@@ -239,6 +239,8 @@ private slots:
 	/// Closes the appropriate tab if the specified index corresponds to the diagram on one of the tabs
 	/// @return true if one of the tabs was closed
 	bool closeTab(QModelIndex const &graphicsIndex);
+
+    void closeStartTab(int index);
 
 	void showPreferencesDialog();
 
@@ -346,6 +348,8 @@ private:
 	void initExplorers();
 	void initRecentProjectsMenu();
 
+    void openStartTab();
+
 	void setVersion(QString const &version);
 
 	Ui::MainWindowUi *mUi;
@@ -389,7 +393,7 @@ private:
 
 	FindManager *mFindHelper;
 	ProjectManager *mProjectManager;
-	StartDialog *mStartDialog;
+    StartWidget *mStartWidget;
 
 	SceneCustomizer *mSceneCustomizer;
 	QList<QDockWidget *> mAdditionalDocks;

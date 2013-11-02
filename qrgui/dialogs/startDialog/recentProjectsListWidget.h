@@ -5,7 +5,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 
-#include "dialogs/startDialog/listWidget.h"
+#include "mainwindow/startWidget/listWidget.h"
 
 namespace qReal {
 
