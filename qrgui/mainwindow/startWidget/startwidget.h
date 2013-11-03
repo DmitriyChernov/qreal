@@ -1,6 +1,8 @@
-#pragma once
-#include <QtWidgets/QVBoxLayout>
+    #pragma once
+
 #include <QWidget>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QCommandLinkButton>
 
 #include "../projectManager/projectManager.h"
 
@@ -29,11 +31,13 @@ signals:
 private slots:
 	void openRecentProject(QString const &fileName);
 	void openExistingProject();
-	void createProjectWithDiagram();
+    void createProjectWithDiagram(QString const &idString);
     void openInterpretedDiagram();
     void createInterpretedDiagram();
 
 private:
+    QCommandLinkButton *createCommandButton(QString const &text
+                            , QObject const *reciever, char const *slot, QKeySequence::StandardKey standartHotkey);
 	void initRecentProjects();
 
     MainWindow *mMainWindow;
@@ -41,6 +45,9 @@ private:
 	int mProjectListSize;
 	QVBoxLayout *mProjectsLayout;
 	QHBoxLayout *mSessionsLayout;
+
+    QCommandLinkButton *mInterpreterButton;  // Has ownership.
+    QCommandLinkButton *mCreateInterpreterButton;  // Has ownership.
 };
 
 }

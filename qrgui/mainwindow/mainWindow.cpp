@@ -1761,6 +1761,7 @@ void MainWindow::initPluginsAndStartWidget()
 			(mInitialFileToOpen.isEmpty() || !mProjectManager->open(mInitialFileToOpen)))
 	{
         openStartTab();
+        mStartWidget->setVisibleForInterpreterButton(mToolManager.customizer()->showInterpeterButton());
 	}
 }
 
