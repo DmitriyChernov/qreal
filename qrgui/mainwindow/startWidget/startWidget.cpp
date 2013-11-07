@@ -57,7 +57,6 @@ StartWidget::StartWidget(MainWindow *mainWindow, ProjectManager *projectManager)
 	this->setPalette(Pal);
 
     Id const theOnlyDiagram = mMainWindow->editorManager().theOnlyDiagram();
-    qDebug()<<theOnlyDiagram;
     if (theOnlyDiagram.isNull()) {
             mProjectManager->suggestToCreateDiagram();
     }
