@@ -50,16 +50,22 @@ private slots:
 	void zoomInTime();
 	void zoomOutTime();
 	void animFinished();
+    void replaceMiniMap();
+    void updateMiniMap();
 
 private:
 	void checkGrid();
 
 	void startAnimation(char const *slot);
 
+    void addMiniMap(MiniMap *mm);
+
 	EditorViewMViface *mMVIface;
 	EditorViewScene *mScene;
+    MiniMap *mMiniMap;
+    MiniMapShell *mMiniMapShell;
 	QPointF mMouseOldPosition;
-	bool mWheelPressed;
+    bool mWheelPressed;
 	int mZoom;
 	view::details::TouchSupportManager mTouchManager;
 };

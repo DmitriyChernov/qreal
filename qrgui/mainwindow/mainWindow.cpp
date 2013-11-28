@@ -78,6 +78,7 @@ MainWindow::MainWindow(QString const &fileToOpen)
 		, mStartDialog(new StartDialog(*this, *mProjectManager))
 		, mSceneCustomizer(new SceneCustomizer(this))
 		, mInitialFileToOpen(fileToOpen)
+        , mMiniMap(new MiniMap(this))
 {
 	mUi->setupUi(this);
 	mUi->paletteTree->initMainWindow(this);
@@ -1158,7 +1159,7 @@ void MainWindow::openNewTab(QModelIndex const &arg)
 	if (tabNumber != -1) {
 		mUi->tabs->setCurrentIndex(tabNumber);
 	} else {
-		EditorView * const view = new EditorView(this);
+        EditorView * const view = new EditorView(this, mMiniMap);
 		if (view) {
 			Id const diagramId = mModels->graphicalModelAssistApi().idByIndex(index);
 			mController->diagramOpened(diagramId);

@@ -17,6 +17,7 @@
 #include "mainwindow/gesturesPainterInterface.h"
 #include "mainwindow/findManager.h"
 #include "mainwindow/referenceList.h"
+#include "mainwindow/miniMap.h"
 
 #include "mainwindow/projectManager/projectManager.h"
 
@@ -392,6 +393,7 @@ private:
 	FindManager *mFindHelper;
 	ProjectManager *mProjectManager;
 	StartDialog *mStartDialog;
+    MiniMap *mMiniMap;
 
 	SceneCustomizer *mSceneCustomizer;
 	QList<QDockWidget *> mAdditionalDocks;

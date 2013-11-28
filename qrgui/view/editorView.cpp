@@ -35,6 +35,8 @@ EditorView::EditorView(QWidget *parent)
 	setAlignment(Qt::AlignCenter);
 
 	connect(&mTouchManager, SIGNAL(gestureStarted()), mScene, SLOT(deleteGesture()));
+
+    addMiniMap(mm);
 }
 
 EditorView::~EditorView()
@@ -270,3 +272,27 @@ void EditorView::zoom(qreal const zoomFactor)
 	}
 	checkGrid();
 }
+
+void EditorView::addMiniMap(MiniMap *mm)
+{
+    mMiniMap = mm;
+    mMiniMapShell = new MiniMapShell(this, mm);
+        mAuxiliaryLayout = new QVBoxLayout();
+        mMainLayout = new QHBoxLayout();
+        mAuxiliaryLayout->addStretch(0);
+    mAuxiliaryLayout->addWidget(mMiniMapShell);
+        mMainLayout->addStretch(0);
+        mMainLayout->addLayout(mAuxiliaryLayout);
+        this->setLayout(mMainLayout);
+}
+
+void EditorView::replaceMiniMap()
+{
+    mMiniMapShell->currentTabChanged();
+    mAuxiliaryLayout->addWidget(mMiniMapShell);
+}
+
+void EditorView::updateMiniMap()
+{
+    mMiniMapShell->changeSize();
+    mMiniMap->ch
