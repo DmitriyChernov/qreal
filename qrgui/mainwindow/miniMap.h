@@ -2,9 +2,11 @@
 
 #include <QtCore/QObject>
 
-#include "view/editorView.h"
-#include "view/editorViewScene.h"
-#include "mainwindow/mainWindow.h"
+namespace qReal {
+
+class MainWindow;
+class EditorViewScene;
+class EditorView;
 
 /** @brief Minimap for the current viewed diagram
 *
@@ -27,10 +29,13 @@ public:
 
 	void setScene(QGraphicsScene *scene);
 
+    void changeSize();
+
 public slots:
 	/// makes the minimap display only items of the scene
 	void showScene();
 	void ensureVisible(QList<QRectF> region);
+    void turnMiniMap();
 
 protected:
 	void wheelEvent(QWheelEvent *event);
@@ -53,9 +58,13 @@ private:
 
 	qReal::MainWindow *mWindow;
 
-	EditorView *mEditorView;
+    qReal::EditorView *mEditorView;
 	/// in the scene coordinates
 	QRectF mEditorViewRect;
 
 	Mode mMode;
+
+    bool showMiniMap;
 };
+
+}

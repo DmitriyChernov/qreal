@@ -35,6 +35,7 @@ protected:
 
 signals:
 	void gridChanged();
+    void miniMapSizeChanged();
 	void iconsetChanged();
 	void settingsApplied();
 	void fontChanged();

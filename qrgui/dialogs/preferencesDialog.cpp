@@ -45,6 +45,7 @@ void PreferencesDialog::init(QAction * const showGridAction, QAction * const sho
 
 	connect(editorPage, SIGNAL(gridChanged()), this, SIGNAL(gridChanged()));
 	connect(editorPage, SIGNAL(fontChanged()), this, SIGNAL(fontChanged()));
+    connect(editorPage, SIGNAL(miniMapSizeChanged()), this, SIGNAL(miniMapSizeChanged()));
 	connect(editorPage, SIGNAL(paletteRepresentationChanged()), this
 		, SIGNAL(paletteRepresentationChanged()));
 	connect(miscellaniousPage, SIGNAL(iconsetChanged()), this, SIGNAL(iconsetChanged()));

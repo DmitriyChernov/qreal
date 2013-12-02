@@ -18,6 +18,7 @@ PreferencesEditorPage::PreferencesEditorPage(QAction * const showGridAction, QAc
 		, mFontButtonWasPressed(false)
 		, mWidthGrid(SettingsManager::value("GridWidth").toInt())
 		, mIndexGrid(SettingsManager::value("IndexGrid").toInt())
+        , mMiniMapSize(SettingsManager::value("MiniMapSize").toInt())
 		, mShowGridAction(showGridAction)
 		, mShowAlignmentAction(showAlignmentAction)
 		, mActivateGridAction(activateGridAction)
@@ -29,6 +30,7 @@ PreferencesEditorPage::PreferencesEditorPage(QAction * const showGridAction, QAc
 	// changing grid size in QReal:Robots is forbidden
 	connect(mUi->gridWidthSlider, SIGNAL(sliderMoved(int)), this, SLOT(widthGridSliderMoved(int)));
 	connect(mUi->indexGridSlider, SIGNAL(sliderMoved(int)), this, SLOT(indexGridSliderMoved(int)));
+    connect(mUi->miniMapSize, SIGNAL(sliderMoved(int)), this, SLOT(miniMapSizeSliderMoved(int)));
 	connect(mUi->dragAreaSizeSlider, SIGNAL(sliderMoved(int)), this, SLOT(dragAreaSliderMoved(int)));
 	connect(mUi->fontCheckBox, SIGNAL(toggled(bool)), this, SLOT(manualFontCheckBoxChecked(bool)));
 	connect(mUi->fontSelectionButton, SIGNAL(clicked()),this, SLOT(fontSelectionButtonClicked()));
@@ -42,6 +44,9 @@ PreferencesEditorPage::PreferencesEditorPage(QAction * const showGridAction, QAc
 	// use customizer to blick it somehow
 //	mUi->indexGridSlider->setVisible(false);
 //	mUi->label_20->setVisible(false);
+
+    mUi->miniMapSize->setMinimum(50);
+    mUi->miniMapSize->setMaximum(250);
 
 	mUi->gridWidthSlider->setValue(mWidthGrid);
 	mUi->indexGridSlider->setValue(mIndexGrid);
@@ -128,6 +133,10 @@ void PreferencesEditorPage::save()
 	SettingsManager::setValue("ResizeLabels", mUi->enableResizeLabelsCheckBox->isChecked());
 	SettingsManager::setValue("LabelsDistance", mUi->labelDistanceSlider->value());
 
+    mMiniMapSize = mUi->miniMapSize->value();
+    SettingsManager::setValue("MiniMapSize", mMiniMapSize);
+    mUi->miniMapSize->setValue(SettingsManager::value("MiniMapSize").toInt());
+
 	emit paletteRepresentationChanged();
 
 	mWidthGrid = mUi->gridWidthSlider->value();
@@ -209,3 +218,10 @@ void PreferencesEditorPage::activateAlignment(bool activate)
 {
 	mUi->activateAlignmentCheckBox->setChecked(activate);
 }
+
+void PreferencesEditorPage::miniMapSizeSliderMoved(int value)
+{
+    SettingsManager::setValue("MiniMapSize", value);
+    emit  miniMapSizeChanged();
+}
+

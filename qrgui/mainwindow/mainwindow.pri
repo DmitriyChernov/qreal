@@ -23,8 +23,7 @@ HEADERS += \
 	$$PWD/palette/paletteTreeWidget.h \
 	$$PWD/palette/draggableElement.h \
 	$$PWD/palette/paletteTreeWidgets.h \
-	$$PWD/palette/paletteElement.h \
-    mainwindow/miniMapShell.h
+	$$PWD/palette/paletteElement.h
 
 SOURCES += \
 	$$PWD/mainWindow.cpp \
@@ -46,8 +45,7 @@ SOURCES += \
 	$$PWD/palette/paletteTreeWidget.cpp \
 	$$PWD/palette/draggableElement.cpp \
 	$$PWD/palette/paletteTreeWidgets.cpp \
-	$$PWD/palette/paletteElement.cpp \
-    mainwindow/miniMapShell.cpp
+	$$PWD/palette/paletteElement.cpp
 
 win32 {
 	HEADERS += \

@@ -269,6 +269,7 @@ private slots:
 	void openShapeEditor();
 
 	void updatePaletteIcons();
+    void replaceMiniMap(int index);
 
 private:
 	QHash<EditorView*, QPair<CodeArea *, QPair<QPersistentModelIndex, int> > > *mOpenedTabsWithEditor;

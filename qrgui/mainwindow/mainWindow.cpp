@@ -928,6 +928,7 @@ void MainWindow::showPreferencesDialog()
 		connect(&mPreferencesDialog, SIGNAL(iconsetChanged()), this, SLOT(updatePaletteIcons()));
 		connect(&mPreferencesDialog, SIGNAL(settingsApplied()), this, SLOT(applySettings()));
 		connect(&mPreferencesDialog, SIGNAL(fontChanged()), this, SLOT(setSceneFont()));
+        connect(&mPreferencesDialog, SIGNAL(miniMapSizeChanged()), getCurrentTab(), SLOT(updateMiniMap()));
 	}
 	mPreferencesDialog.exec();
 	mToolManager.updateSettings();
@@ -1903,6 +1904,7 @@ void MainWindow::initTabs()
 	mUi->tabs->setMovable(true);
 	connect(mUi->tabs, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged(int)));
 	connect(mUi->tabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+    connect(mUi->tabs, SIGNAL(currentChanged(int)), this, SLOT(replaceMiniMap(int)));
 }
 
 void MainWindow::initDocks()
@@ -2096,4 +2098,14 @@ void MainWindow::setVersion(QString const &version)
 {
 	// TODO: update title
 	SettingsManager::setValue("version", version);
+}
+
+void MainWindow::replaceMiniMap(int index)
+{
+        mMiniMap->parentWidget()->layout()->removeWidget(mMiniMap);
+        EditorView *currentTab = dynamic_cast<EditorView *>(mUi->tabs->widget(index));
+        mMiniMap->changeSource(index);
+        if (currentTab) {
+                currentTab->replaceMiniMap();
+        }
 }

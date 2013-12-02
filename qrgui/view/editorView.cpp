@@ -1,4 +1,5 @@
 #include "editorView.h"
+#include "miniMapShell.h"
 
 #include <QtCore/QTimeLine>
 
@@ -13,6 +14,7 @@ EditorView::EditorView(QWidget *parent)
 	, mWheelPressed(false)
 	, mZoom(0)
 	, mTouchManager(this)
+    , mMiniMapShell(NULL)
 {
 	setRenderHint(QPainter::Antialiasing, true);
 
@@ -277,13 +279,13 @@ void EditorView::addMiniMap(MiniMap *mm)
 {
     mMiniMap = mm;
     mMiniMapShell = new MiniMapShell(this, mm);
-        mAuxiliaryLayout = new QVBoxLayout();
-        mMainLayout = new QHBoxLayout();
-        mAuxiliaryLayout->addStretch(0);
+    mAuxiliaryLayout = new QVBoxLayout();
+    mMainLayout = new QHBoxLayout();
+    mAuxiliaryLayout->addStretch(0);
     mAuxiliaryLayout->addWidget(mMiniMapShell);
-        mMainLayout->addStretch(0);
-        mMainLayout->addLayout(mAuxiliaryLayout);
-        this->setLayout(mMainLayout);
+    mMainLayout->addStretch(0);
+    mMainLayout->addLayout(mAuxiliaryLayout);
+    this->setLayout(mMainLayout);
 }
 
 void EditorView::replaceMiniMap()
@@ -295,4 +297,5 @@ void EditorView::replaceMiniMap()
 void EditorView::updateMiniMap()
 {
     mMiniMapShell->changeSize();
-    mMiniMap->ch
+    mMiniMap->changeSize();
+}

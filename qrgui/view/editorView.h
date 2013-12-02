@@ -6,6 +6,9 @@
 #include "view/private/editorViewMVIface.h"
 #include "view/private/touchSupportManager.h"
 
+#include "mainwindow/miniMap.h"
+#include "miniMapShell.h"
+
 namespace qReal {
 
 class EditorViewMViface;
@@ -34,6 +37,7 @@ public slots:
 	void zoomOut();
 	void zoom(qreal const zoomFactor);
 	void invalidateScene();
+    void updateMiniMap();
 
 protected:
 	virtual void mouseMoveEvent(QMouseEvent *event);
@@ -51,7 +55,6 @@ private slots:
 	void zoomOutTime();
 	void animFinished();
     void replaceMiniMap();
-    void updateMiniMap();
 
 private:
 	void checkGrid();
