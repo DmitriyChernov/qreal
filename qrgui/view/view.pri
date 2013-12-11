@@ -24,7 +24,7 @@ HEADERS += \
 	$$PWD/copyPaste/pasteEdgeCommand.h \
 	$$PWD/private/exploserView.h \
 	$$PWD/private/touchSupportManager.h \
-	$$PWD/view/miniMapShell.h
+	$$PWD/miniMapShell.h \
 
 SOURCES += \
 	$$PWD/editorView.cpp \
@@ -47,4 +47,4 @@ SOURCES += \
 	$$PWD/copyPaste/pasteEdgeCommand.cpp \
 	$$PWD/private/exploserView.cpp \
 	$$PWD/private/touchSupportManager.cpp \
-	$$PWD/view/miniMapShell.cpp
+	$$PWD/miniMapShell.cpp \

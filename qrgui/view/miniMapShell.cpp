@@ -20,13 +20,15 @@ MiniMapShell::MiniMapShell(EditorView *parent, MiniMap *miniMap) :
 	setFixedSize(size+10, size+10);
 	mMiniMap->setFixedSize(size - 10, size - 10);
 	mAuxiliaryLayout->addStretch();
-	mShowMiniMapButton->setFixedSize(10, size-10);
-	mAuxiliaryLayout->addWidget(mShowMiniMapButton);
 	mAuxiliaryLayout->addWidget(mMiniMap);
 	mAuxiliaryLayout->addSpacing(10);
 	mMainLayout->addStretch();
 	mMainLayout->addLayout(mAuxiliaryLayout);
 	mMainLayout->addSpacing(10);
+
+	mShowMiniMapButton->setGeometry(20, 0, 30, size);
+	mShowMiniMapButton->setWindowFlags(Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
+
 	this->setLayout(mMainLayout);
 
 	connect(this->mShowMiniMapButton, SIGNAL(pressed()), mMiniMap, SLOT(turnMiniMap()));
