@@ -19,7 +19,7 @@ class EditorView : public QGraphicsView
 	Q_OBJECT
 
 public:
-	explicit EditorView(QWidget *parent);
+    explicit EditorView(QWidget *parent, MiniMap *mm = 0);
 	~EditorView();
 
 	EditorViewMViface *mvIface() const;
@@ -37,7 +37,8 @@ public slots:
 	void zoomOut();
 	void zoom(qreal const zoomFactor);
 	void invalidateScene();
-    void updateMiniMap();
+	void updateMiniMap();
+	void replaceMiniMap();
 
 protected:
 	virtual void mouseMoveEvent(QMouseEvent *event);
@@ -54,21 +55,22 @@ private slots:
 	void zoomInTime();
 	void zoomOutTime();
 	void animFinished();
-    void replaceMiniMap();
 
 private:
 	void checkGrid();
 
 	void startAnimation(char const *slot);
 
-    void addMiniMap(MiniMap *mm);
+	void addMiniMap(MiniMap *mm);
 
 	EditorViewMViface *mMVIface;
 	EditorViewScene *mScene;
-    MiniMap *mMiniMap;
-    MiniMapShell *mMiniMapShell;
+	MiniMap *mMiniMap;
+	MiniMapShell *mMiniMapShell;
+	QVBoxLayout *mAuxiliaryLayout;
+	QHBoxLayout *mMainLayout;
 	QPointF mMouseOldPosition;
-    bool mWheelPressed;
+	bool mWheelPressed;
 	int mZoom;
 	view::details::TouchSupportManager mTouchManager;
 };

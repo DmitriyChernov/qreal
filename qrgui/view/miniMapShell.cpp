@@ -7,25 +7,37 @@
 using namespace qReal;
 
 MiniMapShell::MiniMapShell(EditorView *parent, MiniMap *miniMap) :
-    QWidget()
-    , mMainLayout(new QVBoxLayout())
-    , mMiniMap(miniMap)
+	QWidget()
+	, mMainLayout(new QVBoxLayout())
+	, mAuxiliaryLayout(new QHBoxLayout())
+	, mMiniMap(miniMap)
+	, size (SettingsManager::value("miniMapSize").toInt())
+	, isMiniMapVisible(true)
+	, mShowMiniMapButton(new QPushButton())
+
 {
-    mMiniMap->setParent(this);
-    setWindowFlags(Qt::WindowStaysOnTopHint);
-    //miniMap->changeSource(0);
-    mMainLayout->addWidget(mMiniMap);
-    mMainLayout->addWidget(new QLineEdit());
-    this->setLayout(mMainLayout);
+	mMiniMap->setParent(this);
+	setFixedSize(size+10, size+10);
+	mMiniMap->setFixedSize(size - 10, size - 10);
+	mAuxiliaryLayout->addStretch();
+	mShowMiniMapButton->setFixedSize(10, size-10);
+	mAuxiliaryLayout->addWidget(mShowMiniMapButton);
+	mAuxiliaryLayout->addWidget(mMiniMap);
+	mAuxiliaryLayout->addSpacing(10);
+	mMainLayout->addStretch();
+	mMainLayout->addLayout(mAuxiliaryLayout);
+	mMainLayout->addSpacing(10);
+	this->setLayout(mMainLayout);
+
+	connect(this->mShowMiniMapButton, SIGNAL(pressed()), mMiniMap, SLOT(turnMiniMap()));
 }
 
 void MiniMapShell::changeSize()
 {
-//    int size = SettingsManager::value("MiniMapSize").toInt();
-//    this->setFixedSize(size, size);
+	int size = SettingsManager::value("MiniMapSize").toInt();
+	this->setFixedSize(size, size);
 }
 
 void MiniMapShell::currentTabChanged()
 {
-//    mMiniMap->changeSource(0);
 }

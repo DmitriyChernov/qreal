@@ -10,7 +10,8 @@ MiniMap::MiniMap(QWidget *parent)
 		: QGraphicsView(parent)
 		, mEditorView(NULL)
 		, mMode(None)
-        , showMiniMap(TRUE)
+		, showMiniMap(TRUE)
+		, showMiniMapButton(new QPushButton())
 {
 }
 
@@ -20,12 +21,12 @@ void MiniMap::init(qReal::MainWindow *window)
 
 	setRenderHint(QPainter::Antialiasing, true);
 
-    int size = SettingsManager::value("MiniMapSize").toInt();
+	int size = SettingsManager::value("MiniMapSize").toInt();
 
 	setInteractive(false);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFixedSize(size,size);
+	setFixedSize(size,size);
 }
 
 void MiniMap::changeSource(int index)
@@ -162,16 +163,16 @@ QList<QRectF> MiniMap::getNonExistentAreas(QRectF const &rect)
 
 void MiniMap::turnMiniMap()
  {
-     if (showMiniMap){
-         this->show();
-     } else {
-         this->hide();
-     }
-     showMiniMap = !showMiniMap;
+	if (showMiniMap){
+	this->show();
+	} else {
+		this->hide();
+	}
+	showMiniMap = !showMiniMap;
  }
 
  void MiniMap::changeSize()
  {
-     int size = SettingsManager::value("MiniMapSize").toInt();
-     this->setFixedSize(size, size);
+	 int size = SettingsManager::value("MiniMapSize").toInt();
+	 this->setFixedSize(size, size);
  }

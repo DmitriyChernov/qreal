@@ -8,13 +8,15 @@ using namespace qReal;
 int const zoomAnimationInterval = 20;
 int const zoomAnimationTimes = 4;
 
-EditorView::EditorView(QWidget *parent)
+EditorView::EditorView(QWidget *parent, MiniMap *mm)
 	: QGraphicsView(parent)
-	, mMouseOldPosition()
+    , mMouseOldPosition()
 	, mWheelPressed(false)
 	, mZoom(0)
-	, mTouchManager(this)
+    , mTouchManager(this)
     , mMiniMapShell(NULL)
+    , mMainLayout(NULL)
+    , mAuxiliaryLayout(NULL)
 {
 	setRenderHint(QPainter::Antialiasing, true);
 

@@ -1322,7 +1322,7 @@ void NodeElement::initRenderedDiagram()
 	Id const diagram = mLogicalAssistApi.logicalRepoApi().outgoingExplosion(logicalId());
 	Id const graphicalDiagram = mGraphicalAssistApi.graphicalIdsByLogicalId(diagram)[0];
 
-	EditorView view(window);
+    EditorView view(window);
 	EditorViewScene *openedScene = dynamic_cast<EditorViewScene *>(view.scene());
 	openedScene->setMainWindow(window);
 	openedScene->setNeedDrawGrid(false);

@@ -5,22 +5,25 @@
 
 namespace qReal {
 
-    class MainWindow;
-    class EditorViewScene;
-    class EditorView;
+	class MainWindow;
+	class EditorViewScene;
+	class EditorView;
 
-    class MiniMapShell : public QWidget
-    {
-        Q_OBJECT
-    public:
-        explicit MiniMapShell(EditorView *parent, MiniMap *miniMap);
+	class MiniMapShell : public QWidget
+	{
+		Q_OBJECT
+	public:
+		explicit MiniMapShell(EditorView *parent, MiniMap *miniMap);
 
-        void changeSize();
-        void currentTabChanged();
+		void changeSize();
+		void currentTabChanged();
 
-    private:
-        QLayout *mMainLayout;
-        MiniMap *mMiniMap;
-
-    };
+	private:
+		QVBoxLayout *mMainLayout;
+		QHBoxLayout *mAuxiliaryLayout;
+		QPushButton *mShowMiniMapButton;
+		MiniMap *mMiniMap;
+		int size;
+		bool isMiniMapVisible;
+	};
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtCore/QObject>
+#include <QtWidgets>
 
 namespace qReal {
 
@@ -29,13 +30,13 @@ public:
 
 	void setScene(QGraphicsScene *scene);
 
-    void changeSize();
+	void changeSize();
 
 public slots:
 	/// makes the minimap display only items of the scene
 	void showScene();
 	void ensureVisible(QList<QRectF> region);
-    void turnMiniMap();
+	void turnMiniMap();
 
 protected:
 	void wheelEvent(QWheelEvent *event);
@@ -54,17 +55,19 @@ private:
 	void setCurrentScene();
 	void clear();
 	/// @return a rectangle of the scene which is viewed in the editor view
+	QPushButton *showMiniMapButton;
+
 	QRectF getNewRect();
 
 	qReal::MainWindow *mWindow;
 
-    qReal::EditorView *mEditorView;
+	qReal::EditorView *mEditorView;
 	/// in the scene coordinates
 	QRectF mEditorViewRect;
 
 	Mode mMode;
 
-    bool showMiniMap;
+	bool showMiniMap;
 };
 
 }
