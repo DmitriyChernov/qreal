@@ -25,6 +25,7 @@ HEADERS += \
 	$$PWD/private/exploserView.h \
 	$$PWD/private/touchSupportManager.h \
 	$$PWD/miniMapShell.h \
+	$$PWD/miniMapButton.h
 
 SOURCES += \
 	$$PWD/editorView.cpp \
@@ -48,3 +49,4 @@ SOURCES += \
 	$$PWD/private/exploserView.cpp \
 	$$PWD/private/touchSupportManager.cpp \
 	$$PWD/miniMapShell.cpp \
+	$$PWD/miniMapButton.cpp \

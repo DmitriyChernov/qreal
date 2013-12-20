@@ -39,6 +39,7 @@ public slots:
 	void invalidateScene();
 	void updateMiniMap();
 	void replaceMiniMap();
+	void moveMiniMap(QPoint miniMapPos);
 
 protected:
 	virtual void mouseMoveEvent(QMouseEvent *event);

@@ -1,7 +1,8 @@
 #pragma once
 
 #include <QWidget>
-#include "../mainwindow/miniMap.h"
+#include <qrkernel/settingsManager.h>
+#include "mainwindow/miniMap.h"
 
 namespace qReal {
 
@@ -12,11 +13,15 @@ namespace qReal {
 	class MiniMapShell : public QWidget
 	{
 		Q_OBJECT
+
 	public:
 		explicit MiniMapShell(EditorView *parent, MiniMap *miniMap);
 
 		void changeSize();
 		void currentTabChanged();
+
+	private slots:
+		void turnMiniMap();
 
 	private:
 		QVBoxLayout *mMainLayout;

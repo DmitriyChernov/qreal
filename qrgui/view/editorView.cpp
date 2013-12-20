@@ -301,3 +301,28 @@ void EditorView::updateMiniMap()
     mMiniMapShell->changeSize();
     mMiniMap->changeSize();
 }
+
+void EditorView::moveMiniMap(QPoint miniMapPos)
+{
+	QPoint mapPos = this->mapFromGlobal(miniMapPos);
+
+	mMiniMapShell->move(this->mapFromGlobal(miniMapPos).x(), this->mapFromGlobal(miniMapPos).y());
+
+	int editorViewHeight = this->geometry().height();
+	int editorViewWidth = this->geometry().width();
+
+	if (miniMapPos.x() > (editorViewWidth-50)) {
+		mMiniMapShell->move(editorViewWidth- mMiniMapShell->width(), this->mapFromGlobal(miniMapPos).y());
+	}
+	if (mapPos.x() < 50) {
+		mMiniMapShell->move(0, this->mapFromGlobal(miniMapPos).y());
+	}
+	if (miniMapPos.y() > (editorViewHeight-50)) {
+		mMiniMapShell->move(this->mapFromGlobal(miniMapPos).x(), editorViewHeight- mMiniMapShell->height());
+	}
+	if (mapPos.y() < 50) {
+		mMiniMapShell->move(this->mapFromGlobal(miniMapPos).x(), 0);
+	}
+
+
+}

@@ -26,7 +26,6 @@ void MiniMap::init(qReal::MainWindow *window)
 	setInteractive(false);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	setFixedSize(size,size);
 }
 
 void MiniMap::changeSource(int index)
@@ -160,16 +159,6 @@ QList<QRectF> MiniMap::getNonExistentAreas(QRectF const &rect)
 
 	return areas;
 }
-
-void MiniMap::turnMiniMap()
- {
-	if (showMiniMap){
-	this->show();
-	} else {
-		this->hide();
-	}
-	showMiniMap = !showMiniMap;
- }
 
  void MiniMap::changeSize()
  {

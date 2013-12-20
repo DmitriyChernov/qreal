@@ -1,8 +1,6 @@
 #include "miniMapShell.h"
-#include <QtWidgets/QVBoxLayout>
 #include "editorView.h"
-#include "../mainwindow/miniMap.h"
-#include "../../qrkernel/settingsManager.h"
+#include "miniMapButton.h"
 
 using namespace qReal;
 
@@ -13,33 +11,47 @@ MiniMapShell::MiniMapShell(EditorView *parent, MiniMap *miniMap) :
 	, mMiniMap(miniMap)
 	, size (SettingsManager::value("miniMapSize").toInt())
 	, isMiniMapVisible(true)
-	, mShowMiniMapButton(new QPushButton())
+	, mShowMiniMapButton(new MiniMapButton(parent))
 
 {
-	mMiniMap->setParent(this);
-	setFixedSize(size+10, size+10);
-	mMiniMap->setFixedSize(size - 10, size - 10);
-	mAuxiliaryLayout->addStretch();
-	mAuxiliaryLayout->addWidget(mMiniMap);
-	mAuxiliaryLayout->addSpacing(10);
-	mMainLayout->addStretch();
-	mMainLayout->addLayout(mAuxiliaryLayout);
-	mMainLayout->addSpacing(10);
+	size = SettingsManager::value("MiniMapSize").toInt();
 
-	mShowMiniMapButton->setGeometry(20, 0, 30, size);
-	mShowMiniMapButton->setWindowFlags(Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
+	mMiniMap->setParent(this);
+	mShowMiniMapButton->setParent(this);
+
+	setFixedSize(size+20, size+20);
+
+	mMiniMap->setGeometry(0, 0, size, size);
+	mShowMiniMapButton->setGeometry(0, 0, 20, 20);
+	mShowMiniMapButton->raise();
 
 	this->setLayout(mMainLayout);
 
-	connect(this->mShowMiniMapButton, SIGNAL(pressed()), mMiniMap, SLOT(turnMiniMap()));
+	connect(this->mShowMiniMapButton, SIGNAL(released()), this, SLOT(turnMiniMap()));
 }
 
 void MiniMapShell::changeSize()
 {
-	int size = SettingsManager::value("MiniMapSize").toInt();
+	size = SettingsManager::value("MiniMapSize").toInt();
 	this->setFixedSize(size, size);
+	mMiniMap->setGeometry(0, 0, size, size);
+	setFixedSize(size+20, size+20);
 }
 
 void MiniMapShell::currentTabChanged()
 {
+}
+
+void MiniMapShell::turnMiniMap()
+{
+	size = SettingsManager::value("MiniMapSize").toInt();
+	setFixedSize(size+20, size+20);
+	if (isMiniMapVisible){
+		mShowMiniMapButton->setGeometry(0, 0, 20, 20);
+		mMiniMap->show();
+	} else {
+		mShowMiniMapButton->setGeometry(size-20, size-20, 30, 30);
+		mMiniMap->hide();
+	}
+	isMiniMapVisible= !isMiniMapVisible;
 }
