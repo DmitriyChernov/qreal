@@ -57,7 +57,7 @@ void MiniMapShell::turnMiniMap()
 		setFixedSize(size+20, size+20);
 		mMiniMap->show();
 	} else {
-		setFixedSize(20, 20);
+		//setFixedSize(20, 20);
 		mMiniMap->hide();
 	}
 	isMiniMapVisible= !isMiniMapVisible;
