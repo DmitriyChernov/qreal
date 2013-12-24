@@ -1313,7 +1313,6 @@ void MainWindow::setDefaultShortcuts()
 void MainWindow::currentTabChanged(int newIndex)
 {
 	switchToTab(newIndex);
-    mMiniMap->changeSource(newIndex);
 
 	bool const isEditorTab = getCurrentTab() != NULL;
 	bool const isShape = isCurrentTabShapeEdit();
@@ -1333,6 +1332,7 @@ void MainWindow::currentTabChanged(int newIndex)
 	} else if (getCurrentTab()->mvIface()) {
 		Id const currentTabId = getCurrentTab()->mvIface()->rootId();
 		mToolManager.activeTabChanged(currentTabId);
+		replaceMiniMap(newIndex);
 	}
 
 	emit rootDiagramChanged();

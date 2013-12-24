@@ -31,6 +31,8 @@ public:
 	void ensureElementVisible(Element const * const element, int xMargin, int yMargin);
 	void setTitlesVisible(bool visible);
 
+	QHBoxLayout *mMainLayout;
+
 public slots:
 	void toggleAntialiasing(bool);
 	void zoomIn();
@@ -68,8 +70,8 @@ private:
 	EditorViewScene *mScene;
 	MiniMap *mMiniMap;
 	MiniMapShell *mMiniMapShell;
-	QVBoxLayout *mAuxiliaryLayout;
-	QHBoxLayout *mMainLayout;
+	QPoint mMiniMapPos;
+
 	QPointF mMouseOldPosition;
 	bool mWheelPressed;
 	int mZoom;

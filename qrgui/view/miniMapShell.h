@@ -27,6 +27,8 @@ namespace qReal {
 		QVBoxLayout *mMainLayout;
 		QHBoxLayout *mAuxiliaryLayout;
 		QPushButton *mShowMiniMapButton;
+
+		EditorView *mEditorView;
 		MiniMap *mMiniMap;
 		int size;
 		bool isMiniMapVisible;

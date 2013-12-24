@@ -12,6 +12,7 @@ MiniMapShell::MiniMapShell(EditorView *parent, MiniMap *miniMap) :
 	, size (SettingsManager::value("miniMapSize").toInt())
 	, isMiniMapVisible(true)
 	, mShowMiniMapButton(new MiniMapButton(parent))
+	, mEditorView(parent)
 
 {
 	size = SettingsManager::value("MiniMapSize").toInt();
@@ -25,9 +26,11 @@ MiniMapShell::MiniMapShell(EditorView *parent, MiniMap *miniMap) :
 	mShowMiniMapButton->setGeometry(0, 0, 20, 20);
 	mShowMiniMapButton->raise();
 
+	mMainLayout->addWidget(mMiniMap);
+
 	this->setLayout(mMainLayout);
 
-	connect(this->mShowMiniMapButton, SIGNAL(released()), this, SLOT(turnMiniMap()));
+	connect(this->mShowMiniMapButton, SIGNAL(clicked()), this, SLOT(turnMiniMap()));
 }
 
 void MiniMapShell::changeSize()
@@ -40,6 +43,10 @@ void MiniMapShell::changeSize()
 
 void MiniMapShell::currentTabChanged()
 {
+	mMiniMap->setScene(mEditorView->scene());
+	this->parentWidget()->layout()->removeWidget(this);
+
+	mMiniMap->setParent(this);
 }
 
 void MiniMapShell::turnMiniMap()
@@ -47,10 +54,10 @@ void MiniMapShell::turnMiniMap()
 	size = SettingsManager::value("MiniMapSize").toInt();
 	setFixedSize(size+20, size+20);
 	if (isMiniMapVisible){
-		mShowMiniMapButton->setGeometry(0, 0, 20, 20);
+		setFixedSize(size+20, size+20);
 		mMiniMap->show();
 	} else {
-		mShowMiniMapButton->setGeometry(size-20, size-20, 30, 30);
+		setFixedSize(20, 20);
 		mMiniMap->hide();
 	}
 	isMiniMapVisible= !isMiniMapVisible;
