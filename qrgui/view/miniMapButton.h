@@ -6,25 +6,30 @@
 #include <QtWidgets/QMouseEventTransition>
 #include <QMouseEvent>
 
-#include "editorView.h"
-
 namespace qReal {
 
-	class EditorViewMViface;
-	class MainWindow;
+class EditorView;
+class EditorViewMViface;
+class MainWindow;
 
-	class MiniMapButton : public QPushButton
-	{
-		Q_OBJECT
+class MiniMapButton : public QPushButton
+{
+	Q_OBJECT
 
-	signals:
-		void moveMiniMap(QPoint miniMapPos);
+signals:
+	void moveMiniMap(QPoint miniMapPos);
 
-	public:
-		explicit MiniMapButton(EditorView *parent = 0);
+public:
+	explicit MiniMapButton(EditorView *parent = 0);
+	void changeDragState(bool isDragged);
+	bool getDragState();
 
-	private slots:
-		void mouseMoveEvent (QMouseEvent *event);
-//		void moveMiniMap();
-	};
+private slots:
+	void mouseMoveEvent (QMouseEvent *event);
+
+private:
+	bool mWidgetMoved;
+
+};
+
 }

@@ -308,22 +308,22 @@ void EditorView::moveMiniMap(QPoint miniMapPos)
 
 	mMiniMapShell->move(this->mapFromGlobal(miniMapPos).x(), this->mapFromGlobal(miniMapPos).y());
 
-	int editorViewHeight = this->geometry().height();
-	int editorViewWidth = this->geometry().width();
+	int editorViewHeight = this->height();
+	int editorViewWidth = this->width();
 
-	if (miniMapPos.x() > (editorViewWidth-50)) {
-		mMiniMapShell->move(editorViewWidth - mMiniMapShell->height() -10, this->mapFromGlobal(miniMapPos).y());
-		if (miniMapPos.y() > (editorViewWidth-50)) {
-			mMiniMapShell->move(editorViewWidth - mMiniMapShell->height()-10, editorViewWidth - mMiniMapShell->width());
+	if (miniMapPos.x() > (editorViewWidth + 130)) {
+		mMiniMapShell->move(editorViewWidth - mMiniMapShell->width() -10, this->mapFromGlobal(miniMapPos).y());
+		if (miniMapPos.y() > (editorViewHeight-50)) {
+			mMiniMapShell->move(editorViewWidth - mMiniMapShell->width()-10, editorViewWidth - mMiniMapShell->height());
 		}
 		if (mapPos.y() < 50) {
-			mMiniMapShell->move(editorViewWidth - mMiniMapShell->height()-10, 0);
+			mMiniMapShell->move(editorViewWidth - mMiniMapShell->width()-10, 0);
 		}
 	}
 	if (mapPos.x() < 50) {
 		mMiniMapShell->move(0, this->mapFromGlobal(miniMapPos).y());
-		if (miniMapPos.y() > (editorViewWidth-50)) {
-			mMiniMapShell->move(0, editorViewWidth - mMiniMapShell->width()-10);
+		if (miniMapPos.y() > (editorViewHeight-50)) {
+			mMiniMapShell->move(0, editorViewWidth - mMiniMapShell->height()-10);
 		}
 		if (mapPos.y() < 50) {
 			mMiniMapShell->move(0, 0);
@@ -331,8 +331,8 @@ void EditorView::moveMiniMap(QPoint miniMapPos)
 	}
 	if (miniMapPos.y() > (editorViewHeight-50)) {
 		mMiniMapShell->move(this->mapFromGlobal(miniMapPos).x(), editorViewHeight - mMiniMapShell->height()-10);
-		if (miniMapPos.x() > (editorViewWidth-50)) {
-			mMiniMapShell->move(editorViewWidth - mMiniMapShell->height()-10, editorViewHeight - mMiniMapShell->height()-10);
+		if (miniMapPos.x() > (editorViewWidth + 130)) {
+			mMiniMapShell->move(editorViewWidth - mMiniMapShell->width()-10, editorViewHeight - mMiniMapShell->height()-10);
 		}
 		if (mapPos.x() < 50) {
 			mMiniMapShell->move(0, editorViewHeight - mMiniMapShell->height()-10);
@@ -340,8 +340,8 @@ void EditorView::moveMiniMap(QPoint miniMapPos)
 	}
 	if (mapPos.y() < 50) {
 		mMiniMapShell->move(this->mapFromGlobal(miniMapPos).x(), 0);
-		if (miniMapPos.x() > (editorViewWidth-50)) {
-			mMiniMapShell->move(editorViewWidth - mMiniMapShell->height()-10 , 0);
+		if (miniMapPos.x() > (editorViewWidth+ 130)) {
+			mMiniMapShell->move(editorViewWidth - mMiniMapShell->width()-10 , 0);
 		}
 		if (mapPos.x() < 50) {
 			mMiniMapShell->move(0, 0);

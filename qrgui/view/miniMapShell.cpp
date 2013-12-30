@@ -1,6 +1,5 @@
-#include "miniMapShell.h"
 #include "editorView.h"
-#include "miniMapButton.h"
+#include "miniMapShell.h"
 
 using namespace qReal;
 
@@ -30,13 +29,13 @@ MiniMapShell::MiniMapShell(EditorView *parent, MiniMap *miniMap) :
 
 	this->setLayout(mMainLayout);
 
-	connect(this->mShowMiniMapButton, SIGNAL(clicked()), this, SLOT(turnMiniMap()));
+	connect(this->mShowMiniMapButton, SIGNAL(released()), this, SLOT(turnMiniMap()));
 }
 
 void MiniMapShell::changeSize()
 {
 	size = SettingsManager::value("MiniMapSize").toInt();
-	this->setFixedSize(size, size);
+	setFixedSize(size, size);
 	mMiniMap->setGeometry(0, 0, size, size);
 	setFixedSize(size+20, size+20);
 }
@@ -51,14 +50,19 @@ void MiniMapShell::currentTabChanged()
 
 void MiniMapShell::turnMiniMap()
 {
-	size = SettingsManager::value("MiniMapSize").toInt();
-	setFixedSize(size+20, size+20);
-	if (isMiniMapVisible){
-		setFixedSize(size+20, size+20);
-		mMiniMap->show();
+	if (!mShowMiniMapButton->getDragState())
+	{
+		size = SettingsManager::value("MiniMapSize").toInt();
+		if (isMiniMapVisible){
+			mMiniMap->show();
+			setGeometry(this->x(), this->y(), this->x()+size+20 ,this->y()+size+20);
+		} else {
+			mMiniMap->hide();
+			setGeometry(this->x(), this->y(), this->x()+20 ,this->y()+20);
+		}
+		isMiniMapVisible= !isMiniMapVisible;
+		mShowMiniMapButton->changeDragState(false);
 	} else {
-		//setFixedSize(20, 20);
-		mMiniMap->hide();
+		mShowMiniMapButton->changeDragState(false);
 	}
-	isMiniMapVisible= !isMiniMapVisible;
 }

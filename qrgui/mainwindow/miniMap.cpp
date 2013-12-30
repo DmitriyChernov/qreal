@@ -21,8 +21,6 @@ void MiniMap::init(qReal::MainWindow *window)
 
 	setRenderHint(QPainter::Antialiasing, true);
 
-	int size = SettingsManager::value("MiniMapSize").toInt();
-
 	setInteractive(false);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
