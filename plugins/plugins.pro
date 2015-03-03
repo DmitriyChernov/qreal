@@ -11,6 +11,7 @@ SUBDIRS += \
 	$$PWD/requirements/requirements.pro \
 	$$PWD/domainAnalysis/domainAnalysis.pro \
 	$$PWD/deployment/deploymentEditor.pro \
+	$$PWD/userActionEditor/userActionEditor.pro \
 
 # interpreted plugins
 SUBDIRS += \
