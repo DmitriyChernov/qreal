@@ -33,9 +33,10 @@
 #include <qrgui/preferencesDialog/preferencesDialog.h>
 #include <qrgui/dialogs/findReplaceDialog.h>
 
-class QGraphicsView;
-
 #include "scriptAPI/scriptAPI.h"
+#include "userActionRecorder/recorder.h"
+
+class QGraphicsView;
 
 namespace Ui {
 class MainWindowUi;
@@ -261,6 +262,8 @@ private slots:
 	void updatePaletteIcons();
 	void setTextChanged(bool changed);
 
+	void startRecordingUserActions();
+
 private:
 	/// Initializes a tab if it is a diagram --- sets its logical and graphical
 	/// models, connects to various main window actions and so on
@@ -391,6 +394,7 @@ private:
 	QString mInitialFileToOpen;
 
 	gui::ScriptAPI mScriptAPI;
+	gui::Recorder mRecorder;
 };
 
 }

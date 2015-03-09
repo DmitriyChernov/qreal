@@ -15,6 +15,9 @@ public:
 
 	/// The given widget disappear with opacity animation for duration.
 	static void disappear(QWidget *widget, int duration);
+
+	/// The given widget appear with opacity animation for duration.
+	static void appear(QWidget *widget, int duration);
 };
 
 }

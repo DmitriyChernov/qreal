@@ -45,3 +45,22 @@ void AnimatedEffects::disappear(QWidget *widget, int duration)
 	opacityAnim->setEasingCurve(QEasingCurve::OutQuad);
 	opacityAnim->start(QAbstractAnimation::DeleteWhenStopped);
 }
+
+void AnimatedEffects::appear(QWidget *widget, int duration)
+{
+	if (!widget) {
+		return;
+	}
+
+	QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(widget);
+	opacityEffect->setOpacity(1);
+	widget->setGraphicsEffect(opacityEffect);
+	QPropertyAnimation *opacityAnim = new QPropertyAnimation(widget);
+	opacityAnim->setTargetObject(opacityEffect);
+	opacityAnim->setPropertyName("opacity");
+	opacityAnim->setDuration(duration);
+	opacityAnim->setStartValue(opacityEffect->opacity());
+	opacityAnim->setEndValue(1);
+	opacityAnim->setEasingCurve(QEasingCurve::OutQuad);
+	opacityAnim->start(QAbstractAnimation::DeleteWhenStopped);
+}

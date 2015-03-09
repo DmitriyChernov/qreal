@@ -61,6 +61,7 @@
 #include "dotRunner.h"
 
 #include "scriptAPI/scriptAPI.h"
+#include "userActionRecorder/recorder.h"
 
 using namespace qReal;
 using namespace qReal::commands;
@@ -1931,14 +1932,28 @@ void MainWindow::initScriptAPI()
 	QThread *scriptAPIthread = new QThread(this);
 	mScriptAPI.init(this);
 
+	QThread *userActionRecorderThread = new QThread(this);
+	mRecorder.init(this);
+
 	QAction *evalAction = new QAction(this);
 	evalAction->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_F12));
 	connect(evalAction, &QAction::triggered, &mScriptAPI, &ScriptAPI::evaluate, Qt::DirectConnection);
 	addAction(evalAction);
 
-	//connect(mSystemEvents, &SystemEvents::closedMainWindow, scriptAPIthread, &QThread::quit);
+	QAction *recordAction = new QAction(this);
+	recordAction->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_F11));
+	connect(recordAction, &QAction::triggered, this, &MainWindow::startRecordingUserActions, Qt::DirectConnection);
+	addAction(recordAction);
+
 	mScriptAPI.moveToThread(scriptAPIthread);
 	scriptAPIthread->start();
+	mRecorder.moveToThread(userActionRecorderThread);
+	scriptAPIthread->start();
+}
+
+void MainWindow::startRecordingUserActions()
+{
+	mRecorder.start();
 }
 
 void MainWindow::beginPaletteModification()
