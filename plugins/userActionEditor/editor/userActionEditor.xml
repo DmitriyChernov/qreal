@@ -1,0 +1,943 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metamodel xmlns="http://schema.real.com/schema/" version="3.0.0-rc2">
+	<include>../../commonMetamodels/kernelMetamodel.xml</include>
+	<include>../../commonMetamodels/basicBehaviorsMetamodel.xml</include>
+	<include>../../commonMetamodels/basicActionsMetamodel.xml</include>
+	<namespace>UML 2.0</namespace>
+	<diagram displayedName="User Action Sequence Diagram" nodeName="UserActionDiagramGroup" name="UserActionDiagram">
+		<nonGraphicTypes>
+			<enum name="GuardType" editable="true">
+				<value name="iteration" displayedName="iteration"/>
+				<value name="true" displayedName="true"/>
+				<value name="false" displayedName="false"/>
+			</enum>
+			<enum name="MouseButton" editable="false">
+				<value name="left" displayedName="left"/>
+				<value name="right" displayedName="right"/>
+			</enum>
+			<enum name="MouseAction" editable="false">
+				<value name="press" displayedName="press"/>
+				<value name="release" displayedName="release"/>
+			</enum>
+			<groups>
+				<group name="UserActionDiagramGroup" rootNode="diagram">
+					<groupNode type="UserActionDiagramNode" name="diagram" xPosition="0" yPosition="0"/>
+					<groupNode type="InitialNode" name="initialNode" xPosition="50" yPosition="300" parent="diagram"/>
+				</group>
+				<group name="SubprogramDiagramGroup" rootNode="diagram">
+					<groupNode type="SubprogramDiagram" name="diagram" xPosition="0" yPosition="0"/>
+					<groupNode type="InitialNode" name="initialNode" xPosition="50" yPosition="300" parent="diagram"/>
+				</group>
+			</groups>
+		</nonGraphicTypes>
+		<graphicTypes>
+			<!-- Algorithms -->
+			<node displayedName="User Action Sequence Diagram"  name="UserActionDiagramNode">
+				<graphics>
+					<picture sizex="204" sizey="204">
+						<line fill="#000000" stroke-style="solid" stroke="#000000" y1="2" stroke-width="0" x1="22" y2="2" fill-style="none" x2="182"/>
+						<line fill="#000000" stroke-style="solid" stroke="#000000" y1="202" stroke-width="0" x1="22" y2="202" fill-style="none" x2="182"/>
+						<line fill="#000000" stroke-style="solid" stroke="#000000" y1="22" stroke-width="0" x1="2" y2="182" fill-style="none" x2="2"/>
+						<line fill="#000000" stroke-style="solid" stroke="#000000" y1="22" stroke-width="0" x1="202" y2="182" fill-style="none" x2="202"/>
+						<arc spanAngle="1440" startAngle="1440" y1="2" x1="2" y2="42" x2="42"/>
+						<arc spanAngle="1440" startAngle="0" y1="2" x1="162" y2="42" x2="202"/>
+						<arc spanAngle="1440" startAngle="2880" y1="162" x1="2" y2="202" x2="42"/>
+						<arc spanAngle="-1440" startAngle="0" y1="162" x1="162" y2="202" x2="202"/>
+					</picture>
+					<labels>
+						<label x="42" y="12" textBinded="name"/>
+					</labels>
+					<ports>
+						<pointPort x="2" y="102"/>
+						<pointPort x="102" y="2"/>
+						<pointPort x="202" y="102"/>
+						<pointPort x="102" y="202"/>
+					</ports>
+				</graphics>
+				<logic>
+					<container>
+						<contains type="AbstractNode"/>
+					</container>
+				</logic>
+			</node>
+			<node name="AbstractNode" abstract="true">
+				<graphics>
+					<picture sizex="50" sizey="50">
+					</picture>
+					<ports>
+						<linePort>
+							<start startx="0" starty="5"/>
+							<end endx="0" endy="45"/>
+						</linePort>
+						<linePort>
+							<start startx="5" starty="0"/>
+							<end endx="45" endy="0"/>
+						</linePort>
+						<linePort>
+							<start startx="50" starty="5"/>
+							<end endx="50" endy="45"/>
+						</linePort>
+						<linePort>
+							<start startx="5" starty="50"/>
+							<end endx="45" endy="50"/>
+						</linePort>
+					</ports>
+				</graphics>
+				<logic>
+					<container/>
+				</logic>
+			</node>
+			<node displayedName="Subprogram Diagram" name="SubprogramDiagram">
+				<graphics>
+					<picture sizex="204" sizey="204">
+						<line fill="#000000" stroke-style="solid" stroke="#000000" y1="2" stroke-width="0" x1="22" y2="2" fill-style="none" x2="182"/>
+						<line fill="#000000" stroke-style="solid" stroke="#000000" y1="202" stroke-width="0" x1="22" y2="202" fill-style="none" x2="182"/>
+						<line fill="#000000" stroke-style="solid" stroke="#000000" y1="22" stroke-width="0" x1="2" y2="182" fill-style="none" x2="2"/>
+						<line fill="#000000" stroke-style="solid" stroke="#000000" y1="22" stroke-width="0" x1="202" y2="182" fill-style="none" x2="202"/>
+						<arc spanAngle="1440" startAngle="1440" y1="2" x1="2" y2="42" x2="42"/>
+						<arc spanAngle="1440" startAngle="0" y1="2" x1="162" y2="42" x2="202"/>
+						<arc spanAngle="1440" startAngle="2880" y1="162" x1="2" y2="202" x2="42"/>
+						<arc spanAngle="-1440" startAngle="0" y1="162" x1="162" y2="202" x2="202"/>
+					</picture>
+					<labels>
+						<label x="42" y="12" textBinded="name"/>
+					</labels>
+					<ports>
+						<pointPort x="2" y="102"/>
+						<pointPort x="102" y="2"/>
+						<pointPort x="202" y="102"/>
+						<pointPort x="102" y="202"/>
+					</ports>
+				</graphics>
+				<logic>
+					<container>
+						<contains type="AbstractNode"/>
+					</container>
+				</logic>
+			</node>
+			<node displayedName="Final Node" name="FinalNode" path="13, 200 : 198, 15 :  | 12, 12 : 198, 198 : " description="The final node of the program. If the program consists of some parallel execution lines the reachment of this block terminates the corresponding execution line. This block can`t have outgoing links.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/finalBlock.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels/>
+					<nonResizeable/>
+				</graphics>
+				<logic>
+					<container/>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Comment" name="CommentBlock" description="This block can hold text notes that are ignored by generators and interpreters. Use it for improving the diagram readability.">
+				<graphics>
+					<picture sizex="200" sizey="100">
+						<line y1="0" y2="100" fill="#ffffff" stroke="#000000" x1="0" x2="0" fill-style="none" stroke-style="solid" stroke-width="0"/>
+						<line y1="100" y2="100" fill="#ffffff" stroke="#000000" x1="0" x2="200" fill-style="none" stroke-style="solid" stroke-width="0"/>
+						<line y1="20" y2="100" fill="#ffffff" stroke="#000000" x1="200" x2="200" fill-style="none" stroke-style="solid" stroke-width="0"/>
+						<line y1="0" y2="20" fill="#ffffff" stroke="#000000" x1="180" x2="200" fill-style="none" stroke-style="solid" stroke-width="0"/>
+						<line y1="0" y2="0" fill="#ffffff" stroke="#000000" x1="0" x2="178" fill-style="none" stroke-style="solid" stroke-width="0"/>
+						<line y1="0" y2="20" fill="#ffffff" stroke="#000000" x1="180" x2="180" fill-style="none" stroke-style="solid" stroke-width="0"/>
+						<line y1="20" y2="20" fill="#ffffff" stroke="#000000" x1="180" x2="200" fill-style="none" stroke-style="solid" stroke-width="0"/>
+					</picture>
+					<labels>
+						<label x="20" y="20" textBinded="Comment" hard="true" background="white"/>
+					</labels>
+					<ports>
+						<linePort>
+							<start startx="0" starty="5"/>
+							<end endx="0" endy="95"/>
+						</linePort>
+						<linePort>
+							<start startx="5" starty="0"/>
+							<end endx="175" endy="0"/>
+						</linePort>
+						<linePort>
+							<start startx="200" starty="25"/>
+							<end endx="200" endy="95"/>
+						</linePort>
+						<linePort>
+							<start startx="5" starty="100"/>
+							<end endx="195" endy="100"/>
+						</linePort>
+						<linePort>
+							<start startx="180" starty="0"/>
+							<end endx="200" endy="20"/>
+						</linePort>
+					</ports>
+				</graphics>
+				<logic>
+					<container/>
+					<properties>
+						<property displayedName="Comment" type="string" name="Comment">
+							<default>\"Enter some text here...\"</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Subprogram" name="Subprogram" description="Subprogram call. Subprograms are used for splitting repetitive program parts into a separate diagram and then calling it from main diagram or other subprograms. When this block is added into a diagram it will be suggested to enter subprogram name. The double click on subprogram call block may open the corresponding subprogram diagram. Moreover user palette will appear containing existing subrpograms, they can be dragged into a diagram like the usial blocks.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/subprogramBlock.svg" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" textBinded="name" hard="true"/>
+					</labels>
+					<nonResizeable/>
+				</graphics>
+				<logic>
+					<container/>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+					<explodesTo>
+						<target type="SubprogramDiagramGroup" makeReusable="true" requireImmediateLinkage="true"/>
+					</explodesTo>
+				</logic>
+			</node>
+			<node displayedName="Variable Initialization" name="VariableInit" description="Assignes a given value to a given variable.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/variableInitBlock.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="33" y="60" textBinded="variable" background="white"/>
+						<label x="-60" y="60" text="Variable:"/>
+						<label x="33" y="80" textBinded="value" background="white"/>
+						<label x="-65" y="80" text="Value:"/>
+					</labels>
+					<nonResizeable/>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Variable" type="string" name="variable">
+							<default>x</default>
+						</property>
+						<property displayedName="Value" type="string" name="value">
+							<default>0</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+					<container/>
+				</logic>
+			</node>
+			<node displayedName="Initial Node" name="InitialNode" path="210, 111 : 209, 120 : 208, 130 : 205, 139 : 202, 148 : 198, 157 : 193, 166 : 187, 173 : 181, 181 : 173, 187 : 166, 193 : 157, 198 : 148, 202 : 139, 205 : 130, 208 : 120, 209 : 111, 209 : 102, 209 : 92, 208 : 83, 205 : 74, 202 : 65, 198 : 56, 193 : 49, 187 : 41, 181 : 35, 173 : 29, 166 : 24, 157 : 20, 148 : 17, 139 : 14, 130 : 13, 120 : 13, 111 : 13, 102 : 14, 92 : 17, 83 : 20, 74 : 24, 65 : 29, 56 : 35, 49 : 41, 41 : 49, 35 : 56, 29 : 65, 24 : 74, 20 : 83, 17 : 92, 14 : 102, 13 : 111, 13 : 120, 13 : 130, 14 : 139, 17 : 148, 20 : 157, 24 : 166, 29 : 173, 35 : 181, 41 : 187, 49 : 193, 56 : 198, 65 : 202, 74 : 205, 83 : 208, 92 : 209, 102 : 210, 111 : " description="The entry point of the program execution. Each diagram should have only one such block, it must not have incomming links and it must have only one outgoing link. The interpretation process starts from exactly this block.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/initialBlock.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels/>
+					<nonResizeable/>
+				</graphics>
+				<logic>
+					<container/>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<edge displayedName="Link" name="ControlFlow" description="For creating a link between two elements A and B you can just hover a mouse above A, press the right mouse button and (without releasing it) draw a line to the element B. Alternatively you can just 'pull' a link from a small blue circle next to the element.">
+				<graphics>
+					<lineType type="solidLine"/>
+					<shape type="broken"/>
+					<labels>
+						<label textBinded="Guard" hard="true"/>
+					</labels>
+				</graphics>
+				<logic>
+					<associations endType="open_arrow" beginType="no_arrow">
+						<association beginName="begin" endName="end"/>
+					</associations>
+					<possibleEdges>
+						<possibleEdge beginName="NonTyped" directed="false" endName="NonTyped"/>
+					</possibleEdges>
+					<properties>
+						<property displayedName="Guard" type="GuardType" name="Guard"/>
+					</properties>
+					<dividability isDividable="true"/>
+				</logic>
+			</edge>
+			<node displayedName="Loop" name="Loop" path="154, 251 : 205, 302 :  | 154, 251 : 209, 196 :  | 100, 12 : 154, 66 :  | 154, 66 : 103, 117 :  | 12, 66 : 297, 66 : 297, 251 : 12, 251 : 12, 66 : " description="This block executes a sequence of blocks for a given number of times. The number of repetitions is specified by the 'Iterations' parameter. This block must have two outgoing links. One of them must be marked with the 'iteration' guard (that means that the property 'Guard' of the link must be set to 'iteration' value). Another outgoing link must be unmarked: the program execution will be proceeded through this link when it will go through our 'Loop' block for the given number of times.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/loopBlock.svg" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="40" y="-30" textBinded="Iterations" hard="true" background="white"/>
+						<label x="-30" y="-30" text="Iterations:" hard="true"/>
+					</labels>
+					<nonResizeable/>
+				</graphics>
+				<logic>
+					<container/>
+					<properties>
+						<property displayedName="Iterations" type="string" name="Iterations">
+							<default>10</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Fork" name="Fork" path="13, 86 : 231, 86 :  | 12, 12 : 231, 12 : " description="Separates program execution into a number of threads that will be executed concurrently from the programmers`s point of view. For example in such way signal from sensor and some time interval can be waited synchroniously. This block must have at least two outgoing links.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/forkBlock.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels/>
+					<nonResizeable/>
+				</graphics>
+				<logic>
+					<container/>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Function" name="Function" path="58, 12 : 58, 172 :  | 58, 12 : 148, 12 :  | 12, 96 : 108, 96 : " description="Evaluates a value of the given expression. Also new variables can be defined in this block. See the 'Expressions Syntax' chapter in help for more information about 'Function' block syntax.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/functionBlock.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-37" y="60" text="Body:"/>
+						<label x="30" y="60" textBinded="Body" background="white"/>
+					</labels>
+					<nonResizeable/>
+				</graphics>
+				<logic>
+					<container/>
+					<properties>
+						<property displayedName="Body" type="string" name="Body"/>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Condition" name="IfBlock" path="96, 182 : 180, 94 :  | 98, 12 : 180, 94 :  | 12, 98 : 96, 182 :  | 98, 12 : 12, 98 : " description="Separates program execution in correspondece with the given condition. The 'Condition' parameter value must be some boolean expression that will determine subsequent program execution line. This block must have two outgoing links, at least one of them must have 'Guard' parameter set to 'true' or 'false'. The execution will be proceed trough the link marked with the guard corresponding to 'Condition' parameter of the block.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/ifBlock.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="40" y="60" textBinded="Condition" background="white"/>
+						<label x="-25" y="60" text="Condition:"/>
+					</labels>
+					<nonResizeable/>
+				</graphics>
+				<logic>
+					<container/>
+					<properties>
+						<property displayedName="Condition" type="string" name="Condition">
+							<default>0</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Switch" name="SwitchBlock" description="Selects the program execution branch in correspondence with some expression value. The value of the expression written in 'Expression' property is compared to the values on the outgoing links. If equal value is found then execution will be proceeded by that branch. Else branch without a marker will be selected.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/switchBlock.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="50" y="60" textBinded="Expression" background="white"/>
+						<label x="-25" y="60" text="Expression:"/>
+					</labels>
+					<nonResizeable/>
+				</graphics>
+				<logic>
+					<container/>
+					<properties>
+						<property displayedName="Expression" type="string" name="Expression">
+							<default>0</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+
+			<!-- User action algorithms. -->
+			<node displayedName="Hint" name="HintMessage" description="Shows hint message as fading widget on target widget for specified duration.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Show hint" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Message" background="white"/>
+						<label x="-50" y="60" text="Message:"/>
+						<label x="50" y="80" textBinded="Parent" background="white"/>
+						<label x="-50" y="80" text="Parent:"/>
+						<label x="50" y="100" textBinded="Duration" background="white"/>
+						<label x="-50" y="100" text="Duration:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Message" type="string" name="Message">
+							<default></default>
+						</property>
+						<property displayedName="Parent" type="string" name="Parent">
+							<default>MainWindow</default>
+						</property>
+						<property displayedName="Duration" type="int" name="Duration">
+							<default>1000</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Arrow" name="ArrowWidget" description="Shows an arrow as fading widget to target widget for specified duration, parent and angle.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Arrow" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Target" background="white"/>
+						<label x="-50" y="60" text="Target:"/>
+						<label x="50" y="80" textBinded="Angle" background="white"/>
+						<label x="-50" y="80" text="Angle:"/>
+						<label x="50" y="100" textBinded="Parent" background="white"/>
+						<label x="-50" y="100" text="Parent:"/>
+						<label x="50" y="120" textBinded="Duration" background="white"/>
+						<label x="-50" y="120" text="Duration:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Target" type="string" name="Target">
+							<default></default>
+						</property>
+						<property displayedName="Angle" type="int" name="Angle">
+							<default>45</default>
+						</property>
+						<property displayedName="Parent" type="string" name="Parent">
+							<default>MainWindow</default>
+						</property>
+						<property displayedName="Duration" type="int" name="Duration">
+							<default>1000</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Drag palette element" name="DragPaletteElement" description="Drags target palette element to scene by id for specified duration and coordinates">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Drag palette element" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="PaletteElementId" background="white"/>
+						<label x="-50" y="60" text="Palette element id:"/>
+						<label x="50" y="80" textBinded="XCoord" background="white"/>
+						<label x="-50" y="80" text="X coordinate:"/>
+						<label x="50" y="100" textBinded="YCoord" background="white"/>
+						<label x="-50" y="100" text="Y coordinate:"/>
+						<label x="50" y="120" textBinded="IdVar" background="white"/>
+						<label x="-50" y="120" text="IdVariable:"/>
+						<label x="50" y="140" textBinded="Duration" background="white"/>
+						<label x="-50" y="140" text="Duration:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Palette element id" type="string" name="PaletteElementId">
+							<default></default>
+						</property>
+						<property displayedName="X coordinate" type="int" name="XCoord">
+							<default>100</default>
+						</property>
+						<property displayedName="Y coordinate" type="int" name="YCoord">
+							<default>100</default>
+						</property>
+						<property displayedName="IdVariable" type="string" name="IdVar">
+							<default></default>
+						</property>
+						<property displayedName="Duration" type="int" name="Duration">
+							<default>1000</default>
+						</property>	
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Draw link between elements" name="DrawLink" description="Draws line between two elements, targeted by id, on scene.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Draw link between elements" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="FromElementId" background="white"/>
+						<label x="-50" y="60" text="From element id:"/>
+						<label x="50" y="80" textBinded="ToElementId" background="white"/>
+						<label x="-50" y="80" text="To element id:"/>
+						<label x="50" y="100" textBinded="Duration" background="white"/>
+						<label x="-50" y="100" text="Duration:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="From element id" type="string" name="FromElementId">
+							<default></default>
+						</property>
+						<property displayedName="To element id" type="string" name="FromElementId">
+							<default></default>
+						</property>
+						<property displayedName="Duration" type="int" name="Duration">
+							<default>1000</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Wait" name="Wait" description="Event loop for duration.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Wait" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Duration" background="white"/>
+						<label x="-50" y="60" text="Duration:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Duration" type="int" name="Duration">
+							<default>1000</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Change window" name="ChangeWindow" description="Changes a parent widget of a virtual cursor.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Change window" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Window" background="white"/>
+						<label x="-50" y="60" text="Window:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Window" type="string" name="Window">
+							<default></default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Pick comboBox item" name="PickComboBox" description="Picks a targeted element in the targeted combobox.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Pick combo box" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="ComboBox" background="white"/>
+						<label x="-50" y="60" text="Combo box:"/>
+						<label x="50" y="80" textBinded="ItemName" background="white"/>
+						<label x="-50" y="80" text="Item Name:"/>
+						<label x="50" y="100" textBinded="Duration" background="white"/>
+						<label x="-50" y="100" text="Duration:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Combo box" type="string" name="ComboBox">
+							<default></default>
+						</property>
+						<property displayedName="Item name" type="string" name="ItemName">
+							<default></default>
+						</property>
+						<property displayedName="Duration" type="int" name="Duration">
+							<default>1000</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Scroll" name="Scroll" description="Scrolls a slider to make targeted widget visible.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Scroll" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="ScrollArea" background="white"/>
+						<label x="-50" y="60" text="Scroll area:"/>
+						<label x="50" y="80" textBinded="ItemName" background="white"/>
+						<label x="-50" y="80" text="Item name:"/>
+						<label x="50" y="100" textBinded="Duration" background="white"/>
+						<label x="-50" y="100" text="Duration:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Scroll area" type="string" name="ScrollArea">
+							<default></default>
+						</property>
+						<property displayedName="Item name" type="string" name="ItemName">
+							<default></default>
+						</property>
+						<property displayedName="Duration" type="int" name="Duration">
+							<default>1000</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Cursor move to" name="CursorMoveTo" description="Moves virtual cursor to targeted widget for duration.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Cursor move to" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Target" background="white"/>
+						<label x="-50" y="60" text="Target:"/>
+						<label x="50" y="80" textBinded="XCoord" background="white"/>
+						<label x="-50" y="80" text="X coordinate:"/>
+						<label x="50" y="100" textBinded="YCoord" background="white"/>
+						<label x="-50" y="100" text="Y coordinate:"/>
+						<label x="50" y="120" textBinded="Duration" background="white"/>
+						<label x="-50" y="120" text="Duration:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Target" type="string" name="Target">
+							<default></default>
+						</property>
+						<property displayedName="Duration" type="int" name="Duration">
+							<default>1000</default>
+						</property>
+						<property displayedName="X coordinate" type="int" name="XCoord">
+							<default>100</default>
+						</property>
+						<property displayedName="Y coordinate" type="int" name="YCoord">
+							<default>100</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Mouse button press" name="MouseButtonPress" description="Posts mouse button event to widget.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Mouse button press" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Target" background="white"/>
+						<label x="-50" y="60" text="Target:"/>
+						<label x="50" y="80" textBinded="Button" background="white"/>
+						<label x="-50" y="80" text="Button:"/>
+						<label x="50" y="100" textBinded="Action" background="white"/>
+						<label x="-50" y="100" text="Action:"/>
+						<label x="50" y="120" textBinded="Delay" background="white"/>
+						<label x="-50" y="120" text="Delay:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Target" type="string" name="Target">
+							<default></default>
+						</property>
+						<property displayedName="Button" type="MouseButton" name="Button">
+							<default>left</default>
+						</property>
+						<property displayedName="Action" type="MouseAction" name="Action">
+							<default>press</default>
+						</property>
+						<property displayedName="Delay" type="int" name="Delay">
+							<default>1000</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Type" name="Type" description="Emulating keyboard: type message.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Type" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Message" background="white"/>
+						<label x="-50" y="60" text="Message:"/>
+						<label x="50" y="80" textBinded="Duration" background="white"/>
+						<label x="-50" y="80" text="Duration:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Message" type="string" name="Message">
+							<default></default>
+						</property>
+						<property displayedName="Duration" type="int" name="Duration">
+							<default>1000</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Get widget by name" name="Widget" description="Store widget with targeted name in variable.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Get widget" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Type" background="white"/>
+						<label x="-50" y="60" text="Type:"/>
+						<label x="50" y="80" textBinded="Name" background="white"/>
+						<label x="-50" y="80" text="Name:"/>
+						<label x="50" y="100" textBinded="StoreVar" background="white"/>
+						<label x="-50" y="100" text="Store variable:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Type" type="string" name="Type">
+							<default></default>
+						</property>
+						<property displayedName="Name" type="string" name="Name">
+							<default></default>
+						</property>
+						<property displayedName="Store variable" type="string" name="StoreVar">
+							<default></default>
+						</property>	
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Get plugin action tool button" name="PluginActionToolButton" description="Store in variable targeted plugin action tool button.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Get plugin action tool button" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Name" background="white"/>
+						<label x="-50" y="60" text="Name:"/>
+						<label x="50" y="80" textBinded="StoreVar" background="white"/>
+						<label x="-50" y="80" text="Store variable:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Name" type="string" name="Name">
+							<default></default>
+						</property>
+						<property displayedName="Store variable" type="string" name="StoreVar">
+							<default></default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Get property" name="Property" description="Store in variable targeted property widget.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Get property" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Name" background="white"/>
+						<label x="-50" y="60" text="Name:"/>
+						<label x="50" y="80" textBinded="StoreVar" background="white"/>
+						<label x="-50" y="80" text="Store variable:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Name" type="string" name="Name">
+							<default></default>
+						</property>
+						<property displayedName="Store variable" type="string" name="StoreVar">
+							<default></default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Get property rectangle" name="PropertyRectangle" description="Store in variable targeted property rectangle.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Get property rectagle" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Name" background="white"/>
+						<label x="-50" y="60" text="Name:"/>
+						<label x="50" y="80" textBinded="StoreVar" background="white"/>
+						<label x="-50" y="80" text="Store variable:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Name" type="string" name="Name">
+							<default></default>
+						</property>
+						<property displayedName="Store variable" type="string" name="StoreVar">
+							<default></default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Get draggable element" name="DraggableElement" description="Store in variable targeted draggable element.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Get plugin action tool button" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Name" background="white"/>
+						<label x="-50" y="60" text="Name:"/>
+						<label x="50" y="80" textBinded="StoreVar" background="white"/>
+						<label x="-50" y="80" text="Store variable:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Name" type="string" name="Name">
+							<default></default>
+						</property>
+						<property displayedName="Store variable" type="string" name="StoreVar">
+							<default></default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Evaluate expression for plugin" name="PluginExpression" description="Store in variable result of evaluating expression with ui facade of a targeted plugin.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Evaluate plugin expression" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Expression" background="white"/>
+						<label x="-50" y="60" text="Expression:"/>
+						<label x="50" y="80" textBinded="StoreVar" background="white"/>
+						<label x="-50" y="80" text="Store variable:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Expression" type="string" name="Expression">
+							<default></default>
+						</property>
+						<property displayedName="Store variable" type="string" name="StoreVar">
+							<default></default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+		</graphicTypes>
+
+		<!-- Заменить на свое. -->
+		<palette sorted="false">
+			<group name="Algorithms">
+				<element name="InitialNode"/>
+				<element name="FinalNode"/>
+				<element name="Function"/>
+				<element name="IfBlock"/>
+				<element name="SwitchBlock"/>
+				<element name="Loop"/>
+				<element name="Subprogram"/>
+				<element name="Fork"/>
+				<element name="VariableInit"/>
+				<element name="CommentBlock"/>
+			</group>
+			<group name="Virtual cursor">
+				<element name="MouseButtonPress"/>
+				<element name="CursorMoveTo"/>
+			</group>
+			<group name="Virtual keyboard">
+				<element name="Type"/>
+			</group>
+			<group name="API">
+				<element name="ChangeWindow"/>
+				<element name="PickComboBoxItem"/>
+				<element name="Wait"/>
+				<element name="Scroll"/>
+			</group>
+			<group name="Palette">
+				<element name="DragPaletteElement"/>
+			</group>
+			<group name="Scene">
+				<element name="DrawLink"/>
+			</group>
+			<group name="Hint">
+				<element name="HintMessage"/>
+				<element name="ArrowWidget"/>
+			</group>
+			<group name="Ui">
+				<element name="Widget"/>
+				<element name="PluginActionToolButton"/>
+				<element name="DraggableElement"/>
+				<element name="Property"/>
+				<element name="PropertyRectangle"/>
+			</group>
+			<group name="PluginUi">
+				<element name="PluginExpression"/>
+			</group>
+		</palette>
+	</diagram>
+</metamodel>
