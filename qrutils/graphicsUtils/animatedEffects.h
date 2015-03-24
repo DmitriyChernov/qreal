@@ -18,6 +18,10 @@ public:
 
 	/// The given widget appear with opacity animation for duration.
 	static void appear(QWidget *widget, int duration);
+
+signals:
+	/// Emits when animation finished.
+	static void animationFinished();
 };
 
 }

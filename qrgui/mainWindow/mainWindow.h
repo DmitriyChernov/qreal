@@ -395,6 +395,7 @@ private:
 
 	gui::ScriptAPI mScriptAPI;
 	gui::Recorder mRecorder;
+	bool mIsRecording;
 };
 
 }

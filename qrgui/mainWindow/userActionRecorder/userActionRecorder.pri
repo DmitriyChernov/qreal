@@ -2,8 +2,10 @@ QT += script testlib
 
 HEADERS += \
 	$$PWD/recorder.h \
-	$$PWD/recordSign.h
+	$$PWD/recordSign.h \
+	$$PWD/widgetFinder.h
 
 SOURCES += \
-	$$PWD/recorder.сpp \
-	$$PWD/recordSign.cpp
+	$$PWD/recorder.cpp \
+	$$PWD/recordSign.cpp \
+	$$PWD/widgetFinder.cpp

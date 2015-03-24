@@ -2,8 +2,12 @@
 
 #include <QWidget>
 #include <QtCore/QEventLoop>
+#include <QtCore/QPropertyAnimation>
+#include <QtWidgets/QGraphicsOpacityEffect>
 
 namespace qReal {
+
+class MainWindow;
 
 namespace gui {
 
@@ -22,7 +26,11 @@ protected:
 	void paintEvent(QPaintEvent *);
 
 private:
-	QEventLoop mEventLoop;
+	void appear(int duration);
+	void disappear(int duration);
+
+	int mState;
+	QTimer *mTimer;
 };
 
 }

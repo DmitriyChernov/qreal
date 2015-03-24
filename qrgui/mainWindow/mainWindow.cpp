@@ -82,6 +82,7 @@ MainWindow::MainWindow(const QString &fileToOpen)
 	, mStartWidget(nullptr)
 	, mSceneCustomizer(new SceneCustomizer)
 	, mInitialFileToOpen(fileToOpen)
+	, mIsRecording(false)
 {
 	mUi->setupUi(this);
 	mUi->paletteTree->initMainWindow(this);
@@ -1931,8 +1932,6 @@ void MainWindow::initScriptAPI()
 {
 	QThread *scriptAPIthread = new QThread(this);
 	mScriptAPI.init(this);
-
-	QThread *userActionRecorderThread = new QThread(this);
 	mRecorder.init(this);
 
 	QAction *evalAction = new QAction(this);
@@ -1947,13 +1946,20 @@ void MainWindow::initScriptAPI()
 
 	mScriptAPI.moveToThread(scriptAPIthread);
 	scriptAPIthread->start();
-	mRecorder.moveToThread(userActionRecorderThread);
-	scriptAPIthread->start();
 }
 
 void MainWindow::startRecordingUserActions()
 {
-	mRecorder.start();
+	connect(static_cast<QRealApplication *>(qApp), &QRealApplication::lowLevelEvent
+			, &mRecorder, &Recorder::lowLevelEvent);
+	if (!mIsRecording)
+	{
+		mRecorder.start();
+		mIsRecording = !mIsRecording;
+	} else {
+		mRecorder.stop();
+		mIsRecording = !mIsRecording;
+	}
 }
 
 void MainWindow::beginPaletteModification()
