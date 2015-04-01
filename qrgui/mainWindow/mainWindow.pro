@@ -150,4 +150,3 @@ RESOURCES = $$PWD/mainWindow.qrc
 RC_FILE = $$PWD/mainWindow.rc
 
 include(scriptAPI/scriptAPI.pri)
-include(userActionRecorder/userActionRecorder.pri)

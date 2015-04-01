@@ -5,11 +5,7 @@
 #include <QtCore/QPropertyAnimation>
 #include <QtWidgets/QGraphicsOpacityEffect>
 
-namespace qReal {
-
-class MainWindow;
-
-namespace gui {
+namespace userAction {
 
 class RecordSign : public QWidget
 {
@@ -33,5 +29,4 @@ private:
 	QTimer *mTimer;
 };
 
-}
 }

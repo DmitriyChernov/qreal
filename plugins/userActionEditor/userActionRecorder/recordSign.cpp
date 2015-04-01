@@ -6,9 +6,7 @@
 
 #include <qrutils/graphicsUtils/animatedEffects.h>
 
-using namespace qReal;
-using namespace gui;
-using namespace graphicsUtils;
+using namespace userAction;
 
 RecordSign::RecordSign(QWidget *parent) :
 	QWidget(parent)
