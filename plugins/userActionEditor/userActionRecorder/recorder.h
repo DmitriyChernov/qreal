@@ -7,6 +7,7 @@
 #include <QtXml/QDomDocument>
 
 #include "recordSign.h"
+#include "fromXmlToScript.h"
 
 namespace userAction {
 
@@ -41,8 +42,10 @@ private:
 
 	QWidget *mMainWindow;
 	RecordSign *mRecordSign;
+	FromXmlToScript *mScriptGenerator;
 	QDomDocument mUserActioDomDocument;
 	QDomElement mRootElement;
+	qReal::Id mRecordElementId;
 
 	bool mIsRecording;
 };

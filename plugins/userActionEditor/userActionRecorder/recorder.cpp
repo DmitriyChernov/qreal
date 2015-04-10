@@ -12,14 +12,15 @@ Id const startingElementType = Id("userActionEditor", "userActionDiagram", "Init
 
 UserActionRecorderPlugin::UserActionRecorderPlugin()
 	: QObject()
-	, mMainWindow(nullptr)
-	, mRecordSign(nullptr)
 	, mStartAction(new QAction(this))
 	, mStopAction(new QAction(this))
+	, mMainWindow(nullptr)
+	, mRecordSign(nullptr)
+	, mScriptGenerator(nullptr)
 	, mIsRecording(false)
 {
-	mStartAction->setShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F11));
-	mStopAction->setShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F12));
+	mStartAction->setShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F9));
+	mStopAction->setShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F10));
 }
 
 void UserActionRecorderPlugin::init(PluginConfigurator const &configurator)
@@ -29,33 +30,34 @@ void UserActionRecorderPlugin::init(PluginConfigurator const &configurator)
 
 	connect(mStartAction, &QAction::triggered
 			, [configurator, this]() {
-				connect(&configurator.systemEvents(), &SystemEvents::lowLevelEvent
-						, this, &UserActionRecorderPlugin::lowLevelEvent);
-
-				qDebug()<<configurator.logicalModelApi().
-				IdList ids = configurator.logicalModelApi().children(configurator.logicalModelApi().rootId());
-
-				int size = ids.size();
-				for (int i = 0; i < size; i++) {
-					qDebug()<<ids.at(i);
-				}
-				this->start();
-			});
+		connect(&configurator.systemEvents(), &SystemEvents::lowLevelEvent
+				, this, &UserActionRecorderPlugin::lowLevelEvent);
+		this->start();
+	});
 
 	connect(mStopAction, &QAction::triggered
 			, [configurator, this]() {
-				disconnect(&configurator.systemEvents(), &SystemEvents::lowLevelEvent
-						, this, &UserActionRecorderPlugin::lowLevelEvent);
-				this->stop();
-			});
+		disconnect(&configurator.systemEvents(), &SystemEvents::lowLevelEvent
+				, this, &UserActionRecorderPlugin::lowLevelEvent);
+		qDebug()<<mRecordElementId.toString();
+		if (mRecordElementId.toString() != "qrm:/") {
+			configurator.logicalModelApi().setPropertyByRoleName(mRecordElementId, mUserActioDomDocument.toString(), "UserActions");
+		}
+	});
 
-	//Id recordBlock = configurator.logicalModelApi().createElement(configurator.logicalModelApi().rootId(), );
-
-	//Id const newId = Id(newEditor, changeToId.diagram(), changeToId.element(), QUuid::createUuid().toString());
-	//Id const newElementId = mGraphicalModelApi.createElement(parentId, newId,
+	connect(&configurator.systemEvents(), &qReal::SystemEvents::logicalElementAdded
+			, [this](qReal::Id const &id) {
+		if (id.diagram() == "UserActionDiagram"
+				&& id.editor() == "UserActionEditor"
+				&& id.element() == "Record") {
+			mRecordElementId = id;
+		}
+	});
 
 	mRecordSign = new RecordSign(configurator.mainWindowInterpretersInterface().windowWidget());
 	mRecordSign->hide();
+
+	mScriptGenerator = new FromXmlToScript();
 }
 
 void UserActionRecorderPlugin::start()
@@ -69,10 +71,9 @@ void UserActionRecorderPlugin::stop()
 {
 	mRecordSign->hide();
 	//mRecordSign->stop();
-
-	OutFile userActionXml("userAction.xml");
 	mUserActioDomDocument.appendChild(mRootElement);
-	userActionXml() << mUserActioDomDocument.toString();
+
+	mScriptGenerator->generateScript(mUserActioDomDocument.toString());
 }
 
 void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)

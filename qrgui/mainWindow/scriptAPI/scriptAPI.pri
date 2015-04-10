@@ -1,4 +1,4 @@
-QT += script testlib
+QT += script testlib core
 
 HEADERS += \
 	$$PWD/scriptAPI.h \
@@ -9,7 +9,8 @@ HEADERS += \
 	$$PWD/paletteAPI.h \
 	$$PWD/hintAPI.h \
 	$$PWD/virtualKeyboard.h \
-	$$PWD/sceneAPI.h
+	$$PWD/sceneAPI.h \
+	$$PWD/fromXmlToScript.h
 
 SOURCES += \
 	$$PWD/scriptAPI.cpp \
@@ -20,4 +21,5 @@ SOURCES += \
 	$$PWD/paletteAPI.cpp \
 	$$PWD/hintAPI.cpp \
 	$$PWD/virtualKeyboard.cpp \
-	$$PWD/sceneAPI.cpp
+	$$PWD/sceneAPI.cpp \
+	$$PWD/fromXmlToScript.cpp

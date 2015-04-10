@@ -92,8 +92,8 @@ private:
 	SceneAPI *mSceneAPI;
 	PaletteAPI *mPaletteAPI;
 	HintAPI *mHintAPI;
-
 	MainWindow *mMainWindow;
+
 	QScriptEngine mScriptEngine;
 	QEventLoop mEventLoop;
 };
