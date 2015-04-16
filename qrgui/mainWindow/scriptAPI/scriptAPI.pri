@@ -10,7 +10,6 @@ HEADERS += \
 	$$PWD/hintAPI.h \
 	$$PWD/virtualKeyboard.h \
 	$$PWD/sceneAPI.h \
-	$$PWD/fromXmlToScript.h
 
 SOURCES += \
 	$$PWD/scriptAPI.cpp \
@@ -22,4 +21,3 @@ SOURCES += \
 	$$PWD/hintAPI.cpp \
 	$$PWD/virtualKeyboard.cpp \
 	$$PWD/sceneAPI.cpp \
-	$$PWD/fromXmlToScript.cpp

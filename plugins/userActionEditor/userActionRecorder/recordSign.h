@@ -25,8 +25,8 @@ private:
 	void appear(int duration);
 	void disappear(int duration);
 
-	int mState;
 	QTimer *mTimer;
+	int mState;
 };
 
 }

@@ -6,7 +6,7 @@
 #include <QtWidgets/QWidget>
 #include <QtXml/QDomDocument>
 
-#include "recordSign.h"
+#include "recordShell.h"
 #include "fromXmlToScript.h"
 
 namespace userAction {
@@ -33,6 +33,7 @@ public:
 
 public slots:
 	void lowLevelEvent(QObject *obj, QEvent *e);
+	void addHintEvent(QString const &hint);
 
 private:
 	void addParentChain(QDomElement *event, QWidget *widget);
@@ -40,8 +41,7 @@ private:
 	QAction *mStartAction;  // Transfers ownership to QObject parent-child system
 	QAction *mStopAction;  // Transfers ownership to QObject parent-child system
 
-	QWidget *mMainWindow;
-	RecordSign *mRecordSign;
+	RecordShell *mRecordShell;
 	FromXmlToScript *mScriptGenerator;
 	QDomDocument mUserActioDomDocument;
 	QDomElement mRootElement;

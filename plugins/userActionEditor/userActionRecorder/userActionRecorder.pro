@@ -1,6 +1,6 @@
 include(../../../global.pri)
 
-QT += xml widgets
+QT += xml widgets core
 
 TEMPLATE = lib
 CONFIG += plugin
@@ -19,11 +19,13 @@ HEADERS += \
 	$$PWD/recordSign.h \
 	$$PWD/widgetFinder.h \
 	$$PWD/fromXmlToScript.h\
-	$$PWD/blocks/recordBlock.h
+	$$PWD/blocks/recordBlock.h \
+    recordShell.h
 
 SOURCES += \
 	$$PWD/recorder.cpp \
 	$$PWD/recordSign.cpp \
 	$$PWD/widgetFinder.cpp \
 	$$PWD/fromXmlToScript.cpp\
-	$$PWD/blocks/recordBlock.cpp
+	$$PWD/blocks/recordBlock.cpp \
+    recordShell.cpp

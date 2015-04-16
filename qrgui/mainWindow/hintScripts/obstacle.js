@@ -1,6 +1,6 @@
 var mainWindow = api.ui().mainWindow();
 api.changeWindow(mainWindow);
-api.hints().addHint("Добро пожаловать в среду визуального программирования QReal:Robots!", 1300, mainWindow);//api.hints() -> 'ui'
+api.hints().addHint("Добро пожаловать в среду визуального программирования QReal:Robots!", 1300, mainWindow);
 api.wait(1500);
 api.hints().addHint("Сейчас мы нарисуем одну диаграмму за вас, чтобы показать, как все работает.", 1300, mainWindow);
 api.wait(1500);

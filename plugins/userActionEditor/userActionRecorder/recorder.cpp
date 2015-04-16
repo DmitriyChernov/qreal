@@ -1,6 +1,9 @@
 #include "recorder.h"
 
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QLayout>
 
 #include <qrutils/outFile.h>
 
@@ -14,8 +17,7 @@ UserActionRecorderPlugin::UserActionRecorderPlugin()
 	: QObject()
 	, mStartAction(new QAction(this))
 	, mStopAction(new QAction(this))
-	, mMainWindow(nullptr)
-	, mRecordSign(nullptr)
+	, mRecordShell(nullptr)
 	, mScriptGenerator(nullptr)
 	, mIsRecording(false)
 {
@@ -26,7 +28,7 @@ UserActionRecorderPlugin::UserActionRecorderPlugin()
 void UserActionRecorderPlugin::init(PluginConfigurator const &configurator)
 {
 	connect(mStartAction, &QAction::triggered, this, &UserActionRecorderPlugin::start);
-	connect(mStopAction, &QAction::triggered, this, &UserActionRecorderPlugin::stop);\
+	connect(mStopAction, &QAction::triggered, this, &UserActionRecorderPlugin::stop);
 
 	connect(mStartAction, &QAction::triggered
 			, [configurator, this]() {
@@ -39,7 +41,6 @@ void UserActionRecorderPlugin::init(PluginConfigurator const &configurator)
 			, [configurator, this]() {
 		disconnect(&configurator.systemEvents(), &SystemEvents::lowLevelEvent
 				, this, &UserActionRecorderPlugin::lowLevelEvent);
-		qDebug()<<mRecordElementId.toString();
 		if (mRecordElementId.toString() != "qrm:/") {
 			configurator.logicalModelApi().setPropertyByRoleName(mRecordElementId, mUserActioDomDocument.toString(), "UserActions");
 		}
@@ -54,22 +55,23 @@ void UserActionRecorderPlugin::init(PluginConfigurator const &configurator)
 		}
 	});
 
-	mRecordSign = new RecordSign(configurator.mainWindowInterpretersInterface().windowWidget());
-	mRecordSign->hide();
+	mRecordShell = new RecordShell(configurator.mainWindowInterpretersInterface().windowWidget());
+	connect(mRecordShell, &RecordShell::hintAdded, this, &UserActionRecorderPlugin::addHintEvent);
 
 	mScriptGenerator = new FromXmlToScript();
 }
 
 void UserActionRecorderPlugin::start()
 {
-	mRecordSign->show();
+	mUserActioDomDocument.clear();
+	mRecordShell->show();
 	//mRecordSign->animate();
 	mRootElement = mUserActioDomDocument.createElement("UserActions");
 }
 
 void UserActionRecorderPlugin::stop()
 {
-	mRecordSign->hide();
+	mRecordShell->hide();
 	//mRecordSign->stop();
 	mUserActioDomDocument.appendChild(mRootElement);
 
@@ -91,13 +93,13 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 		QString button;
 		switch(event->button()){
 			case Qt::LeftButton:
-				button = "Left";
+				button = "left";
 				break;
 			case Qt::RightButton:
-				button = "Right";
+				button = "right";
 				break;
 			case Qt::MidButton:
-				button = "Mid";
+				button = "mid";
 				break;
 			default:
 				return;
@@ -161,6 +163,16 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 	mRootElement.appendChild(eventTag);
 }
 
+void UserActionRecorderPlugin::addHintEvent(QString const &hint)
+{
+	QDomElement hintEvent = mUserActioDomDocument.createElement("Event");
+
+	hintEvent.setAttribute("Type", "Hint");
+	hintEvent.setAttribute("Message", hint);
+
+	mRootElement.appendChild(hintEvent);
+}
+
 void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widget)
 {
 	QWidget *parentWidget = widget->parentWidget();
@@ -175,7 +187,7 @@ void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widge
 
 UserActionRecorderPlugin::~UserActionRecorderPlugin()
 {
-	delete mRecordSign;
+	delete mRecordShell;
 }
 
 

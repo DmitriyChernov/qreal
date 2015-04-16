@@ -15,5 +15,10 @@ public:
 public slots:
 	void generateScript(QString const &xml);
 
+private:
+	QString generateMouseCommand(QString const &action, QString const &button, QString const &var) const;
+
+	QString mMousePressRecieverName;
+	QString mActiveWindow;
 };
 }
