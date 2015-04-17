@@ -2,6 +2,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#include <QtXml/QDomNodeList>
 
 namespace userAction {
 
@@ -17,8 +18,16 @@ public slots:
 
 private:
 	QString generateMouseCommand(QString const &action, QString const &button, QString const &var) const;
+	//QString const findPithyParent(QDomNodeList const &parents) const;
+	int findPithyParent(QDomNodeList const &parents) const;
+
+	//QMap draggableElements;
 
 	QString mMousePressRecieverName;
 	QString mActiveWindow;
+	QString mDraggingElement;
+
+	int mSceneElementVariables;
+	bool mIsDragFromPalette;
 };
 }

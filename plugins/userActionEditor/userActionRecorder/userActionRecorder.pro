@@ -20,7 +20,7 @@ HEADERS += \
 	$$PWD/widgetFinder.h \
 	$$PWD/fromXmlToScript.h\
 	$$PWD/blocks/recordBlock.h \
-    recordShell.h
+	$$PWD/recordShell.h \
 
 SOURCES += \
 	$$PWD/recorder.cpp \
@@ -28,4 +28,4 @@ SOURCES += \
 	$$PWD/widgetFinder.cpp \
 	$$PWD/fromXmlToScript.cpp\
 	$$PWD/blocks/recordBlock.cpp \
-    recordShell.cpp
+	$$PWD/recordShell.cpp \

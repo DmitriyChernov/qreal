@@ -179,7 +179,7 @@ void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widge
 	while (parentWidget) {
 		QDomElement par = mUserActioDomDocument.createElement("Parent");
 		par.setAttribute("Type", parentWidget->metaObject()->className());
-		par.setAttribute("Object_name", parentWidget->objectName());
+		par.setAttribute("ObjectName", parentWidget->objectName());
 		event->appendChild(par);
 		parentWidget = parentWidget->parentWidget();
 	}

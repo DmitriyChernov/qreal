@@ -17,7 +17,7 @@ QString PaletteAPI::dragPaletteElement(QString const &paletteElementId, int cons
 		, int const xSceneCoord, int const ySceneCoord)
 {
 	DraggableElement *paletteElement = mScriptAPI->guiFacade()->draggableElement(paletteElementId);
-	QWidget const *target = paletteElement->parentWidget();
+	QWidget const *target = paletteElement->parentWidget()->parentWidget();
 
 	mScriptAPI->virtualCursor()->moveTo(target, duration / 2);
 

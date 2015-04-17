@@ -20,7 +20,7 @@
 #include "view/d2ModelScene.h"
 #include "view/robotItem.h"
 
-#include "commonTwoDModel/engine/twoDModelGuiFacade.h"
+#include "twoDModel/engine/twoDModelGuiFacade.h"
 
 using namespace twoDModel;
 using namespace kitBase::robotModel;

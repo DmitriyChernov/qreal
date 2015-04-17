@@ -16,6 +16,7 @@ HEADERS += \
 	$$PWD/include/twoDModel/engine/twoDModelEngineFacade.h \
 	$$PWD/include/twoDModel/engine/twoDModelEngineInterface.h \
 	$$PWD/include/twoDModel/engine/view/d2ModelWidget.h \
+	$$PWD/include/twoDModel/engine/twoDModelGuiFacade.h\
 	$$PWD/include/twoDModel/robotModel/twoDRobotModel.h \
 	$$PWD/include/twoDModel/robotModel/parts/button.h \
 	$$PWD/include/twoDModel/robotModel/parts/colorSensorBlue.h \
@@ -77,7 +78,6 @@ HEADERS += \
 SOURCES += \
 	$$PWD/src/engine/twoDModelEngineFacade.cpp \
 	$$PWD/src/engine/twoDModelEngineApi.cpp \
-	$$PWD/src/engine/twoDModelGuiFacade.cpp \
 	$$PWD/src/engine/view/d2ModelWidget.cpp \
 	$$PWD/src/engine/view/d2ModelScene.cpp \
 	$$PWD/src/engine/view/robotItem.cpp \
@@ -111,6 +111,7 @@ SOURCES += \
 	$$PWD/src/engine/constraints/details/conditionsFactory.cpp \
 	$$PWD/src/engine/constraints/details/triggersFactory.cpp \
 	$$PWD/src/engine/constraints/details/valuesFactory.cpp \
+	$$PWD/src/engine/twoDModelGuiFacade.cpp\
 	$$PWD/src/robotModel/twoDRobotModel.cpp \
 	$$PWD/src/robotModel/parts/button.cpp \
 	$$PWD/src/robotModel/parts/colorSensorBlue.cpp \

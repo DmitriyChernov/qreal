@@ -9,6 +9,10 @@
 #include "interpreterCore/managers/kitAutoSwitcher.h"
 #include "src/managers/exerciseExportManager.h"
 
+#include "twoDModel/robotModel/twoDRobotModel.h"
+#include "twoDModel/engine/twoDModelEngineInterface.h"
+#include "twoDModel/engine/twoDModelGuiFacade.h"
+
 using namespace interpreterCore;
 
 RobotsPluginFacade::RobotsPluginFacade()

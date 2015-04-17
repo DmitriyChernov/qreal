@@ -33,6 +33,8 @@ public:
 	QList<kitBase::robotModel::DeviceInfo> convertibleBases() const override;
 	int priority() const override;
 
+	engine::TwoDModelEngineInterface *engine();
+
 	/// Configures 2D model window`s engine for using it in 2D model devices emulators.
 	void setEngine(engine::TwoDModelEngineInterface &engine);
 
@@ -82,8 +84,6 @@ public:
 	}
 
 protected:
-	engine::TwoDModelEngineInterface *engine();
-
 	kitBase::robotModel::robotParts::Device *createDevice(
 			const kitBase::robotModel::PortInfo &port
 			, const kitBase::robotModel::DeviceInfo &deviceInfo

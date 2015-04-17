@@ -18,13 +18,13 @@ public:
 	explicit RecordShell(QWidget *parent = 0);
 
 signals:
-	void hintAdded();
+	void hintAdded(QString const &message);
 
 private slots:
 	void addHintEvent();
 
 private:
-	QVBoxLayout *mLayout;
+	QHBoxLayout *mLayout;
 	QPushButton *mAddHint;
 	QTextEdit *mHint;
 	RecordSign *mRecordSign;

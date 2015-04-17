@@ -11,7 +11,7 @@
 
 namespace userAction {
 
-class RecorderSign;
+//class RecordShell;
 
 class UserActionRecorderPlugin : public QObject, public qReal::ToolPluginInterface
 {

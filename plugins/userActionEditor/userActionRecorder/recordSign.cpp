@@ -13,11 +13,7 @@ RecordSign::RecordSign(QWidget *parent) :
 	, mTimer(new QTimer)
 	, mState(0)
 {
-	setWindowFlags(Qt::WindowStaysOnTopHint);
-	raise();
-	show();
-	setFixedSize(200, 200);
-	move(QPoint(50,50));
+	setFixedSize(120, 120);
 
 	QPainter *painter = new QPainter(this);
 	QPen pen = painter->pen();

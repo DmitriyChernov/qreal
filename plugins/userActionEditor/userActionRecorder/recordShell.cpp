@@ -1,22 +1,18 @@
 #include "recordShell.h"
 
+#include <QDebug>
+
 using namespace userAction;
 
 RecordShell::RecordShell(QWidget *parent)
 	: QWidget(parent)
-	, mLayout(new QVBoxLayout(this))
+	, mLayout(new QHBoxLayout(this))
 	, mAddHint(new QPushButton(this))
 	, mHint(new QTextEdit(this))
 	, mRecordSign(new RecordSign(this))
 {
 	mAddHint->setText("Add hint message");
-	mAddHint->setFixedSize(30, 30);
-	mAddHint->raise();
-	mAddHint->show();
-	mHint->setFixedWidth(200);
 	mHint->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-	mHint->raise();
-	mHint->show();
 
 	mLayout->addWidget(mRecordSign);
 	mLayout->addWidget(mHint);
@@ -24,10 +20,17 @@ RecordShell::RecordShell(QWidget *parent)
 	setLayout(mLayout);
 
 	connect(mAddHint, &QPushButton::clicked, this, &RecordShell::addHintEvent);
+	setFixedSize(400, 100);
+	setWindowFlags(Qt::WindowStaysOnTopHint);
+	raise();
+	move(QPoint(10,10));
+
+	mAddHint->setObjectName("addHintButton");
+	mHint->setObjectName("hintTextEdit");
 }
 
 void RecordShell::addHintEvent()
 {
-	qDebug()<<mHint->placeholderText();
-	emit hintAdded(mHint->placeholderText());
+	mHint->clear();
+	emit hintAdded(mHint->toPlainText());
 }
