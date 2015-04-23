@@ -25,6 +25,10 @@ public:
 	/// Draws link on scene between element with fromElementId and toElementId.
 	Q_INVOKABLE void drawLink(QString const &fromElementId, QString const &toElementId, int const duration);
 
+	/// Draws link on scene between element with from coordinates and to coordinates.
+	Q_INVOKABLE void drawLink(int const &fromXcoord, int const &fromYcoord
+			, int const &toXcoord, int const &toYcoord, int const duration);
+
 	/// Returns list of nodes id from scene by diagram and element names.
 	Q_INVOKABLE QStringList nodeList(QString const &diagram, QString const &element);
 

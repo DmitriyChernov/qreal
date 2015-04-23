@@ -4,6 +4,8 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QLayout>
+#include <QtWidgets/QGraphicsSceneEvent>
+#include <QtCore/QMimeData>
 
 #include <qrutils/outFile.h>
 
@@ -56,7 +58,6 @@ void UserActionRecorderPlugin::init(PluginConfigurator const &configurator)
 	});
 
 	mRecordShell = new RecordShell(configurator.mainWindowInterpretersInterface().windowWidget());
-	connect(mRecordShell, &RecordShell::hintAdded, this, &UserActionRecorderPlugin::addHintEvent);
 
 	mScriptGenerator = new FromXmlToScript();
 }
@@ -82,8 +83,26 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 {
 	QDomElement eventTag = mUserActioDomDocument.createElement("Event");
 
-	if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::MouseButtonRelease)
-	{
+	if (obj->objectName() == "MainWindowUiWindow") {
+		return;
+	} else if (!QString::compare(obj->metaObject()->className(), "qReal::EditorViewScene")
+				&& e->type() == QEvent::GraphicsSceneDrop) {
+		QGraphicsSceneDragDropEvent* event = dynamic_cast<QGraphicsSceneDragDropEvent*>(e);
+		eventTag.setAttribute("Type", "Drop");
+		eventTag.setAttribute("RecieverType", "EditorViewScene");
+		eventTag.setAttribute("Xcoord", event->scenePos().x());
+		eventTag.setAttribute("Ycoord", event->scenePos().y());
+
+		QByteArray itemData = event->mimeData()->data("application/x-real-uml-data");
+		QDataStream inStream(&itemData, QIODevice::ReadOnly);
+		QString uuid;
+		inStream >> uuid;
+		const Id id = Id::loadFromString(uuid);
+		eventTag.setAttribute("Id","qrm:/"
+							  + id.editor() + "/"
+							  + id.diagram() + "/"
+							  + id.element());
+	} else if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::MouseButtonRelease) {
 		QMouseEvent* event = dynamic_cast<QMouseEvent*>(e);
 
 		eventTag.setAttribute("Type", "Mouse");
@@ -124,7 +143,7 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 		eventTag.setAttribute("Action", action);
 
 		if (obj->objectName() == "" && dynamic_cast<QWidget *>(obj)) {
-			addParentChain(&eventTag, dynamic_cast<QWidget *>(obj));
+			addParentChain(&eventTag, dynamic_cast<QWidget *>(obj), event);
 		}
 
 	} else if (e->type() == QEvent::KeyPress || e->type() == QEvent::KeyRelease){
@@ -173,13 +192,18 @@ void UserActionRecorderPlugin::addHintEvent(QString const &hint)
 	mRootElement.appendChild(hintEvent);
 }
 
-void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widget)
+void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widget, QMouseEvent *mouseEvent)
 {
 	QWidget *parentWidget = widget->parentWidget();
 	while (parentWidget) {
 		QDomElement par = mUserActioDomDocument.createElement("Parent");
 		par.setAttribute("Type", parentWidget->metaObject()->className());
 		par.setAttribute("ObjectName", parentWidget->objectName());
+		if (!QString::compare(parentWidget->metaObject()->className(), "qReal::EditorView")) {
+			par.setAttribute("Xcoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).x());
+			par.setAttribute("Ycoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).y());
+		}
+
 		event->appendChild(par);
 		parentWidget = parentWidget->parentWidget();
 	}

@@ -17,16 +17,7 @@ class RecordShell : public QWidget
 public:
 	explicit RecordShell(QWidget *parent = 0);
 
-signals:
-	void hintAdded(QString const &message);
-
-private slots:
-	void addHintEvent();
-
 private:
-	QHBoxLayout *mLayout;
-	QPushButton *mAddHint;
-	QTextEdit *mHint;
 	RecordSign *mRecordSign;
 
 };

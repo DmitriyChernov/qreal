@@ -41,6 +41,26 @@ void SceneAPI::drawLink(QString const &fromElementId, QString const &toElementId
 	}
 }
 
+void SceneAPI::drawLink(int const &fromXcoord, int const &fromYcoord
+		, int const &toXcoord, int const &toYcoord, int const duration)
+{
+	EditorView *sceneView = mMainWindow->getCurrentTab();
+
+	mScriptAPI->virtualCursor()->sceneMoveTo(sceneView->viewport()
+			, duration / 2
+			, fromXcoord
+			, fromYcoord);
+
+	mScriptAPI->virtualCursor()->rightButtonPress(sceneView->viewport());
+
+	mScriptAPI->virtualCursor()->sceneMoveTo(sceneView->viewport()
+			, duration / 2
+			, toXcoord
+			, toYcoord);
+
+	mScriptAPI->virtualCursor()->rightButtonRelease(sceneView->viewport(), 50);
+}
+
 QString SceneAPI::createBlockOnScene(DraggableElement const *paletteElement
 		, int const xSceneCoord, int const ySceneCoord)
 {

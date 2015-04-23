@@ -36,7 +36,7 @@ public slots:
 	void addHintEvent(QString const &hint);
 
 private:
-	void addParentChain(QDomElement *event, QWidget *widget);
+	void addParentChain(QDomElement *event, QWidget *widget, QMouseEvent *mouseEvent);
 
 	QAction *mStartAction;  // Transfers ownership to QObject parent-child system
 	QAction *mStopAction;  // Transfers ownership to QObject parent-child system

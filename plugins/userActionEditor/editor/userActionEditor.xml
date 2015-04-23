@@ -230,7 +230,7 @@
 			<node displayedName="Initial Node" name="InitialNode" path="210, 111 : 209, 120 : 208, 130 : 205, 139 : 202, 148 : 198, 157 : 193, 166 : 187, 173 : 181, 181 : 173, 187 : 166, 193 : 157, 198 : 148, 202 : 139, 205 : 130, 208 : 120, 209 : 111, 209 : 102, 209 : 92, 208 : 83, 205 : 74, 202 : 65, 198 : 56, 193 : 49, 187 : 41, 181 : 35, 173 : 29, 166 : 24, 157 : 20, 148 : 17, 139 : 14, 130 : 13, 120 : 13, 111 : 13, 102 : 14, 92 : 17, 83 : 20, 74 : 24, 65 : 29, 56 : 35, 49 : 41, 41 : 49, 35 : 56, 29 : 65, 24 : 74, 20 : 83, 17 : 92, 14 : 102, 13 : 111, 13 : 120, 13 : 130, 14 : 139, 17 : 148, 20 : 157, 24 : 166, 29 : 173, 35 : 181, 41 : 187, 49 : 193, 56 : 198, 65 : 202, 74 : 205, 83 : 208, 92 : 209, 102 : 210, 111 : " description="The entry point of the program execution. Each diagram should have only one such block, it must not have incomming links and it must have only one outgoing link. The interpretation process starts from exactly this block.">
 				<graphics>
 					<picture sizex="50" sizey="50">
-						<image y1="0" name="images/initialBlock.png" x1="0" y2="50" x2="50"/>
+						<image y1="0" name="images/initialBlock.svg" x1="0" y2="50" x2="50"/>
 					</picture>
 					<labels/>
 					<nonResizeable/>
@@ -439,7 +439,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Drag palette element" name="DragPaletteElement" description="Drags target palette element to scene by id for specified duration and coordinates">
+			<node displayedName="DragPaletteElement" name="DragPaletteElement" description="Drags target palette element to scene by id for specified duration and coordinates">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -481,7 +481,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Draw link between elements" name="DrawLink" description="Draws line between two elements, targeted by id, on scene.">
+			<node displayedName="DrawLink" name="DrawLink" description="Draws line between two elements, targeted by id, on scene.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -535,7 +535,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Change window" name="ChangeWindow" description="Changes a parent widget of a virtual cursor.">
+			<node displayedName="ChangeWindow" name="ChangeWindow" description="Changes a parent widget of a virtual cursor.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -557,7 +557,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Pick comboBox item" name="PickComboBox" description="Picks a targeted element in the targeted combobox.">
+			<node displayedName="PickComboBoxItem" name="PickComboBox" description="Picks a targeted element in the targeted combobox.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -621,7 +621,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Cursor move to" name="CursorMoveTo" description="Moves virtual cursor to targeted widget for duration.">
+			<node displayedName="CursorMoveTo" name="CursorMoveTo" description="Moves virtual cursor to targeted widget for duration.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -658,7 +658,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Mouse button press" name="MouseButtonPress" description="Posts mouse button event to widget.">
+			<node displayedName="MouseButtonPress" name="MouseButtonPress" description="Posts mouse button event to widget.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -722,7 +722,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Record user actions" name="Record" description="Recording user actions(informative low level events) into xml.">
+			<node displayedName="RecordUserActions" name="Record" description="Recording user actions(informative low level events) into xml.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -736,7 +736,7 @@
 				<logic>
 					<properties>
 						<property displayedName="User actions" type="string" name="UserActions">
-							<default></default>
+							<default></default>ти
 						</property>
 					</properties>
 					<generalizations>
@@ -744,7 +744,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Get widget by name" name="Widget" description="Store widget with targeted name in variable.">
+			<node displayedName="GetWidgetByName" name="Widget" description="Store widget with targeted name in variable.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -776,7 +776,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Get plugin action tool button" name="PluginActionToolButton" description="Store in variable targeted plugin action tool button.">
+			<node displayedName="GetPluginActionToolButton" name="PluginActionToolButton" description="Store in variable targeted plugin action tool button.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -803,7 +803,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Get property" name="Property" description="Store in variable targeted property widget.">
+			<node displayedName="GetProperty" name="Property" description="Store in variable targeted property widget.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -830,7 +830,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Get property rectangle" name="PropertyRectangle" description="Store in variable targeted property rectangle.">
+			<node displayedName="GetPropertyRectangle" name="PropertyRectangle" description="Store in variable targeted property rectangle.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -857,7 +857,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Get draggable element" name="DraggableElement" description="Store in variable targeted draggable element.">
+			<node displayedName="GetDraggableElement" name="DraggableElement" description="Store in variable targeted draggable element.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
@@ -884,7 +884,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Evaluate expression for plugin" name="PluginExpression" description="Store in variable result of evaluating expression with ui facade of a targeted plugin.">
+			<node displayedName="EvaluateExpressionForPlugin" name="PluginExpression" description="Store in variable result of evaluating expression with ui facade of a targeted plugin.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>

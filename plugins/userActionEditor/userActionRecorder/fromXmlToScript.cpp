@@ -27,36 +27,20 @@ void FromXmlToScript::generateScript(QString const &xml)
 		script() << "var mainWindow = api.ui().mainWindow();\n";
 		script() << "api.changeWindow(mainWindow);\n";
 
-
-		for (int i = 1; i < eventList.size(); i=i+2) {
+		for (int i = 0; i < eventList.size(); i++	) {
 			QDomElement event = eventList.at(i).toElement();
 			QString const recieverName = event.attributes().namedItem("RecieverName").nodeValue();
 			QString const recieverType = event.attributes().namedItem("RecieverType").nodeValue();
 			QString const eventType = event.attributes().namedItem("Type").nodeValue();
 			QString const eventAction = event.attributes().namedItem("Action").nodeValue();
 
-			qDebug()<<recieverName;
-			qDebug()<<eventList.at(i-1).toElement().attributes().namedItem("RecieverName").nodeValue();
+			if (eventType == "Drop" && recieverType == "EditorViewScene") {
+				QString const id = event.attributes().namedItem("Id").nodeValue();
+				QString const xcoord = event.attributes().namedItem("Xcoord").nodeValue();
+				QString const ycoord = event.attributes().namedItem("Ycoord").nodeValue();
 
-			if (eventType == "Hint") {
-				script() << "api.hints().addHint(\""
-							+ event.attributes().namedItem("Message").nodeValue()
-							+ "\", 1500, " + mActiveWindow + ");\n";
-				script() << "api.wait(1700)\n";
-			}
-
-			if (recieverName == "MainWindowUiWindow") {
-				if (eventAction == "Release") {
-//					script() << "var block"
-//								+ mSceneElementVariables
-//								+ " = api.palette().dragPaletteElement(\""
-//								+ event.attributes().namedItem("Message").nodeValue()
-//								+ "\", 1500, " + mActiveWindow + ");\n";
-					mIsDragFromPalette = false;
-				}
-
-				continue;
-			} else if (recieverName != "" && recieverType != "") {
+				script()<<generateDragCommand(id, mDraggingElement, xcoord, ycoord);
+			} else if (recieverName != "") {
 				script() << "var "
 						+ recieverName
 						+ " = api.ui().widget(\""
@@ -75,6 +59,7 @@ void FromXmlToScript::generateScript(QString const &xml)
 				}
 			} else {
 				QDomNodeList const parentList = event.elementsByTagName("Parent");
+
 				int const pithyParent = findPithyParent(parentList);
 
 				if (pithyParent == -1) {
@@ -87,6 +72,14 @@ void FromXmlToScript::generateScript(QString const &xml)
 					if (objectType == "qReal::gui::DraggableElement") {
 						mDraggingElement = objectName;
 						mIsDragFromPalette = true;
+						continue;
+					} else if (objectType == "qReal::EditorView") {
+						QString const sceneViewport = "sceneViewport";
+						QString const xcoord = parent.attributes().namedItem("Xcoord").nodeValue();
+						QString const ycoord = parent.attributes().namedItem("Ycoord").nodeValue();
+						script() << "var " + sceneViewport + " = api.ui().sceneViewport();\n";
+						script() << "api.cursor().sceneMoveTo(" + sceneViewport + ", 1000, " + xcoord + ", " + ycoord + ");\n";
+						script() << generateMouseCommand(eventAction, event.attributes().namedItem("Button").nodeValue(), sceneViewport);
 					}
 				}
 			}
@@ -104,6 +97,11 @@ QString FromXmlToScript::generateMouseCommand(QString const &action, QString con
 	return "api.cursor()." + button + "Button" + action + "(" + var + ");\n";
 }
 
+QString FromXmlToScript::generateDragCommand(QString const &id, QString const &var, QString const &xcoord, QString const &ycoord) const
+{
+	return "var " + var + " = api.palette().dragPaletteElement(\"" + id + "\", 500, " + xcoord + ", " + ycoord + ");\n";
+}
+
 int FromXmlToScript::findPithyParent(QDomNodeList const &parents) const
 {
 	for (int i = 0; i < parents.size(); i++) {
@@ -111,7 +109,8 @@ int FromXmlToScript::findPithyParent(QDomNodeList const &parents) const
 		QString const objectName = parent.attributes().namedItem("ObjectName").nodeValue();
 		QString const objectType = parent.attributes().namedItem("Type").nodeValue();
 
-		if (objectType == "qReal::gui::DraggableElement") {
+		if (objectType == "qReal::gui::DraggableElement"
+				|| objectType == "qReal::EditorView") {
 			return i;
 		}
 	}

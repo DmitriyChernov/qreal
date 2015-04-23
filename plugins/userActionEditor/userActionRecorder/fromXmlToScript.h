@@ -18,7 +18,8 @@ public slots:
 
 private:
 	QString generateMouseCommand(QString const &action, QString const &button, QString const &var) const;
-	//QString const findPithyParent(QDomNodeList const &parents) const;
+	QString generateDragCommand(QString const &id, QString const &var, QString const &xcoord, QString const &ycoord) const;
+
 	int findPithyParent(QDomNodeList const &parents) const;
 
 	//QMap draggableElements;
