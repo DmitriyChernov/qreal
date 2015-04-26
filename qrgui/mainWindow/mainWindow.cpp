@@ -82,6 +82,7 @@ MainWindow::MainWindow(const QString &fileToOpen)
 	, mSceneCustomizer(new SceneCustomizer)
 	, mInitialFileToOpen(fileToOpen)
 {
+	qDebug() << "gorh";
 	mUi->setupUi(this);
 	mUi->paletteTree->initMainWindow(this);
 	setWindowTitle("QReal");
