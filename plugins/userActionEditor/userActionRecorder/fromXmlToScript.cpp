@@ -2,8 +2,6 @@
 
 #include <QtXml/QDomDocument>
 
-#include <qrutils/outFile.h>
-
 #include <QDebug>
 
 using namespace userAction;
@@ -22,7 +20,7 @@ void FromXmlToScript::generateScript(QString const &xml)
 	if (events.setContent(xml)) {
 		QDomNodeList const eventList = events.elementsByTagName("Event");
 
-		utils::OutFile script("userActions.js");
+		OutFile script("userActions.js");
 		mActiveWindow = "mainWindow";
 		script() << "var mainWindow = api.ui().mainWindow();\n";
 		script() << "api.changeWindow(mainWindow);\n";
@@ -47,13 +45,7 @@ void FromXmlToScript::generateScript(QString const &xml)
 						+ recieverType + "\", \""
 						+ recieverName + "\");\n";
 				if (eventType == "Mouse") {
-					if (eventAction == "Press") {
-						mMousePressRecieverName = recieverName;
-						script() << "api.cursor().moveTo(" + recieverName + ", 500)\n";
-					} else if (eventAction == "Release" && recieverName != mMousePressRecieverName) {
-						script() << "api.cursor().moveTo(" + recieverName + ", 500);\n";
-					}
-					script() << generateMouseCommand(eventAction
+					script() << generateMouseAction(eventAction
 							, event.attributes().namedItem("Button").nodeValue()
 							, recieverName);
 				}
@@ -78,8 +70,36 @@ void FromXmlToScript::generateScript(QString const &xml)
 						QString const xcoord = parent.attributes().namedItem("Xcoord").nodeValue();
 						QString const ycoord = parent.attributes().namedItem("Ycoord").nodeValue();
 						script() << "var " + sceneViewport + " = api.ui().sceneViewport();\n";
-						script() << "api.cursor().sceneMoveTo(" + sceneViewport + ", 1000, " + xcoord + ", " + ycoord + ");\n";
-						script() << generateMouseCommand(eventAction, event.attributes().namedItem("Button").nodeValue(), sceneViewport);
+						script() << "api.cursor().sceneMoveTo("
+									+ sceneViewport
+									+ ", 1000, "
+									+ xcoord
+									+ ", "
+									+ ycoord
+									+ ");\n";
+
+						script() << generateMouseCommand(eventAction
+								, event.attributes().namedItem("Button").nodeValue()
+								, sceneViewport);
+					} else {
+						QString const objectName = parent.attributes().namedItem("ObjectName").nodeValue();
+
+						//script() << ;
+						QString cycleCommand = "";
+						cycleCommand += "for (var i = 0; i < ";
+						cycleCommand += parentList.size();
+						cycleCommand += "; i ++) \n{\n";
+						script() << cycleCommand;
+						script() << "var widget = api.ui().widgetByLayoutIndex("
+									+ event.attributes().namedItem("LayoutIndex").nodeValue()
+									+ "widget";
+						script() << "}\n";
+
+						if (eventType == "Mouse") {
+							script() << generateMouseAction(eventAction
+									, event.attributes().namedItem("Button").nodeValue()
+									, "widget");
+						}
 					}
 				}
 			}
@@ -97,9 +117,20 @@ QString FromXmlToScript::generateMouseCommand(QString const &action, QString con
 	return "api.cursor()." + button + "Button" + action + "(" + var + ");\n";
 }
 
-QString FromXmlToScript::generateDragCommand(QString const &id, QString const &var, QString const &xcoord, QString const &ycoord) const
+QString FromXmlToScript::generateDragCommand(QString const &id
+		, QString const &var
+		, QString const &xcoord
+		, QString const &ycoord) const
 {
-	return "var " + var + " = api.palette().dragPaletteElement(\"" + id + "\", 500, " + xcoord + ", " + ycoord + ");\n";
+	return "var "
+			+ var
+			+ " = api.palette().dragPaletteElement(\""
+			+ id
+			+ "\", 500, "
+			+ xcoord
+			+ ", "
+			+ ycoord
+			+ ");\n";
 }
 
 int FromXmlToScript::findPithyParent(QDomNodeList const &parents) const
@@ -116,4 +147,20 @@ int FromXmlToScript::findPithyParent(QDomNodeList const &parents) const
 	}
 
 	return -1;
+}
+
+QString FromXmlToScript::generateMouseAction(QString const &action, QString const &button, QString const &reciever)
+{
+	QString commands = "";
+	if (action == "Press") {
+		mMousePressRecieverName = reciever;
+		commands += "api.cursor().moveTo(" + reciever + ", 500)\n";
+	} else if (action == "Release" && reciever != mMousePressRecieverName) {
+		commands += "api.cursor().moveTo(" + reciever + ", 500);\n";
+	}
+	commands += generateMouseCommand(action
+			, button
+			, reciever);
+
+	return commands;
 }

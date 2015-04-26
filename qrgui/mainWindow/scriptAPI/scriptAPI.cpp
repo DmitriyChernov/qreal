@@ -28,6 +28,7 @@ ScriptAPI::ScriptAPI()
 
 void ScriptAPI::init(MainWindow *mainWindow)
 {
+	qDebug()<<"golp";
 	mMainWindow = mainWindow;
 	mGuiFacade = new GuiFacade(mainWindow);
 	mVirtualCursor = new VirtualCursor(this, mMainWindow);
@@ -38,6 +39,7 @@ void ScriptAPI::init(MainWindow *mainWindow)
 
 	QScriptValue const scriptAPI = mScriptEngine.newQObject(this);
 	mScriptEngine.globalObject().setProperty("api", scriptAPI);
+	qDebug()<< "gorh";
 }
 
 void ScriptAPI::evaluate()
@@ -48,9 +50,10 @@ void ScriptAPI::evaluate()
 	mVirtualCursor->show();
 	mVirtualCursor->raise();
 
+	qDebug()<< "gorh";
 	mScriptEngine.setProcessEventsInterval(20);
 	mScriptEngine.evaluate(fileContent, fileName);
-
+	qDebug()<< "gorh";
 	abortEvaluate();
 }
 

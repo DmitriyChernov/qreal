@@ -143,7 +143,9 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 		eventTag.setAttribute("Action", action);
 
 		if (obj->objectName() == "" && dynamic_cast<QWidget *>(obj)) {
-			addParentChain(&eventTag, dynamic_cast<QWidget *>(obj), event);
+			QWidget *widget = dynamic_cast<QWidget *>(obj);
+			eventTag.setAttribute("LayoutIndex", widget->layout()->indexOf(widget));
+			addParentChain(&eventTag, widget, event);
 		}
 
 	} else if (e->type() == QEvent::KeyPress || e->type() == QEvent::KeyRelease){
@@ -196,15 +198,18 @@ void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widge
 {
 	QWidget *parentWidget = widget->parentWidget();
 	while (parentWidget) {
-		QDomElement par = mUserActioDomDocument.createElement("Parent");
-		par.setAttribute("Type", parentWidget->metaObject()->className());
-		par.setAttribute("ObjectName", parentWidget->objectName());
+		QDomElement domParent = mUserActioDomDocument.createElement("Parent");
+		domParent.setAttribute("Type", parentWidget->metaObject()->className());
+		domParent.setAttribute("ObjectName", parentWidget->objectName());
+		if (parentWidget->objectName() == "") {
+			domParent.setAttribute("LayoutIndex", widget->layout()->indexOf(widget));
+		}
 		if (!QString::compare(parentWidget->metaObject()->className(), "qReal::EditorView")) {
-			par.setAttribute("Xcoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).x());
-			par.setAttribute("Ycoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).y());
+			domParent.setAttribute("Xcoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).x());
+			domParent.setAttribute("Ycoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).y());
 		}
 
-		event->appendChild(par);
+		event->appendChild(domParent);
 		parentWidget = parentWidget->parentWidget();
 	}
 }

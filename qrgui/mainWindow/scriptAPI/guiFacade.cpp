@@ -113,3 +113,10 @@ QTreeWidgetItem *GuiFacade::propertyTreeWidgetItem(QString const &name)
 
 	return nullptr;
 }
+
+QWidget *GuiFacade::widgetByLayoutIndex(int const layoutIndex, QWidget const *parent)
+{
+	QLayout *layout = parent->findChild<QLayout *>(QString(""));
+
+	return layout->itemAt(layoutIndex)->widget();
+}

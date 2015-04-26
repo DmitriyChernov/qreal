@@ -144,6 +144,7 @@ MainWindow::MainWindow(const QString &fileToOpen)
 	// here then we have some problems with correct main window initialization
 	// beacuse of total event loop blocking by plugins. So waiting for main
 	// window initialization complete and then loading plugins.
+	qDebug() << "gorh";
 	QTimer::singleShot(50, this, SLOT(initPluginsAndStartWidget()));
 }
 
@@ -1611,7 +1612,9 @@ Id MainWindow::activeDiagram() const
 void MainWindow::initPluginsAndStartWidget()
 {
 	initToolPlugins();
+	qDebug()<< "gorh";
 	if (SettingsManager::value("scriptInterpretation").toBool()) {
+		qDebug()<< "gorh";
 		initActionWidgetsNames();
 		initScriptAPI();
 	}

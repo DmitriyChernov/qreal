@@ -46,6 +46,9 @@ public:
 	/// Returns viewport(because viewport, not PropertyEditorView, recieve mouse event) PropertyEditorView.
 	Q_INVOKABLE QWidget *propertyEditor();
 
+	/// Returns widget by his type and layout index.
+	Q_INVOKABLE QWidget *widgetByLayoutIndex(int const layoutIndex, QWidget const *parent);
+
 	/// Returns draggable element from palette by id.
 	DraggableElement *draggableElement(QString const &widgetId);
 
