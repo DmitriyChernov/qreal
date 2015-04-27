@@ -1,22 +1,21 @@
-
 var mainWindow = api.ui().mainWindow();
 api.changeWindow(mainWindow);
-
-//var x = ["blop", "golp", "gorh"];
-//for (int i = 0; i < x.length; i ++) {
-//	api.hints().addHint(x[i], 1300, mainWindow);
-//	api.wait(1500); }
-//print("blop");
-
+print("blop");
+var x = ["blop", "golp", "gorh"];
+for (var i = 0; i < x.length; i ++) {
+	api.hints().addHint(x[i], 1300, mainWindow);
+	api.wait(1500); 
+}
+print("blop");
 api.hints().addHint("Добро пожаловать в среду визуального программирования QReal:Robots!", 1300, mainWindow);
 api.wait(1500);
 api.hints().addHint("Сейчас мы нарисуем одну диаграмму за вас, чтобы показать, как все работает.", 1300, mainWindow);
 api.wait(1500);
-//var newDiagram = api.ui().widget("QToolButton", "actionNew_Diagram");
-//api.hints().addHint("Сперва создадим новую диаграмму...", 2000, mainWindow);
-//api.cursor().moveTo(newDiagram, 1000);
-//api.cursor().leftButtonPress(newDiagram);
-//api.cursor().leftButtonRelease(newDiagram, 400);
+var newDiagram = api.ui().widget("QToolButton", "actionNew_Diagram");
+api.hints().addHint("Сперва создадим новую диаграмму...", 2000, mainWindow);
+api.cursor().moveTo(newDiagram, 1000);
+api.cursor().leftButtonPress(newDiagram);
+api.cursor().leftButtonRelease(newDiagram, 400);
 var sensors = api.ui().widget("QComboBox", "Port D1 DeviceConfig");
 var s = api.ui().widget("QScrollArea", "");
 api.scroll(s, sensors, 1000);

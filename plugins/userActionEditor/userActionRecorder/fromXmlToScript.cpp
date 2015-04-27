@@ -82,17 +82,27 @@ void FromXmlToScript::generateScript(QString const &xml)
 								, event.attributes().namedItem("Button").nodeValue()
 								, sceneViewport);
 					} else {
-						QString const objectName = parent.attributes().namedItem("ObjectName").nodeValue();
-
-						//script() << ;
+						QString indexesArray = "var indexes = [";
+						for (int j = 1; j <= parentList.size(); j++) {
+							indexesArray += parentList.at(parentList.size() - j)
+									.attributes()
+									.namedItem("LayoutIndex")
+									.nodeValue();
+							indexesArray += ", ";
+						}
+						indexesArray += "];";
+						script() << indexesArray;
+						script() << "var widget = api.ui().widget(\""
+								+ parentList.at(parentList.size() - 1).attributes().namedItem("Type").nodeValue()
+								+ "\", \""
+								+ parentList.at(parentList.size() - 1).attributes().namedItem("ObjectName").nodeValue()
+								+ "\");";
 						QString cycleCommand = "";
 						cycleCommand += "for (var i = 0; i < ";
 						cycleCommand += parentList.size();
 						cycleCommand += "; i ++) \n{\n";
 						script() << cycleCommand;
-						script() << "var widget = api.ui().widgetByLayoutIndex("
-									+ event.attributes().namedItem("LayoutIndex").nodeValue()
-									+ "widget";
+						script() << "widget = api.ui().widgetByLayoutIndex(indexes[i], widget);\n";
 						script() << "}\n";
 
 						if (eventType == "Mouse") {
