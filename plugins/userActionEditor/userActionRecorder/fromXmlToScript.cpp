@@ -10,6 +10,7 @@ using namespace utils;
 FromXmlToScript::FromXmlToScript()
 	: QObject()
 	, mIsDragFromPalette(false)
+	, mIsScrolling(false)
 	, mSceneElementVariables(0)
 {
 }
@@ -47,6 +48,7 @@ void FromXmlToScript::generateScript(QString const &xml)
 				if (eventType == "Mouse") {
 					script() << generateMouseAction(eventAction
 							, event.attributes().namedItem("Button").nodeValue()
+							, recieverType
 							, recieverName);
 				}
 			} else {
@@ -55,61 +57,60 @@ void FromXmlToScript::generateScript(QString const &xml)
 				int const pithyParent = findPithyParent(parentList);
 
 				if (pithyParent == -1) {
+					//qDebug()<<recieverType;
 					continue;
+				}
+				QDomElement const parent = parentList.at(pithyParent).toElement();
+				QString const objectName = parent.attributes().namedItem("ObjectName").nodeValue();
+				QString const objectType = parent.attributes().namedItem("Type").nodeValue();
+
+				if (objectType == "qReal::gui::DraggableElement") {
+					mDraggingElement = objectName;
+					mIsDragFromPalette = true;
+					continue;
+				} else if (objectType == "qReal::EditorView") {
+					QString const sceneViewport = "sceneViewport";
+					QString const xcoord = parent.attributes().namedItem("Xcoord").nodeValue();
+					QString const ycoord = parent.attributes().namedItem("Ycoord").nodeValue();
+					script() << "var " + sceneViewport + " = api.ui().sceneViewport();\n";
+					script() << "api.cursor().sceneMoveTo("
+								+ sceneViewport
+								+ ", 1000, "
+								+ xcoord
+								+ ", "
+								+ ycoord
+								+ ");\n";
+
+					script() << generateMouseCommand(eventAction
+							, event.attributes().namedItem("Button").nodeValue()
+							, sceneViewport);
 				} else {
-					QDomElement const parent = parentList.at(pithyParent).toElement();
-					QString const objectName = parent.attributes().namedItem("ObjectName").nodeValue();
-					QString const objectType = parent.attributes().namedItem("Type").nodeValue();
 
-					if (objectType == "qReal::gui::DraggableElement") {
-						mDraggingElement = objectName;
-						mIsDragFromPalette = true;
-						continue;
-					} else if (objectType == "qReal::EditorView") {
-						QString const sceneViewport = "sceneViewport";
-						QString const xcoord = parent.attributes().namedItem("Xcoord").nodeValue();
-						QString const ycoord = parent.attributes().namedItem("Ycoord").nodeValue();
-						script() << "var " + sceneViewport + " = api.ui().sceneViewport();\n";
-						script() << "api.cursor().sceneMoveTo("
-									+ sceneViewport
-									+ ", 1000, "
-									+ xcoord
-									+ ", "
-									+ ycoord
-									+ ");\n";
+					script() << generateArrayInitialising(parentList, "LayoutIndex");
+					script() << generateArrayInitialising(parentList, "Type");
+					script() << generateArrayInitialising(parentList, "ObjectName");
 
-						script() << generateMouseCommand(eventAction
+					script() << "var widget = api.ui().widget(\""
+							+ parentList.at(parentList.size() - 1).attributes().namedItem("Type").nodeValue()
+							+ "\", \""
+							+ parentList.at(parentList.size() - 1).attributes().namedItem("ObjectName").nodeValue()
+							+ "\");";
+					QString cycleCommand = "";
+					cycleCommand += "for (var i = 0; i < ";
+					cycleCommand += parentList.size();
+					cycleCommand += "; i ++) \n{\n";
+					script() << cycleCommand;
+					script() << "if (indexes[i] == -1) {\n";
+					script() << "widget = api.ui().widget(Type[i], ObjectName[i]);";
+					script() << "} else {\n";
+					script() << "widget = api.ui().widgetByLayoutIndex(LayoutIndex[i], widget);\n";
+					script() << "}\n}\n";
+
+					if (eventType == "Mouse") {
+						script() << generateMouseAction(eventAction
 								, event.attributes().namedItem("Button").nodeValue()
-								, sceneViewport);
-					} else {
-						QString indexesArray = "var indexes = [";
-						for (int j = 1; j <= parentList.size(); j++) {
-							indexesArray += parentList.at(parentList.size() - j)
-									.attributes()
-									.namedItem("LayoutIndex")
-									.nodeValue();
-							indexesArray += ", ";
-						}
-						indexesArray += "];";
-						script() << indexesArray;
-						script() << "var widget = api.ui().widget(\""
-								+ parentList.at(parentList.size() - 1).attributes().namedItem("Type").nodeValue()
-								+ "\", \""
-								+ parentList.at(parentList.size() - 1).attributes().namedItem("ObjectName").nodeValue()
-								+ "\");";
-						QString cycleCommand = "";
-						cycleCommand += "for (var i = 0; i < ";
-						cycleCommand += parentList.size();
-						cycleCommand += "; i ++) \n{\n";
-						script() << cycleCommand;
-						script() << "widget = api.ui().widgetByLayoutIndex(indexes[i], widget);\n";
-						script() << "}\n";
-
-						if (eventType == "Mouse") {
-							script() << generateMouseAction(eventAction
-									, event.attributes().namedItem("Button").nodeValue()
-									, "widget");
-						}
+								, objectType
+								, "widget");
 					}
 				}
 			}
@@ -151,7 +152,7 @@ int FromXmlToScript::findPithyParent(QDomNodeList const &parents) const
 		QString const objectType = parent.attributes().namedItem("Type").nodeValue();
 
 		if (objectType == "qReal::gui::DraggableElement"
-				|| objectType == "qReal::EditorView") {
+				|| objectType == "qReal::EditorView" || objectType == "QScrollBar") {
 			return i;
 		}
 	}
@@ -159,18 +160,49 @@ int FromXmlToScript::findPithyParent(QDomNodeList const &parents) const
 	return -1;
 }
 
-QString FromXmlToScript::generateMouseAction(QString const &action, QString const &button, QString const &reciever)
+QString FromXmlToScript::generateMouseAction(QString const &action, QString const &button, QString const &recieverType
+		, QString const &reciever)
 {
 	QString commands = "";
 	if (action == "Press") {
+		if (recieverType == "QScrollBar") {
+			mIsScrolling = true;
+		}
+
+		if (mIsScrolling) {
+			commands += "api.cursor().scroll(" + reciever + ".parentWidget(), 50, 500)";
+			mIsScrolling = !mIsScrolling;
+		}
+
 		mMousePressRecieverName = reciever;
 		commands += "api.cursor().moveTo(" + reciever + ", 500)\n";
 	} else if (action == "Release" && reciever != mMousePressRecieverName) {
 		commands += "api.cursor().moveTo(" + reciever + ", 500);\n";
 	}
+
 	commands += generateMouseCommand(action
 			, button
 			, reciever);
 
 	return commands;
+}
+
+QString FromXmlToScript::generateArrayInitialising(QDomNodeList const &parents, QString const &name) const
+{
+	QString array = "var " + name + " = [";
+	for (int j = 1; j <= parents.size(); j++) {
+		QString element = parents.at(parents.size() - j)
+				.attributes()
+				.namedItem(name)
+				.nodeValue();
+		if (element != "") {
+			array += element;
+		} else {
+			array += "-1";
+		}
+		array += ", ";
+	}
+	array += "];";
+
+	return array;
 }

@@ -5,6 +5,7 @@
 
 #include <qrkernel/exception/exception.h>
 #include <qrutils/inFile.h>
+#include <qrutils/mathUtils/math.h>
 #include <editor/editorView.h>
 #include <models/commands/createElementCommand.h>
 
@@ -156,6 +157,16 @@ SceneAPI *ScriptAPI::sceneAPI()
 
 void ScriptAPI::scroll(QScrollArea *area, QWidget *widget, int const duration)
 {
+	int const value = widget->pos().y()
+			* area->verticalScrollBar()->maximum()
+			/ widget->parentWidget()->height();
+
+
+	scroll(area, value, duration);
+}
+
+void ScriptAPI::scroll(QScrollArea *area, int const value, int const duration)
+{
 	int const xcoord = area->verticalScrollBar()->parentWidget()->mapToGlobal(area->verticalScrollBar()->pos()).x();
 	int ycoord = area->verticalScrollBar()->parentWidget()->mapToGlobal(area->verticalScrollBar()->pos()).y();
 
@@ -163,9 +174,8 @@ void ScriptAPI::scroll(QScrollArea *area, QWidget *widget, int const duration)
 
 	int const diff = area->verticalScrollBar()->height()
 			- area->verticalScrollBar()->pageStep()
-			+ widget->pos().y()
-			* area->verticalScrollBar()->maximum()
-			/ widget->parentWidget()->height();
+			+ (value - area->verticalScrollBar()->value());
+
 	ycoord = ycoord + diff * area->verticalScrollBar()->height() / area->verticalScrollBar()->maximum();
 
 	QPoint target = mVirtualCursor->parentWidget()->mapFromGlobal(QPoint(xcoord, ycoord));

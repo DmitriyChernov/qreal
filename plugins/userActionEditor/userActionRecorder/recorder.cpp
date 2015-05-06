@@ -5,6 +5,7 @@
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QGraphicsSceneEvent>
+#include <QtWidgets/QScrollBar>
 #include <QtCore/QMimeData>
 
 #include <qrutils/outFile.h>
@@ -102,7 +103,13 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 							  + id.editor() + "/"
 							  + id.diagram() + "/"
 							  + id.element());
-	} else if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::MouseButtonRelease) {
+	} else if (!QString::compare(obj->metaObject()->className(), "QScrollBar")
+			   && e->type() == QEvent::MouseButtonRelease) {
+		QScrollBar *scrollBar = dynamic_cast<QScrollBar *>(obj);
+		eventTag.setAttribute("Value", scrollBar->value());
+	}
+
+	if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::MouseButtonRelease) {
 		QMouseEvent* event = dynamic_cast<QMouseEvent*>(e);
 
 		eventTag.setAttribute("Type", "Mouse");
@@ -144,7 +151,9 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 
 		if (obj->objectName() == "" && dynamic_cast<QWidget *>(obj)) {
 			QWidget *widget = dynamic_cast<QWidget *>(obj);
-			eventTag.setAttribute("LayoutIndex", widget->layout()->indexOf(widget));
+			if (widget->layout()) {
+				eventTag.setAttribute("LayoutIndex", widget->layout()->indexOf(widget));
+			}
 			addParentChain(&eventTag, widget, event);
 		}
 
@@ -166,7 +175,8 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 				return;
 		}
 
-		eventTag.setAttribute("KeyName", e->ActionAdded);
+		eventTag.setAttribute("KeyName", event->key());
+		eventTag.setAttribute("Modifiers", event->modifiers());
 		eventTag.setAttribute("Action", action);
 		if (event->text() == ""){
 			return;
@@ -201,8 +211,9 @@ void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widge
 		QDomElement domParent = mUserActioDomDocument.createElement("Parent");
 		domParent.setAttribute("Type", parentWidget->metaObject()->className());
 		domParent.setAttribute("ObjectName", parentWidget->objectName());
-		if (parentWidget->objectName() == "") {
-			domParent.setAttribute("LayoutIndex", widget->layout()->indexOf(widget));
+		//qDebug()<<widget->par`;
+		if (parentWidget->objectName() == "" && widget->parentWidget()->layout()) {
+			domParent.setAttribute("LayoutIndex", widget->parentWidget()->layout()->indexOf(widget));
 		}
 		if (!QString::compare(parentWidget->metaObject()->className(), "qReal::EditorView")) {
 			domParent.setAttribute("Xcoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).x());
@@ -216,7 +227,6 @@ void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widge
 
 UserActionRecorderPlugin::~UserActionRecorderPlugin()
 {
-	delete mRecordShell;
 }
 
 

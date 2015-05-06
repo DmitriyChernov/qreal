@@ -19,10 +19,12 @@ public slots:
 	void generateScript(QString const &xml);
 
 private:
-	QString generateMouseAction(QString const &action, QString const &button, QString const &reciever);
+	QString generateMouseAction(QString const &action, QString const &button, QString const &recieverType
+			, QString const &reciever);
+
 	QString generateMouseCommand(QString const &action, QString const &button, QString const &var) const;
 	QString generateDragCommand(QString const &id, QString const &var, QString const &xcoord, QString const &ycoord) const;
-
+	QString generateArrayInitialising(QDomNodeList const &parents, QString const &name) const;
 	int findPithyParent(QDomNodeList const &parents) const;
 
 	//QMap draggableElements;
@@ -33,5 +35,6 @@ private:
 
 	int mSceneElementVariables;
 	bool mIsDragFromPalette;
+	bool mIsScrolling;
 };
 }
