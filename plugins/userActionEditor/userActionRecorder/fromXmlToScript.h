@@ -23,18 +23,19 @@ private:
 			, QString const &reciever);
 
 	QString generateMouseCommand(QString const &action, QString const &button, QString const &var) const;
-	QString generateDragCommand(QString const &id, QString const &var, QString const &xcoord, QString const &ycoord) const;
-	QString generateArrayInitialising(QDomNodeList const &parents, QString const &name) const;
+	QString generateDragCommand(QString const &id, QString const &var
+			, QString const &xcoord, QString const &ycoord) const;
+	QString generateArrayInitialising(QDomNodeList const &parents, QString const &name, QString const &child) const;
 	int findPithyParent(QDomNodeList const &parents) const;
 
-	//QMap draggableElements;
+	QStringList *mVariables;
 
 	QString mMousePressRecieverName;
 	QString mActiveWindow;
 	QString mDraggingElement;
+	QString mMousePressCommand;
 
 	int mSceneElementVariables;
 	bool mIsDragFromPalette;
-	bool mIsScrolling;
 };
 }

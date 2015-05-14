@@ -10,8 +10,8 @@ using namespace utils;
 FromXmlToScript::FromXmlToScript()
 	: QObject()
 	, mIsDragFromPalette(false)
-	, mIsScrolling(false)
 	, mSceneElementVariables(0)
+	, mVariables(new QStringList())
 {
 }
 
@@ -28,7 +28,8 @@ void FromXmlToScript::generateScript(QString const &xml)
 
 		for (int i = 0; i < eventList.size(); i++	) {
 			QDomElement event = eventList.at(i).toElement();
-			QString const recieverName = event.attributes().namedItem("RecieverName").nodeValue();
+			QString const recieverObjectName = event.attributes().namedItem("RecieverName").nodeValue();
+			QString const recieverName = event.attributes().namedItem("RecieverName").nodeValue().replace(" ", "");
 			QString const recieverType = event.attributes().namedItem("RecieverType").nodeValue();
 			QString const eventType = event.attributes().namedItem("Type").nodeValue();
 			QString const eventAction = event.attributes().namedItem("Action").nodeValue();
@@ -39,12 +40,18 @@ void FromXmlToScript::generateScript(QString const &xml)
 				QString const ycoord = event.attributes().namedItem("Ycoord").nodeValue();
 
 				script()<<generateDragCommand(id, mDraggingElement, xcoord, ycoord);
+			} else if (recieverType == "QScrollBar" && eventAction == "Press") {
+				continue;
 			} else if (recieverName != "") {
-				script() << "var "
-						+ recieverName
-						+ " = api.ui().widget(\""
-						+ recieverType + "\", \""
-						+ recieverName + "\");\n";
+				if (!mVariables->contains(recieverName)) {
+					script() << "var "
+							+ recieverName
+							+ " = api.ui().widget(\""
+							+ recieverType + "\", \""
+							+ recieverObjectName + "\");\n";
+					mVariables->append(recieverName);
+				}
+
 				if (eventType == "Mouse") {
 					script() << generateMouseAction(eventAction
 							, event.attributes().namedItem("Button").nodeValue()
@@ -56,60 +63,66 @@ void FromXmlToScript::generateScript(QString const &xml)
 
 				int const pithyParent = findPithyParent(parentList);
 
-				if (pithyParent == -1) {
-					//qDebug()<<recieverType;
-					continue;
+				if (pithyParent != -1) {
+					QDomElement const parent = parentList.at(pithyParent).toElement();
+					QString const objectName = parent.attributes().namedItem("ObjectName").nodeValue();
+					QString const objectType = parent.attributes().namedItem("Type").nodeValue();
+
+					if (objectType == "qReal::gui::DraggableElement") {
+						mDraggingElement = objectName;
+						mIsDragFromPalette = true;
+						continue;
+					} else if (objectType == "qReal::EditorView") {
+						QString const sceneViewport = "sceneViewport";
+						QString const xcoord = parent.attributes().namedItem("Xcoord").nodeValue();
+						QString const ycoord = parent.attributes().namedItem("Ycoord").nodeValue();
+						script() << "var " + sceneViewport + " = api.ui().sceneViewport();\n";
+						script() << "api.cursor().sceneMoveTo("
+									+ sceneViewport
+									+ ", 1000, "
+									+ xcoord
+									+ ", "
+									+ ycoord
+									+ ");\n";
+
+						script() << generateMouseCommand(eventAction
+								, event.attributes().namedItem("Button").nodeValue()
+								, sceneViewport);
+					}
 				}
-				QDomElement const parent = parentList.at(pithyParent).toElement();
-				QString const objectName = parent.attributes().namedItem("ObjectName").nodeValue();
-				QString const objectType = parent.attributes().namedItem("Type").nodeValue();
 
-				if (objectType == "qReal::gui::DraggableElement") {
-					mDraggingElement = objectName;
-					mIsDragFromPalette = true;
-					continue;
-				} else if (objectType == "qReal::EditorView") {
-					QString const sceneViewport = "sceneViewport";
-					QString const xcoord = parent.attributes().namedItem("Xcoord").nodeValue();
-					QString const ycoord = parent.attributes().namedItem("Ycoord").nodeValue();
-					script() << "var " + sceneViewport + " = api.ui().sceneViewport();\n";
-					script() << "api.cursor().sceneMoveTo("
-								+ sceneViewport
-								+ ", 1000, "
-								+ xcoord
-								+ ", "
-								+ ycoord
-								+ ");\n";
 
-					script() << generateMouseCommand(eventAction
-							, event.attributes().namedItem("Button").nodeValue()
-							, sceneViewport);
-				} else {
+				script() << generateArrayInitialising(parentList
+						, "Index"
+						, event.attributes().namedItem("Index").nodeValue());
+				script() << generateArrayInitialising(parentList, "Type", recieverType);
+				script() << generateArrayInitialising(parentList, "ObjectName", recieverObjectName);
 
-					script() << generateArrayInitialising(parentList, "LayoutIndex");
-					script() << generateArrayInitialising(parentList, "Type");
-					script() << generateArrayInitialising(parentList, "ObjectName");
+				script() << "var widget = api.ui().widget(\""
+						+ parentList.at(parentList.size() - 1).attributes().namedItem("Type").nodeValue()
+						+ "\", \""
+						+ parentList.at(parentList.size() - 1).attributes().namedItem("ObjectName").nodeValue()
+						+ "\");\n";
+				QString cycleCommand = "";
+				cycleCommand += "for (var i = 1; i <= ";
+				cycleCommand += QString::number(parentList.size());
+				cycleCommand += "; i ++) \n{\n";
+				script() << cycleCommand;
+				script() << "\tif (Index[i - 1] == -1) {\n";
+				script() << "\t\twidget = api.ui().widget(Type[i], ObjectName[i], widget);\n";
+				script() << "\t} else {\n";
+				script() << "\t\twidget = api.ui().widgetByIndex(Index[i - 1], widget);\n";
+				script() << "\t}\n}\n";
 
-					script() << "var widget = api.ui().widget(\""
-							+ parentList.at(parentList.size() - 1).attributes().namedItem("Type").nodeValue()
-							+ "\", \""
-							+ parentList.at(parentList.size() - 1).attributes().namedItem("ObjectName").nodeValue()
-							+ "\");";
-					QString cycleCommand = "";
-					cycleCommand += "for (var i = 0; i < ";
-					cycleCommand += parentList.size();
-					cycleCommand += "; i ++) \n{\n";
-					script() << cycleCommand;
-					script() << "if (indexes[i] == -1) {\n";
-					script() << "widget = api.ui().widget(Type[i], ObjectName[i]);";
-					script() << "} else {\n";
-					script() << "widget = api.ui().widgetByLayoutIndex(LayoutIndex[i], widget);\n";
-					script() << "}\n}\n";
-
-					if (eventType == "Mouse") {
+				if (eventType == "Mouse") {
+					if (recieverType == "QScrollBar" && eventAction == "Release") {
+						script() << "api.scroll(widget, "
+								+ event.attributes().namedItem("Value").nodeValue()
+								+ ", 500);\n";
+					} else {
 						script() << generateMouseAction(eventAction
 								, event.attributes().namedItem("Button").nodeValue()
-								, objectType
+								, recieverType
 								, "widget");
 					}
 				}
@@ -165,15 +178,6 @@ QString FromXmlToScript::generateMouseAction(QString const &action, QString cons
 {
 	QString commands = "";
 	if (action == "Press") {
-		if (recieverType == "QScrollBar") {
-			mIsScrolling = true;
-		}
-
-		if (mIsScrolling) {
-			commands += "api.cursor().scroll(" + reciever + ".parentWidget(), 50, 500)";
-			mIsScrolling = !mIsScrolling;
-		}
-
 		mMousePressRecieverName = reciever;
 		commands += "api.cursor().moveTo(" + reciever + ", 500)\n";
 	} else if (action == "Release" && reciever != mMousePressRecieverName) {
@@ -187,7 +191,8 @@ QString FromXmlToScript::generateMouseAction(QString const &action, QString cons
 	return commands;
 }
 
-QString FromXmlToScript::generateArrayInitialising(QDomNodeList const &parents, QString const &name) const
+QString FromXmlToScript::generateArrayInitialising(QDomNodeList const &parents, QString const &name
+		, QString const &child) const
 {
 	QString array = "var " + name + " = [";
 	for (int j = 1; j <= parents.size(); j++) {
@@ -195,14 +200,38 @@ QString FromXmlToScript::generateArrayInitialising(QDomNodeList const &parents, 
 				.attributes()
 				.namedItem(name)
 				.nodeValue();
-		if (element != "") {
-			array += element;
+		if (name != "Index") {
+			array += "\"" + element + "\"";
 		} else {
-			array += "-1";
+			QString parentObjectName;
+			if (j != parents.size()) {
+				parentObjectName = parents.at(parents.size() - j - 1)
+						.attributes()
+						.namedItem("ObjectName")
+						.nodeValue();
+			} else {
+				break;
+			}
+
+			if (parentObjectName != "" || element == "") {
+				array += "-1";
+			} else {
+				array += element;
+			}
 		}
-		array += ", ";
+
+		if (j != parents.size() || name != "Index") {
+			array += ", ";
+		}
 	}
-	array += "];";
+
+	if (name != "Index") {
+		array += "\"" + child + "\"";
+	} else {
+		array += child;
+	}
+
+	array += "];\n";
 
 	return array;
 }

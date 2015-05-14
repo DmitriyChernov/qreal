@@ -51,6 +51,9 @@ public:
 	/// Changes QScrollArea viewport to target value. Can works only with vertical sliders.
 	Q_INVOKABLE void scroll(QScrollArea *area, int const value, int const duration);
 
+	/// Changes QScrollArea viewport to target value. Can works only with vertical sliders.
+	Q_INVOKABLE void scroll(QScrollBar *scrollBar, int const value, int const duration);
+
 	/// Will make plugin gui facade available in scripting file.
 	Q_INVOKABLE QScriptValue pluginUi(QString const pluginName);
 

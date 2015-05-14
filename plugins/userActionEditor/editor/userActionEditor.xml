@@ -474,7 +474,7 @@
 						</property>
 						<property displayedName="Duration" type="int" name="Duration">
 							<default>1000</default>
-						</property>	
+						</property>
 					</properties>
 					<generalizations>
 						<parent parentName="AbstractNode"/>
@@ -769,7 +769,7 @@
 						</property>
 						<property displayedName="Store variable" type="string" name="StoreVar">
 							<default></default>
-						</property>	
+						</property>
 					</properties>
 					<generalizations>
 						<parent parentName="AbstractNode"/>

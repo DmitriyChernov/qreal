@@ -63,6 +63,10 @@ void UserActionRecorderPlugin::init(PluginConfigurator const &configurator)
 	mScriptGenerator = new FromXmlToScript();
 }
 
+UserActionRecorderPlugin::~UserActionRecorderPlugin()
+{
+}
+
 void UserActionRecorderPlugin::start()
 {
 	mUserActioDomDocument.clear();
@@ -83,6 +87,12 @@ void UserActionRecorderPlugin::stop()
 void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 {
 	QDomElement eventTag = mUserActioDomDocument.createElement("Event");
+	if (!QString::compare(obj->metaObject()->className(), "QComboBoxListView")) {
+		qDebug()<<e->type();
+		qDebug()<<obj->objectName();
+		qDebug()<<obj->metaObject()->className();
+		qDebug()<<"============";
+	}
 
 	if (obj->objectName() == "MainWindowUiWindow") {
 		return;
@@ -148,18 +158,14 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 			return;
 		}
 		eventTag.setAttribute("Action", action);
-
-		if (obj->objectName() == "" && dynamic_cast<QWidget *>(obj)) {
+		if (dynamic_cast<QWidget *>(obj)) {
 			QWidget *widget = dynamic_cast<QWidget *>(obj);
-			if (widget->layout()) {
-				eventTag.setAttribute("LayoutIndex", widget->layout()->indexOf(widget));
-			}
+			eventTag.setAttribute("Index",  widget->parentWidget()->children().indexOf(widget));
 			addParentChain(&eventTag, widget, event);
 		}
 
-	} else if (e->type() == QEvent::KeyPress || e->type() == QEvent::KeyRelease){
+	} else if (e->type() == QEvent::KeyPress || e->type() == QEvent::KeyRelease) {
 		QKeyEvent* event = static_cast<QKeyEvent *>(e);
-
 		eventTag.setAttribute("Type", "Key");
 
 		QString action;
@@ -211,24 +217,19 @@ void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widge
 		QDomElement domParent = mUserActioDomDocument.createElement("Parent");
 		domParent.setAttribute("Type", parentWidget->metaObject()->className());
 		domParent.setAttribute("ObjectName", parentWidget->objectName());
-		//qDebug()<<widget->par`;
-		if (parentWidget->objectName() == "" && widget->parentWidget()->layout()) {
-			domParent.setAttribute("LayoutIndex", widget->parentWidget()->layout()->indexOf(widget));
-		}
+		//if (widget->objectName() == "") {
+			domParent.setAttribute("Index", parentWidget->children().indexOf(widget));
+		//}
 		if (!QString::compare(parentWidget->metaObject()->className(), "qReal::EditorView")) {
 			domParent.setAttribute("Xcoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).x());
 			domParent.setAttribute("Ycoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).y());
 		}
 
 		event->appendChild(domParent);
+		widget = parentWidget;
 		parentWidget = parentWidget->parentWidget();
 	}
 }
-
-UserActionRecorderPlugin::~UserActionRecorderPlugin()
-{
-}
-
 
 QList<ActionInfo> UserActionRecorderPlugin::actions()
 {

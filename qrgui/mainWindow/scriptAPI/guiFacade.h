@@ -24,7 +24,7 @@ public:
 	explicit GuiFacade(MainWindow *mainWindow);
 
 	/// Returns widget defined by type(class name) and object name.
-	Q_INVOKABLE QWidget *widget(QString const &type, QString const &name = "");
+	Q_INVOKABLE QWidget *widget(QString const &type, QString const &name = "", QWidget const *parent = nullptr);
 
 	/// Returns action belongs to plugin by object name.
 	Q_INVOKABLE QWidget *pluginActionToolButton(QString const &name);
@@ -47,7 +47,7 @@ public:
 	Q_INVOKABLE QWidget *propertyEditor();
 
 	/// Returns widget by his type and layout index.
-	Q_INVOKABLE QWidget *widgetByLayoutIndex(int const layoutIndex, QWidget const *parent);
+	Q_INVOKABLE QWidget *widgetByIndex(int const layoutIndex, QWidget const *parent);
 
 	/// Returns draggable element from palette by id.
 	DraggableElement *draggableElement(QString const &widgetId);

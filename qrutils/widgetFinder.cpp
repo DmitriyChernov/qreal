@@ -1,8 +1,10 @@
 #include "widgetFinder.h"
 
+#include <QDebug>
+
 using namespace utils;
 
-QWidget *WidgetFinder::widget(QWidget *parent, QString const &type, QString const &name)
+QWidget *WidgetFinder::widget(QWidget const *parent, QString const &type, QString const &name)
 {
 	QList<QWidget *> const widgetList = parent->findChildren<QWidget *>(name);
 

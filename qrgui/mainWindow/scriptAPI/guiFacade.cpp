@@ -15,9 +15,17 @@ GuiFacade::GuiFacade(MainWindow *mainWindow)
 {
 }
 
-QWidget *GuiFacade::widget(QString const &type, QString const &name)
+QWidget *GuiFacade::widget(QString const &type, QString const &name, QWidget const *parent)
 {
-	return utils::WidgetFinder::widget(mMainWindow, type, name);
+	if (name == "MainWindowUi") {
+		return mMainWindow;
+	}
+
+	if (parent) {
+		return utils::WidgetFinder::widget(parent, type, name);
+	} else {
+		return utils::WidgetFinder::widget(mMainWindow, type, name);
+	}
 }
 
 DraggableElement *GuiFacade::draggableElement(QString const &widgetId)
@@ -114,9 +122,7 @@ QTreeWidgetItem *GuiFacade::propertyTreeWidgetItem(QString const &name)
 	return nullptr;
 }
 
-QWidget *GuiFacade::widgetByLayoutIndex(int const layoutIndex, QWidget const *parent)
+QWidget *GuiFacade::widgetByIndex(int const layoutIndex, QWidget const *parent)
 {
-	QLayout *layout = parent->findChild<QLayout *>(QString(""));
-
-	return layout->itemAt(layoutIndex)->widget();
+	return dynamic_cast<QWidget *>(parent->children().at(layoutIndex));
 }

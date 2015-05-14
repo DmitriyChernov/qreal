@@ -106,7 +106,6 @@ void ScriptAPI::pickComboBoxItem(QComboBox *comboBox, QString const &name, int c
 	mVirtualCursor->show();
 }
 
-
 void ScriptAPI::wait(int duration)
 {
 	if (duration != -1) {
@@ -167,20 +166,25 @@ void ScriptAPI::scroll(QScrollArea *area, QWidget *widget, int const duration)
 
 void ScriptAPI::scroll(QScrollArea *area, int const value, int const duration)
 {
-	int const xcoord = area->verticalScrollBar()->parentWidget()->mapToGlobal(area->verticalScrollBar()->pos()).x();
-	int ycoord = area->verticalScrollBar()->parentWidget()->mapToGlobal(area->verticalScrollBar()->pos()).y();
+	scroll(area->verticalScrollBar(), value, duration);
+}
+
+void ScriptAPI::scroll(QScrollBar *scrollBar, int const value, int const duration)
+{
+	int const xcoord = scrollBar->parentWidget()->mapToGlobal(scrollBar->pos()).x();
+	int ycoord = scrollBar->parentWidget()->mapToGlobal(scrollBar->pos()).y();
 
 	mVirtualCursor->moveToPoint(xcoord, ycoord, duration/2);
 
-	int const diff = area->verticalScrollBar()->height()
-			- area->verticalScrollBar()->pageStep()
-			+ (value - area->verticalScrollBar()->value());
+	int const diff = scrollBar->height()
+			- scrollBar->pageStep()
+			+ (value - scrollBar->value());
 
-	ycoord = ycoord + diff * area->verticalScrollBar()->height() / area->verticalScrollBar()->maximum();
+	ycoord = ycoord + diff * scrollBar->height() / scrollBar->maximum();
 
 	QPoint target = mVirtualCursor->parentWidget()->mapFromGlobal(QPoint(xcoord, ycoord));
 
-	QPropertyAnimation *anim = new QPropertyAnimation(area->verticalScrollBar(), "value");
+	QPropertyAnimation *anim = new QPropertyAnimation(scrollBar, "value");
 	anim->setDuration(duration/2);
 	anim->setStartValue(0);
 	anim->setEndValue(diff);
