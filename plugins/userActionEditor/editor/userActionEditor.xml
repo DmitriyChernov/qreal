@@ -118,7 +118,7 @@
 			<node displayedName="Final Node" name="FinalNode" path="13, 200 : 198, 15 :  | 12, 12 : 198, 198 : " description="The final node of the program. If the program consists of some parallel execution lines the reachment of this block terminates the corresponding execution line. This block can`t have outgoing links.">
 				<graphics>
 					<picture sizex="50" sizey="50">
-						<image y1="0" name="images/finalBlock.png" x1="0" y2="50" x2="50"/>
+						<image y1="0" name="images/finalBlock.svg" x1="0" y2="50" x2="50"/>
 					</picture>
 					<labels/>
 					<nonResizeable/>

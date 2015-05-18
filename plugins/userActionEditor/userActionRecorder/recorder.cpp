@@ -6,6 +6,7 @@
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QGraphicsSceneEvent>
 #include <QtWidgets/QScrollBar>
+#include <QtWidgets/QComboBox>
 #include <QtCore/QMimeData>
 
 #include <qrutils/outFile.h>
@@ -113,10 +114,6 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 							  + id.editor() + "/"
 							  + id.diagram() + "/"
 							  + id.element());
-	} else if (!QString::compare(obj->metaObject()->className(), "QScrollBar")
-			   && e->type() == QEvent::MouseButtonRelease) {
-		QScrollBar *scrollBar = dynamic_cast<QScrollBar *>(obj);
-		eventTag.setAttribute("Value", scrollBar->value());
 	}
 
 	if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::MouseButtonRelease) {
@@ -150,6 +147,14 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 				break;
 			case QEvent::MouseButtonRelease:
 				action = "Release";
+				if (!QString::compare(obj->metaObject()->className(), "QScrollBar")) {
+					QScrollBar *scrollBar = dynamic_cast<QScrollBar *>(obj);
+					eventTag.setAttribute("Value", scrollBar->value());
+				} else if (!QString::compare(obj->metaObject()->className(), "QComboBox")) {
+					QComboBox *comboBox = dynamic_cast<QComboBox *>(obj);
+					eventTag.setAttribute("ItemSelected", comboBox->currentIndex());
+				}
+
 				break;
 			default:
 				return;
@@ -217,9 +222,8 @@ void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widge
 		QDomElement domParent = mUserActioDomDocument.createElement("Parent");
 		domParent.setAttribute("Type", parentWidget->metaObject()->className());
 		domParent.setAttribute("ObjectName", parentWidget->objectName());
-		//if (widget->objectName() == "") {
-			domParent.setAttribute("Index", parentWidget->children().indexOf(widget));
-		//}
+		domParent.setAttribute("Index", parentWidget->children().indexOf(widget));
+
 		if (!QString::compare(parentWidget->metaObject()->className(), "qReal::EditorView")) {
 			domParent.setAttribute("Xcoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).x());
 			domParent.setAttribute("Ycoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).y());
