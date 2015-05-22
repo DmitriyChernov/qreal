@@ -55,20 +55,14 @@ void ScriptAPI::evaluate()
 	abortEvaluate();
 }
 
-void ScriptAPI::pickComboBoxItem(QComboBox *comboBox, QString const &name, int const duration)
+void ScriptAPI::pickComboBoxItem(QComboBox *comboBox, int const index, int const duration)
 {
-	int const comboBoxHeight = comboBox->height()/2;
+	int const comboBoxHeight = comboBox->height() / 2;
 	int const rowHeight = (comboBox->view()->height() - comboBoxHeight) / comboBox->count();
 
-	int i;
-	for (i = 1; i <= comboBox->count(); ++i) {
-		if (!comboBox->itemData(i - 1, Qt::DisplayRole).toString().compare(name)) {
-			break;
-		}
-	}
-
-
-	QRect itemRect = comboBox->view()->visualRect(comboBox->view()->indexAt(QPoint(0, rowHeight*i)));
+	QRect itemRect = comboBox->view()->visualRect(comboBox->view()->indexAt(QPoint(0, rowHeight * (index + 1))));
+	qDebug()<<comboBox->view()->height();
+	qDebug()<<comboBox->view()->width();
 	QRect target = QRect(itemRect.center(), itemRect.size());
 
 	QWidget *parent = mVirtualCursor->parentWidget();
@@ -104,6 +98,18 @@ void ScriptAPI::pickComboBoxItem(QComboBox *comboBox, QString const &name, int c
 	mVirtualCursor->setParent(parent);
 	mVirtualCursor->move(newPos);
 	mVirtualCursor->show();
+}
+
+void ScriptAPI::pickComboBoxItem(QComboBox *comboBox, QString const &name, int const duration)
+{
+	int index;
+	for (index = 0; index <= comboBox->count(); ++index) {
+		if (!comboBox->itemData(index, Qt::DisplayRole).toString().compare(name)) {
+			break;
+		}
+	}
+
+	pickComboBoxItem(comboBox, index, duration);
 }
 
 void ScriptAPI::wait(int duration)

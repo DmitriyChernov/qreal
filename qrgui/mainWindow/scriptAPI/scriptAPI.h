@@ -45,6 +45,9 @@ public:
 	/// Picks combo box item. Virtual cursor can pick any item in sight of view. Cant scroll bars.
 	Q_INVOKABLE void pickComboBoxItem(QComboBox *comboBox, QString const &name, int const duration);
 
+	/// Picks combo box item. Virtual cursor can pick any item in sight of view. Cant scroll bars.
+	Q_INVOKABLE void pickComboBoxItem(QComboBox *comboBox, int const index, int const duration);
+
 	/// Changes QScrollArea viewport to make target widget visible. Can works only with vertical sliders.
 	Q_INVOKABLE void scroll(QScrollArea *area, QWidget *widget, int const duration);
 

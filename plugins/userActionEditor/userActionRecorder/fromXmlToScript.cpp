@@ -40,9 +40,10 @@ void FromXmlToScript::generateScript(QString const &xml)
 				QString const ycoord = event.attributes().namedItem("Ycoord").nodeValue();
 
 				script()<<generateDragCommand(id, mDraggingElement, xcoord, ycoord);
-			} else if (recieverType == "QScrollBar" && eventAction == "Press") {
+			} else if (recieverType == "QScrollBar" && eventAction == "Press"
+					|| recieverName == "QComboBoxPrivateContainerClassWindow") {
 				continue;
-			} else if (recieverName != "") {
+			} else if (recieverName != "" && recieverName != "qt_scrollarea_viewport") {
 				if (!mVariables->contains(recieverName)) {
 					script() << "var "
 							+ recieverName
@@ -68,6 +69,9 @@ void FromXmlToScript::generateScript(QString const &xml)
 					QString const objectName = parent.attributes().namedItem("ObjectName").nodeValue();
 					QString const objectType = parent.attributes().namedItem("Type").nodeValue();
 
+					qDebug()<<objectName;
+					qDebug()<<objectType;
+
 					if (objectType == "qReal::gui::DraggableElement") {
 						mDraggingElement = objectName;
 						mIsDragFromPalette = true;
@@ -88,6 +92,16 @@ void FromXmlToScript::generateScript(QString const &xml)
 						script() << generateMouseCommand(eventAction
 								, event.attributes().namedItem("Button").nodeValue()
 								, sceneViewport);
+					} else if (objectType == "QComboBox") {
+						QString varName = objectName;
+						script() << "api.wait(100);\n";
+						script() << "api.pickComboBoxItem("
+								+ varName.replace(" ", "")
+								+ ", "
+								+ parent.attributes().namedItem("ItemSelected").nodeValue()
+								+ ", "
+								+ "1000);\n";
+						continue;
 					}
 				}
 
@@ -161,11 +175,10 @@ int FromXmlToScript::findPithyParent(QDomNodeList const &parents) const
 {
 	for (int i = 0; i < parents.size(); i++) {
 		QDomElement parent = parents.at(i).toElement();
-		QString const objectName = parent.attributes().namedItem("ObjectName").nodeValue();
 		QString const objectType = parent.attributes().namedItem("Type").nodeValue();
 
-		if (objectType == "qReal::gui::DraggableElement"
-				|| objectType == "qReal::EditorView" || objectType == "QScrollBar") {
+		if (objectType == "qReal::gui::DraggableElement" || objectType == "qReal::EditorView"
+				|| objectType == "QScrollBar" || objectType == "QComboBox") {
 			return i;
 		}
 	}

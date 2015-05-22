@@ -7,6 +7,7 @@
 #include <QtWidgets/QGraphicsSceneEvent>
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QAbstractItemView>
 #include <QtCore/QMimeData>
 
 #include <qrutils/outFile.h>
@@ -88,12 +89,6 @@ void UserActionRecorderPlugin::stop()
 void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 {
 	QDomElement eventTag = mUserActioDomDocument.createElement("Event");
-	if (!QString::compare(obj->metaObject()->className(), "QComboBoxListView")) {
-		qDebug()<<e->type();
-		qDebug()<<obj->objectName();
-		qDebug()<<obj->metaObject()->className();
-		qDebug()<<"============";
-	}
 
 	if (obj->objectName() == "MainWindowUiWindow") {
 		return;
@@ -150,9 +145,6 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 				if (!QString::compare(obj->metaObject()->className(), "QScrollBar")) {
 					QScrollBar *scrollBar = dynamic_cast<QScrollBar *>(obj);
 					eventTag.setAttribute("Value", scrollBar->value());
-				} else if (!QString::compare(obj->metaObject()->className(), "QComboBox")) {
-					QComboBox *comboBox = dynamic_cast<QComboBox *>(obj);
-					eventTag.setAttribute("ItemSelected", comboBox->currentIndex());
 				}
 
 				break;
@@ -227,7 +219,12 @@ void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widge
 		if (!QString::compare(parentWidget->metaObject()->className(), "qReal::EditorView")) {
 			domParent.setAttribute("Xcoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).x());
 			domParent.setAttribute("Ycoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).y());
+		} else if (!QString::compare(parentWidget->metaObject()->className(), "QComboBox")) {
+			QComboBox *comboBox = dynamic_cast<QComboBox *>(parentWidget);
+			QPoint targetPoint = QPoint(comboBox->mapFromGlobal(mouseEvent->globalPos()));
+			domParent.setAttribute("ItemSelected", comboBox->view()->indexAt(targetPoint).row());
 		}
+
 
 		event->appendChild(domParent);
 		widget = parentWidget;
