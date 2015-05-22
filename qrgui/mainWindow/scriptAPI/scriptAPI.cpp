@@ -51,7 +51,6 @@ void ScriptAPI::evaluate()
 
 	mScriptEngine.setProcessEventsInterval(20);
 	mScriptEngine.evaluate(fileContent, fileName);
-
 	abortEvaluate();
 }
 

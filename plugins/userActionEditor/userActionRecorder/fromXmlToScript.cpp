@@ -26,13 +26,28 @@ void FromXmlToScript::generateScript(QString const &xml)
 		script() << "var mainWindow = api.ui().mainWindow();\n";
 		script() << "api.changeWindow(mainWindow);\n";
 
-		for (int i = 0; i < eventList.size(); i++	) {
+		for (int i = 0; i < eventList.size(); i++) {
 			QDomElement event = eventList.at(i).toElement();
+			QString eventType = event.attributes().namedItem("Type").nodeValue();
+
+			QString message;
+
+			while (eventType == "Key") {
+				message += eventList.at(i).toElement().attributes().namedItem("KeyName").nodeValue();
+				i ++;
+				QDomElement event = eventList.at(i).toElement();
+				eventType = event.attributes().namedItem("Type").nodeValue();
+			}
+
+			if (message != "") {
+				script() << "api.keyboard().type(\"" + message + "\", 500);\n";
+				continue;
+			}
+
+			QString const eventAction = event.attributes().namedItem("Action").nodeValue();
 			QString const recieverObjectName = event.attributes().namedItem("RecieverName").nodeValue();
 			QString const recieverName = event.attributes().namedItem("RecieverName").nodeValue().replace(" ", "");
 			QString const recieverType = event.attributes().namedItem("RecieverType").nodeValue();
-			QString const eventType = event.attributes().namedItem("Type").nodeValue();
-			QString const eventAction = event.attributes().namedItem("Action").nodeValue();
 
 			if (eventType == "Drop" && recieverType == "EditorViewScene") {
 				QString const id = event.attributes().namedItem("Id").nodeValue();
@@ -69,9 +84,6 @@ void FromXmlToScript::generateScript(QString const &xml)
 					QString const objectName = parent.attributes().namedItem("ObjectName").nodeValue();
 					QString const objectType = parent.attributes().namedItem("Type").nodeValue();
 
-					qDebug()<<objectName;
-					qDebug()<<objectType;
-
 					if (objectType == "qReal::gui::DraggableElement") {
 						mDraggingElement = objectName;
 						mIsDragFromPalette = true;
@@ -94,6 +106,10 @@ void FromXmlToScript::generateScript(QString const &xml)
 								, sceneViewport);
 					} else if (objectType == "QComboBox") {
 						QString varName = objectName;
+						if (varName == "") {
+							varName = "widget";
+						}
+
 						script() << "api.wait(100);\n";
 						script() << "api.pickComboBoxItem("
 								+ varName.replace(" ", "")
@@ -101,6 +117,16 @@ void FromXmlToScript::generateScript(QString const &xml)
 								+ parent.attributes().namedItem("ItemSelected").nodeValue()
 								+ ", "
 								+ "1000);\n";
+						continue;
+					} else if (objectType == "QtTreePropertyBrowser"  && recieverName == "qt_scrollarea_viewport") {
+						script() << "var prop = api.ui().propertyRect(\""
+								+ parent.attributes().namedItem("PropertyName").nodeValue()
+								+ "\");\n";
+						script() << "var propertyEditor = api.ui().propertyEditor();\n";
+						script() << generateMouseAction(eventAction
+								, event.attributes().namedItem("Button").nodeValue()
+								, recieverType
+								, "propertyEditor");
 						continue;
 					}
 				}
@@ -178,7 +204,7 @@ int FromXmlToScript::findPithyParent(QDomNodeList const &parents) const
 		QString const objectType = parent.attributes().namedItem("Type").nodeValue();
 
 		if (objectType == "qReal::gui::DraggableElement" || objectType == "qReal::EditorView"
-				|| objectType == "QScrollBar" || objectType == "QComboBox") {
+				|| objectType == "QScrollBar" || objectType == "QComboBox" || objectType == "QtTreePropertyBrowser") {
 			return i;
 		}
 	}
@@ -192,9 +218,15 @@ QString FromXmlToScript::generateMouseAction(QString const &action, QString cons
 	QString commands = "";
 	if (action == "Press") {
 		mMousePressRecieverName = reciever;
-		commands += "api.cursor().moveTo(" + reciever + ", 500)\n";
+		if (reciever == "propertyEditor") {
+			commands += "api.cursor().moveToRect(prop, 500);\n";
+		} else {
+			commands += "api.cursor().moveTo(" + reciever + ", 500);\n";
+		}
 	} else if (action == "Release" && reciever != mMousePressRecieverName) {
 		commands += "api.cursor().moveTo(" + reciever + ", 500);\n";
+	} else if (action == "Release" && reciever == "propertyEditor") {
+		commands += "api.wait(100);\n";
 	}
 
 	commands += generateMouseCommand(action

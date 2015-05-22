@@ -8,6 +8,7 @@
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QAbstractItemView>
+#include <QtWidgets/QTreeWidget>
 #include <QtCore/QMimeData>
 
 #include <qrutils/outFile.h>
@@ -161,26 +162,29 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 			addParentChain(&eventTag, widget, event);
 		}
 
-	} else if (e->type() == QEvent::KeyPress || e->type() == QEvent::KeyRelease) {
+	} else if (e->type() == QEvent::KeyRelease) {
 		QKeyEvent* event = static_cast<QKeyEvent *>(e);
+		if (event->key() == QKeyEvent::Enter || event->key() == Qt::Key_Return) {
+			return;
+		}
 		eventTag.setAttribute("Type", "Key");
 
-		QString action;
-		switch(e->type())
-		{
-			case QEvent::KeyPress:
-				action = "Press";
-				break;
-			case QEvent::KeyRelease:
-				action = "Release";
-				break;
-			default:
-				return;
-		}
+//		QString action;
+//		switch(e->type())
+//		{
+//			case QEvent::KeyPress:
+//				action = "Press";
+//				break;
+//			case QEvent::KeyRelease:
+//				action = "Release";
+//				break;
+//			default:
+//				return;
+//		}
 
-		eventTag.setAttribute("KeyName", event->key());
+		eventTag.setAttribute("KeyName", event->text());
 		eventTag.setAttribute("Modifiers", event->modifiers());
-		eventTag.setAttribute("Action", action);
+//		eventTag.setAttribute("Action", action);
 		if (event->text() == ""){
 			return;
 		}
@@ -223,6 +227,10 @@ void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widge
 			QComboBox *comboBox = dynamic_cast<QComboBox *>(parentWidget);
 			QPoint targetPoint = QPoint(comboBox->mapFromGlobal(mouseEvent->globalPos()));
 			domParent.setAttribute("ItemSelected", comboBox->view()->indexAt(targetPoint).row());
+		} else if (!QString::compare(parentWidget->metaObject()->className(), "QtTreePropertyBrowser")) {
+			QTreeWidget * const editorTree = parentWidget->findChild<QTreeWidget *>();
+			QString const propertyName = editorTree->itemAt(mouseEvent->pos())->text(0);
+			domParent.setAttribute("PropertyName", propertyName);
 		}
 
 

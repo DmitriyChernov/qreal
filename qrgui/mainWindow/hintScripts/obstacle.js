@@ -1,7 +1,11 @@
 var mainWindow = api.ui().mainWindow();
 api.changeWindow(mainWindow);
-var PortA1DeviceConfig = api.ui().widget("QComboBox", "Port A1 DeviceConfig");
-api.cursor().moveTo(PortA1DeviceConfig, 500)
-api.cursor().leftButtonPress(PortA1DeviceConfig);
-api.wait(100)
-api.pickComboBoxItem(PortA1DeviceConfig, 2, 1000);
+var prop = api.ui().propertyRect("Расстояние");
+var propertyEditor = api.ui().propertyEditor();
+api.cursor().moveToRect(prop, 500);
+api.cursor().leftButtonPress(propertyEditor);
+var prop = api.ui().propertyRect("Расстояние");
+var propertyEditor = api.ui().propertyEditor();
+api.wait(100);
+api.cursor().leftButtonRelease(propertyEditor);
+api.keyboard().type("10", 500);
