@@ -1,6 +1,7 @@
 #include "fromXmlToScript.h"
 
 #include <QtXml/QDomDocument>
+#include <QtCore/QCoreApplication>
 
 #include <QDebug>
 
@@ -9,16 +10,18 @@ using namespace utils;
 
 FromXmlToScript::FromXmlToScript()
 	: QObject()
-	, mIsDragFromPalette(false)
-	, mSceneElementVariables(0)
 	, mVariables(new QStringList())
+	, mSceneElementVariables(0)
+	, mIsDragFromPalette(false)
 {
 }
 
 void FromXmlToScript::generateScript(QString const &xml)
 {
 	QDomDocument events;
-	if (events.setContent(xml)) {
+	qDebug() << qApp->applicationDirPath() + "/" + xml;
+	qDebug() << InFile::readAll(qApp->applicationDirPath() + "/events.xml");
+	if (events.setContent(InFile::readAll(qApp->applicationDirPath() + "/" + xml))) {
 		QDomNodeList const eventList = events.elementsByTagName("Event");
 
 		OutFile script("userActions.js");
@@ -71,9 +74,15 @@ void FromXmlToScript::generateScript(QString const &xml)
 				if (eventType == "Mouse") {
 					script() << generateMouseAction(eventAction
 							, event.attributes().namedItem("Button").nodeValue()
-							, recieverType
 							, recieverName);
 				}
+			} else if (eventType == "ActiveWindowChange") {
+				if (recieverName == "MainWindowUiWindow") {
+					script() << "var window = api.ui().mainWindow();\n";
+				} else if (recieverName == "D2FormWindow") {
+					script() << "var window = api.pluginUi(\"qRealRobots.RobotsPlugin\").d2ModelWidget();\n";
+				}
+				script() << "api.changeWindow(window);\n";
 			} else {
 				QDomNodeList const parentList = event.elementsByTagName("Parent");
 
@@ -125,7 +134,6 @@ void FromXmlToScript::generateScript(QString const &xml)
 						script() << "var propertyEditor = api.ui().propertyEditor();\n";
 						script() << generateMouseAction(eventAction
 								, event.attributes().namedItem("Button").nodeValue()
-								, recieverType
 								, "propertyEditor");
 						continue;
 					}
@@ -162,15 +170,9 @@ void FromXmlToScript::generateScript(QString const &xml)
 					} else {
 						script() << generateMouseAction(eventAction
 								, event.attributes().namedItem("Button").nodeValue()
-								, recieverType
 								, "widget");
 					}
 				}
-			}
-
-			QDomElement eventCatchedByWindow = eventList.at(i+1).toElement();
-			if (eventCatchedByWindow.attributes().namedItem("RecieverName").nodeValue() != mActiveWindow) {
-				/// TODO : change window, when window, which recieving events changed.
 			}
 		}
 	}
@@ -212,8 +214,7 @@ int FromXmlToScript::findPithyParent(QDomNodeList const &parents) const
 	return -1;
 }
 
-QString FromXmlToScript::generateMouseAction(QString const &action, QString const &button, QString const &recieverType
-		, QString const &reciever)
+QString FromXmlToScript::generateMouseAction(QString const &action, QString const &button, QString const &reciever)
 {
 	QString commands = "";
 	if (action == "Press") {

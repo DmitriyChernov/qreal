@@ -36,7 +36,7 @@ public slots:
 	void addHintEvent(QString const &hint);
 
 private:
-	void addParentChain(QDomElement *event, QWidget *widget, QMouseEvent *mouseEvent);
+	void addParentChain(QDomElement *eventTag, QWidget *widget, QEvent *event);
 
 	QAction *mStartAction;  // Transfers ownership to QObject parent-child system
 	QAction *mStopAction;  // Transfers ownership to QObject parent-child system
@@ -46,6 +46,8 @@ private:
 	QDomDocument mUserActioDomDocument;
 	QDomElement mRootElement;
 	qReal::Id mRecordElementId;
+	QString mActiveWindow;
+	QString mEventsFileName;
 
 	bool mIsRecording;
 };

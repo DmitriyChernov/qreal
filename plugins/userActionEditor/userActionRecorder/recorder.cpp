@@ -10,6 +10,7 @@
 #include <QtWidgets/QAbstractItemView>
 #include <QtWidgets/QTreeWidget>
 #include <QtCore/QMimeData>
+#include <QtCore/QFile>
 
 #include <qrutils/outFile.h>
 
@@ -33,6 +34,8 @@ UserActionRecorderPlugin::UserActionRecorderPlugin()
 
 void UserActionRecorderPlugin::init(PluginConfigurator const &configurator)
 {
+	mEventsFileName = "events.xml";
+
 	connect(mStartAction, &QAction::triggered, this, &UserActionRecorderPlugin::start);
 	connect(mStopAction, &QAction::triggered, this, &UserActionRecorderPlugin::stop);
 
@@ -48,7 +51,7 @@ void UserActionRecorderPlugin::init(PluginConfigurator const &configurator)
 		disconnect(&configurator.systemEvents(), &SystemEvents::lowLevelEvent
 				, this, &UserActionRecorderPlugin::lowLevelEvent);
 		if (mRecordElementId.toString() != "qrm:/") {
-			configurator.logicalModelApi().setPropertyByRoleName(mRecordElementId, mUserActioDomDocument.toString(), "UserActions");
+			configurator.logicalModelApi().setPropertyByRoleName(mRecordElementId, mEventsFileName, "UserActions");
 		}
 	});
 
@@ -84,15 +87,26 @@ void UserActionRecorderPlugin::stop()
 	//mRecordSign->stop();
 	mUserActioDomDocument.appendChild(mRootElement);
 
-	mScriptGenerator->generateScript(mUserActioDomDocument.toString());
+	OutFile events(mEventsFileName);
+
+	events() << mUserActioDomDocument.toString();
+	events.mFile.
+
+	mScriptGenerator->generateScript(mEventsFileName);
 }
 
 void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 {
 	QDomElement eventTag = mUserActioDomDocument.createElement("Event");
 
-	if (obj->objectName() == "MainWindowUiWindow") {
-		return;
+	if (!QString::compare(obj->metaObject()->className(), "QWidgetWindow")) {
+		if (obj->objectName() == mActiveWindow) {
+			mActiveWindow = obj->objectName();
+			eventTag.setAttribute("Type", "ActiveWindowChange");
+			eventTag.setAttribute("Reciever", obj->objectName());
+		} else {
+			return;
+		}
 	} else if (!QString::compare(obj->metaObject()->className(), "qReal::EditorViewScene")
 				&& e->type() == QEvent::GraphicsSceneDrop) {
 		QGraphicsSceneDragDropEvent* event = dynamic_cast<QGraphicsSceneDragDropEvent*>(e);
@@ -211,7 +225,7 @@ void UserActionRecorderPlugin::addHintEvent(QString const &hint)
 	mRootElement.appendChild(hintEvent);
 }
 
-void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widget, QMouseEvent *mouseEvent)
+void UserActionRecorderPlugin::addParentChain(QDomElement *eventTag, QWidget *widget, QEvent *event)
 {
 	QWidget *parentWidget = widget->parentWidget();
 	while (parentWidget) {
@@ -220,21 +234,23 @@ void UserActionRecorderPlugin::addParentChain(QDomElement *event, QWidget *widge
 		domParent.setAttribute("ObjectName", parentWidget->objectName());
 		domParent.setAttribute("Index", parentWidget->children().indexOf(widget));
 
-		if (!QString::compare(parentWidget->metaObject()->className(), "qReal::EditorView")) {
-			domParent.setAttribute("Xcoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).x());
-			domParent.setAttribute("Ycoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).y());
-		} else if (!QString::compare(parentWidget->metaObject()->className(), "QComboBox")) {
-			QComboBox *comboBox = dynamic_cast<QComboBox *>(parentWidget);
-			QPoint targetPoint = QPoint(comboBox->mapFromGlobal(mouseEvent->globalPos()));
-			domParent.setAttribute("ItemSelected", comboBox->view()->indexAt(targetPoint).row());
-		} else if (!QString::compare(parentWidget->metaObject()->className(), "QtTreePropertyBrowser")) {
-			QTreeWidget * const editorTree = parentWidget->findChild<QTreeWidget *>();
-			QString const propertyName = editorTree->itemAt(mouseEvent->pos())->text(0);
-			domParent.setAttribute("PropertyName", propertyName);
+		if (static_cast<QMouseEvent *>(event)) {
+			QMouseEvent* mouseEvent = static_cast<QMouseEvent *>(event);
+			if (!QString::compare(parentWidget->metaObject()->className(), "qReal::EditorView")) {
+				domParent.setAttribute("Xcoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).x());
+				domParent.setAttribute("Ycoord", parentWidget->mapFromGlobal(mouseEvent->globalPos()).y());
+			} else if (!QString::compare(parentWidget->metaObject()->className(), "QComboBox")) {
+				QComboBox *comboBox = dynamic_cast<QComboBox *>(parentWidget);
+				QPoint targetPoint = QPoint(comboBox->mapFromGlobal(mouseEvent->globalPos()));
+				domParent.setAttribute("ItemSelected", comboBox->view()->indexAt(targetPoint).row());
+			} else if (!QString::compare(parentWidget->metaObject()->className(), "QtTreePropertyBrowser")) {
+				QTreeWidget * const editorTree = parentWidget->findChild<QTreeWidget *>();
+				QString const propertyName = editorTree->itemAt(mouseEvent->pos())->text(0);
+				domParent.setAttribute("PropertyName", propertyName);
+			}
 		}
 
-
-		event->appendChild(domParent);
+		eventTag->appendChild(domParent);
 		widget = parentWidget;
 		parentWidget = parentWidget->parentWidget();
 	}
