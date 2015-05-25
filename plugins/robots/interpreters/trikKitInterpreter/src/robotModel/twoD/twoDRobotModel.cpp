@@ -1,3 +1,17 @@
+/* Copyright 2007-2015 QReal Research Group
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. */
+
 #include "twoDRobotModel.h"
 
 #include <QtGui/QColor>
@@ -8,6 +22,7 @@
 #include "trikDisplayWidget.h"
 #include "robotModel/twoD/parts/twoDDisplay.h"
 #include "robotModel/twoD/parts/twoDSpeaker.h"
+#include "robotModel/twoD/parts/twoDShell.h"
 #include "robotModel/twoD/parts/twoDInfraredSensor.h"
 #include "robotModel/twoD/parts/twoDLed.h"
 #include "robotModel/twoD/parts/twoDLineSensor.h"
@@ -18,6 +33,7 @@
 #include <trikKit/robotModel/parts/trikColorSensor.h>
 #include <trikKit/robotModel/parts/trikInfraredSensor.h>
 #include <trikKit/robotModel/parts/trikSonarSensor.h>
+#include <trikKit/robotModel/parts/trikShell.h>
 
 #include "trikDisplayWidget.h"
 
@@ -40,6 +56,10 @@ robotParts::Device *TwoDRobotModel::createDevice(const PortInfo &port, const Dev
 
 	if (deviceInfo.isA<robotParts::Speaker>()) {
 		return new parts::TwoDSpeaker(deviceInfo, port, *engine());
+	}
+
+	if (deviceInfo.isA<robotModel::parts::TrikShell>()) {
+		return new parts::Shell(deviceInfo, port);
 	}
 
 	if (deviceInfo.isA<robotModel::parts::TrikInfraredSensor>()) {
@@ -136,7 +156,6 @@ QRect TwoDRobotModel::sensorImageRect(const kitBase::robotModel::DeviceInfo &dev
 QHash<kitBase::robotModel::PortInfo, kitBase::robotModel::DeviceInfo> TwoDRobotModel::specialDevices() const
 {
 	QHash<PortInfo, DeviceInfo> result(twoDModel::robotModel::TwoDRobotModel::specialDevices());
-	result[PortInfo("LineSensorPort", input)] = DeviceInfo::create<parts::LineSensor>();
 	return result;
 }
 

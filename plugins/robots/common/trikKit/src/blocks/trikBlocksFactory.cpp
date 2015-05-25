@@ -1,3 +1,17 @@
+/* Copyright 2007-2015 QReal Research Group
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. */
+
 #include "trikKit/blocks/trikBlocksFactory.h"
 
 #include <kitBase/blocksBase/common/enginesStopBlock.h>
@@ -36,6 +50,9 @@
 #include "details/waitGamepadDisconnectBlock.h"
 #include "details/waitGamepadWheelBlock.h"
 #include "details/waitPadPressBlock.h"
+
+#include "details/writeToFileBlock.h"
+#include "details/removeFileBlock.h"
 
 #include "trikKit/robotModel/parts/trikInfraredSensor.h"
 
@@ -134,6 +151,11 @@ qReal::interpretation::Block *TrikBlocksFactory::produceBlock(const qReal::Id &e
 		return new qReal::interpretation::blocks::EmptyBlock();
 	} else if (elementMetatypeIs(element, "TrikWaitGamepadConnect")) {
 		return new qReal::interpretation::blocks::EmptyBlock();
+
+	} else if (elementMetatypeIs(element, "TrikWriteToFile")) {
+		return new WriteToFileBlock(mRobotModelManager->model());
+	} else if (elementMetatypeIs(element, "TrikRemoveFile")) {
+		return new RemoveFileBlock(mRobotModelManager->model());
 	}
 
 	return nullptr;
@@ -203,6 +225,11 @@ qReal::IdList TrikBlocksFactory::providedBlocks() const
 			<< id("TrikWaitGamepadWheel")
 			<< id("TrikWaitGamepadDisconnect")
 			<< id("TrikWaitGamepadConnect")
+			;
+
+	result
+			<< id("TrikWriteToFile")
+			<< id("TrikRemoveFile")
 			;
 
 	return result;
