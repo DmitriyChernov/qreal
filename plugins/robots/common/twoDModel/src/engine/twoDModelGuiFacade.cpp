@@ -5,13 +5,13 @@
 
 #include <qrutils/widgetFinder.h>
 
-#include <twoDModel/engine/view/d2ModelWidget.h>
+#include <twoDModel/engine/view/twoDModelWidget.h>
 
-#include "src/engine/view/d2ModelScene.h"
+#include "src/engine/view/scene/twoDModelScene.h"
 
 using namespace twoDModel::engine;
 
-TwoDModelGuiFacade::TwoDModelGuiFacade(view::D2ModelWidget &view)
+TwoDModelGuiFacade::TwoDModelGuiFacade(twoDModel::view::TwoDModelWidget &view)
 	: mD2ModelWidget(view)
 {
 }

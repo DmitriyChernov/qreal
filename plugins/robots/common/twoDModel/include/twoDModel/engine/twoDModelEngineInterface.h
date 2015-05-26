@@ -19,11 +19,13 @@
 #include <utils/timelineInterface.h>
 #include <kitBase/robotModel/portInfo.h>
 
+#include <twoDModel/engine/twoDModelGuiFacade.h>
+
 namespace twoDModel {
 namespace engine {
 
 class TwoDModelDisplayInterface;
-class TwoDModelGuiFacade;
+//class TwoDModelGuiFacade;
 
 /// An interface for using 2D model in extensibility components.
 /// Provides some basic engine methods like scanning the field or playing the sound or working with display.

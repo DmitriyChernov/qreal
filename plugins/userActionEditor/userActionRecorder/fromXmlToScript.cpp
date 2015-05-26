@@ -58,7 +58,7 @@ void FromXmlToScript::generateScript(QString const &xml)
 				QString const ycoord = event.attributes().namedItem("Ycoord").nodeValue();
 
 				script()<<generateDragCommand(id, mDraggingElement, xcoord, ycoord);
-			} else if (recieverType == "QScrollBar" && eventAction == "Press"
+			} else if ((recieverType == "QScrollBar" && eventAction == "Press")
 					|| recieverName == "QComboBoxPrivateContainerClassWindow") {
 				continue;
 			} else if (recieverName != "" && recieverName != "qt_scrollarea_viewport") {
@@ -97,13 +97,14 @@ void FromXmlToScript::generateScript(QString const &xml)
 						mDraggingElement = objectName;
 						mIsDragFromPalette = true;
 						continue;
-					} else if (objectType == "qReal::EditorView") {
+					} else if (objectType == "qReal::EditorView" || objectType == "graphicsUtils::AbstractView") {
+						if (objectType == )
 						QString const sceneViewport = "sceneViewport";
 						QString const xcoord = parent.attributes().namedItem("Xcoord").nodeValue();
 						QString const ycoord = parent.attributes().namedItem("Ycoord").nodeValue();
 						script() << "var " + sceneViewport + " = api.ui().sceneViewport();\n";
 						script() << "api.cursor().sceneMoveTo("
-									+ sceneViewport
+									+ "sceneViewport"
 									+ ", 1000, "
 									+ xcoord
 									+ ", "
@@ -206,7 +207,8 @@ int FromXmlToScript::findPithyParent(QDomNodeList const &parents) const
 		QString const objectType = parent.attributes().namedItem("Type").nodeValue();
 
 		if (objectType == "qReal::gui::DraggableElement" || objectType == "qReal::EditorView"
-				|| objectType == "QScrollBar" || objectType == "QComboBox" || objectType == "QtTreePropertyBrowser") {
+				|| objectType == "QScrollBar" || objectType == "QComboBox" || objectType == "QtTreePropertyBrowser"
+				|| objectType == "graphicsUtils::AbstractView") {
 			return i;
 		}
 	}

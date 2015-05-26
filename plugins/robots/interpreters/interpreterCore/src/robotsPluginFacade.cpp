@@ -26,7 +26,6 @@
 
 #include "twoDModel/robotModel/twoDRobotModel.h"
 #include "twoDModel/engine/twoDModelEngineInterface.h"
-#include "twoDModel/engine/twoDModelGuiFacade.h"
 
 using namespace interpreterCore;
 
@@ -350,4 +349,6 @@ QObject *RobotsPluginFacade::guiScriptFacade()
 	if (auto robotModel = dynamic_cast<twoDModel::robotModel::TwoDRobotModel *>(&mRobotModelManager.model())) {
 		return robotModel->engine()->guiFacade();
 	}
+
+	return nullptr;
 }

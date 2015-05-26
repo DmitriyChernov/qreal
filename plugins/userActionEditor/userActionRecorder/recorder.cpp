@@ -76,6 +76,7 @@ UserActionRecorderPlugin::~UserActionRecorderPlugin()
 void UserActionRecorderPlugin::start()
 {
 	mUserActioDomDocument.clear();
+
 	mRecordShell->show();
 	//mRecordSign->animate();
 	mRootElement = mUserActioDomDocument.createElement("UserActions");
@@ -90,7 +91,7 @@ void UserActionRecorderPlugin::stop()
 	OutFile events(mEventsFileName);
 
 	events() << mUserActioDomDocument.toString();
-	events.mFile.
+	events.flush();
 
 	mScriptGenerator->generateScript(mEventsFileName);
 }

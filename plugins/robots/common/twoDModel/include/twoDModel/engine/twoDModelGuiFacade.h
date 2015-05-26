@@ -5,7 +5,7 @@
 namespace twoDModel {
 
 namespace view {
-class D2ModelWidget;
+class TwoDModelWidget;
 }
 
 namespace engine {
@@ -17,7 +17,7 @@ class TwoDModelGuiFacade : public QObject
 	Q_OBJECT
 
 public:
-	explicit TwoDModelGuiFacade(view::D2ModelWidget &d2RobotWidget);
+	explicit TwoDModelGuiFacade(view::TwoDModelWidget &d2RobotWidget);
 
 	/// Returns widget, which defined by type and object name.
 	Q_INVOKABLE QWidget *widget(QString const &type, QString const &name);
@@ -29,7 +29,7 @@ public:
 	Q_INVOKABLE QWidget *d2ModelSceneViewport();
 
 private:
-	view::D2ModelWidget &mD2ModelWidget;
+	view::TwoDModelWidget &mD2ModelWidget;
 };
 
 }

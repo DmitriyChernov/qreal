@@ -256,8 +256,6 @@ void ActionsManager::initKitPluginActions()
 		}
 	}
 }
-
-<<<<<<< HEAD
 void ActionsManager::giveObjectNames()
 {
 	mRunAction.setObjectName("runRobot");
@@ -266,11 +264,8 @@ void ActionsManager::giveObjectNames()
 	mRobotSettingsAction.setObjectName("robotSettings");
 }
 
-QAction *ActionsManager::produceMenuAction(const QString &kitId, QActionGroup * const subActions) const
-=======
 QAction *ActionsManager::produceMenuAction(const QString &kitId, const QString &name
 		, const QList<QAction *> &subActions) const
->>>>>>> trunc/master
 {
 	if (subActions.isEmpty()) {
 		return nullptr;

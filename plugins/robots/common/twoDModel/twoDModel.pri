@@ -23,14 +23,14 @@ includes(plugins/robots/utils qrtext)
 TRANSLATIONS = $$PWD/../../../../qrtranslations/ru/plugins/robots/twoDModel_ru.ts
 
 
-ERS += \
+HEADERS += \
 	$$PWD/include/twoDModel/twoDModelDeclSpec.h \
 	$$PWD/include/twoDModel/engine/twoDModelControlInterface.h \
 	$$PWD/include/twoDModel/engine/twoDModelDisplayInterface.h \
 	$$PWD/include/twoDModel/engine/twoDModelDisplayWidget.h \
 	$$PWD/include/twoDModel/engine/twoDModelEngineFacade.h \
 	$$PWD/include/twoDModel/engine/twoDModelEngineInterface.h \
-	$$PWD/include/twoDModel/engine/twoDModelGuiFacade.h\
+	$$PWD/include/twoDModel/engine/twoDModelGuiFacade.h \
 	$$PWD/include/twoDModel/engine/view/twoDModelWidget.h \
 	$$PWD/include/twoDModel/engine/model/constants.h \
 	$$PWD/include/twoDModel/engine/model/model.h \
@@ -140,7 +140,7 @@ SOURCES += \
 	$$PWD/src/engine/constraints/details/conditionsFactory.cpp \
 	$$PWD/src/engine/constraints/details/triggersFactory.cpp \
 	$$PWD/src/engine/constraints/details/valuesFactory.cpp \
-	$$PWD/src/engine/twoDModelGuiFacade.cpp\
+	$$PWD/src/engine/twoDModelGuiFacade.cpp \
 	$$PWD/src/robotModel/twoDRobotModel.cpp \
 	$$PWD/src/robotModel/nullTwoDRobotModel.cpp \
 	$$PWD/src/robotModel/parts/button.cpp \
