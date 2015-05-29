@@ -1,0 +1,1 @@
+api.changeWindow(@@WINDOW@@);
