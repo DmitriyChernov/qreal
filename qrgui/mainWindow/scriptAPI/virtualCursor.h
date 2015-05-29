@@ -71,6 +71,7 @@ private:
 	QPropertyAnimation *mCursorMoveAnimation;
 
 	bool mRightButtonPressed;
+	bool mLeftButtonPressed;
 	bool mDragStarted;
 };
 

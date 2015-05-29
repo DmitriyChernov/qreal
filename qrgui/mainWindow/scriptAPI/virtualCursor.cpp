@@ -98,8 +98,8 @@ void VirtualCursor::sceneMoveTo(QWidget *target, int duration, int xSceneCoord, 
 		connect (mCursorMoveAnimation, &QPropertyAnimation::finished, mScriptAPI, &ScriptAPI::breakWaiting);
 
 		QTimer *timer = new QTimer(this);
-		if (mRightButtonPressed) {
-			timer->setInterval(100);
+		if (mRightButtonPressed || mLeftButtonPressed) {
+			timer->setInterval(40);
 
 			connect(timer, &QTimer::timeout
 					, [this, target]() {
@@ -118,6 +118,7 @@ void VirtualCursor::sceneMoveTo(QWidget *target, int duration, int xSceneCoord, 
 
 void VirtualCursor::leftButtonPress(QWidget *target, int delay)
 {
+	mLeftButtonPressed = true;
 	QPoint cursorPos = target->mapFrom(parentWidget(), pos());
 
 	simulateMouse(target, QEvent::MouseButtonPress, cursorPos, Qt::LeftButton);
@@ -129,6 +130,7 @@ void VirtualCursor::leftButtonPress(QWidget *target, int delay)
 
 void VirtualCursor::leftButtonRelease(QWidget *target, int delay)
 {
+	mLeftButtonPressed = false;
 	QPoint cursorPos = target->mapFrom(parentWidget(), pos());
 
 	simulateMouse(target, QEvent::MouseButtonRelease, cursorPos, Qt::LeftButton);

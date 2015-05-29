@@ -70,7 +70,7 @@ QString SceneAPI::createBlockOnScene(DraggableElement const *paletteElement
 		QMimeData *mimeData = paletteElement->mimeData(elementId);
 		currentTab->mutableScene().createElement(
 				paletteElement->mimeData(elementId)
-				, currentTab->mapToScene(QPoint(xSceneCoord, ySceneCoord))
+				, currentTab->mapToScene(QPoint(xSceneCoord + paletteElement->size().width()/2, ySceneCoord + paletteElement->size().height()/2))
 				, false
 				, nullptr
 				, true);

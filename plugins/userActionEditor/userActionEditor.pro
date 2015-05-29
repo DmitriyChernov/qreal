@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS = \
-	editor/userActionEditor.pro \
-	userActionRecorder/userActionRecorder.pro \
+	editor/editor.pro \
+	recorder/recorder.pro \
+	generator/generator.pro

@@ -1,0 +1,18 @@
+#include "cursorMoveToGenerator.h"
+
+#include <generatorBase/simpleGenerators/bindingGenerator.h>
+
+using namespace userAction;
+using namespace userAction::simpleGenerators;
+using namespace generatorBase::simple;
+using namespace qReal;
+
+CursorMoveToGenerator::CursorMoveToGenerator(const qrRepo::RepoApi &repo
+		, Customizer &customizer
+		, const Id &id
+		, QObject *parent)
+	: BindingGenerator(repo, customizer, id
+			, "cursorMoveTo.t"
+			, QList<Binding *>(), parent)
+{
+}
