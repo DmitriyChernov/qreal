@@ -12,7 +12,7 @@ class HintMessageGenerator : public generatorBase::simple::BindingGenerator
 {
 public:
 	HintMessageGenerator(const qrRepo::RepoApi &repo
-			, Customizer &customizer
+			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
 			, QObject *parent = 0);
 };

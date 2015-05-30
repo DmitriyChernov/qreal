@@ -12,7 +12,7 @@ class GetPropertyGenerator : public generatorBase::simple::BindingGenerator
 {
 public:
 	GetPropertyGenerator(const qrRepo::RepoApi &repo
-			, Customizer &customizer
+			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
 			, QObject *parent = 0);
 };

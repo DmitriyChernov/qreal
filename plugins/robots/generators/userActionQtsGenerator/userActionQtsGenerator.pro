@@ -1,6 +1,6 @@
-TARGET = user-action-generator
+TARGET = user-action-qts-generator
 
-include(../../../global.pri)
+include(../../../../global.pri)
 
 QT += widgets
 
@@ -10,6 +10,7 @@ CONFIG += plugin
 DESTDIR = $$DESTDIR/plugins/tools/userAction/
 
 includes(plugins/robots/generators/generatorBase \
+	plugins/robots/common/kitBase \
 	qrtext \
 )
 
@@ -35,7 +36,8 @@ HEADERS += \
 	$$PWD/simpleGenerators/getPropertyRectangleGenerator.h \
 	$$PWD/simpleGenerators/recordGenerator.h \
 	$$PWD/simpleGenerators/mouseButtonActionGenerator.h \
-	$$PWD/simpleGenerators/getDraggableElementGenerator.h
+	$$PWD/simpleGenerators/getDraggableElementGenerator.h \
+    userActionBlockFactory.h
 
 SOURCES += \
 	$$PWD/simpleGenerators/hintMessageGenerator.cpp \
@@ -57,8 +59,9 @@ SOURCES += \
 	$$PWD/simpleGenerators/getPropertyRectangleGenerator.cpp \
 	$$PWD/simpleGenerators/recordGenerator.cpp \
 	$$PWD/simpleGenerators/mouseButtonActionGenerator.cpp \
-	$$PWD/simpleGenerators/getDraggableElementGenerator.cpp
+	$$PWD/simpleGenerators/getDraggableElementGenerator.cpp \
+    userActionBlockFactory.cpp
 
 RESOURCES = \
 	$$PWD/templates.qrc \
-    images.qrc
+	$$PWD/images.qrc

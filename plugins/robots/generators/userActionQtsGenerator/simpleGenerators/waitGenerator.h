@@ -12,7 +12,7 @@ class WaitGenerator : public generatorBase::simple::BindingGenerator
 {
 public:
 	WaitGenerator(const qrRepo::RepoApi &repo
-			, Customizer &customizer
+			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
 			, QObject *parent = 0);
 };

@@ -12,7 +12,7 @@ class DragPaletteElementGenerator : public generatorBase::simple::BindingGenerat
 {
 public:
 	DragPaletteElementGenerator(const qrRepo::RepoApi &repo
-			, Customizer &customizer
+			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
 			, QObject *parent = 0);
 };

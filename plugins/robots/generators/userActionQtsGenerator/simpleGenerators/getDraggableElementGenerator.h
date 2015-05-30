@@ -12,7 +12,7 @@ class GetDraggableElementGenerator : public generatorBase::simple::BindingGenera
 {
 public:
 	GetDraggableElementGenerator(const qrRepo::RepoApi &repo
-			, Customizer &customizer
+			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
 			, QObject *parent = 0);
 };

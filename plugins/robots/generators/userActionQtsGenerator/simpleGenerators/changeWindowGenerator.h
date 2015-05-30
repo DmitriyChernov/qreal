@@ -12,7 +12,7 @@ class ChangeWindowGenerator : public generatorBase::simple::BindingGenerator
 {
 public:
 	ChangeWindowGenerator(const qrRepo::RepoApi &repo
-			, Customizer &customizer
+			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
 			, QObject *parent = 0);
 };

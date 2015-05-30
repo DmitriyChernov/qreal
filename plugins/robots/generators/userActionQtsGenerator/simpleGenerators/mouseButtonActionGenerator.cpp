@@ -8,7 +8,7 @@ using namespace generatorBase::simple;
 using namespace qReal;
 
 MouseButtonActionGenerator::MouseButtonActionGenerator(const qrRepo::RepoApi &repo
-		, Customizer &customizer
+		, generatorBase::GeneratorCustomizer &customizer
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id

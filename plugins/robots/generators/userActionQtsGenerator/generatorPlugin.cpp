@@ -63,9 +63,9 @@ generatorBase::MasterGeneratorBase *UserActionGeneratorPlugin::masterGenerator()
 {
 	return new MasterGenerator(*mRepo
 			, *mMainWindowInterface->errorReporter()
-			, *mParserErrorReporter
 			, *mRobotModelManager
 			, *mTextLanguage
+			, *mParserErrorReporter
 			, mMainWindowInterface->activeDiagram()
 			, generatorName());
 }
@@ -83,4 +83,31 @@ text::LanguageInfo UserActionGeneratorPlugin::language() const
 QString UserActionGeneratorPlugin::generatorName() const
 {
 	return "userAction";
+}
+
+QString UserActionGeneratorPlugin::kitId() const
+{
+	return "userActionKit";
+}
+
+QList<kitBase::robotModel::RobotModelInterface *> UserActionGeneratorPlugin::robotModels()
+{
+	return {};
+}
+
+kitBase::blocksBase::BlocksFactoryInterface *UserActionGeneratorPlugin::blocksFactoryFor(
+		const kitBase::robotModel::RobotModelInterface *model)
+{
+	Q_UNUSED(model)
+	return mBlocksFactory;
+}
+
+QList<kitBase::AdditionalPreferences *> UserActionGeneratorPlugin::settingsWidgets()
+{
+	return {};
+}
+
+void UserActionGeneratorPlugin::regenerateExtraFiles(const QFileInfo &newFileInfo)
+{
+	Q_UNUSED(newFileInfo);
 }

@@ -12,7 +12,7 @@ class TypeGenerator : public generatorBase::simple::BindingGenerator
 {
 public:
 	TypeGenerator(const qrRepo::RepoApi &repo
-			, Customizer &customizer
+			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
 			, QObject *parent = 0);
 };

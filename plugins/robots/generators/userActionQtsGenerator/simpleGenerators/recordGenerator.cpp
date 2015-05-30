@@ -8,11 +8,11 @@ using namespace generatorBase::simple;
 using namespace qReal;
 
 RecordGenerator::RecordGenerator(const qrRepo::RepoApi &repo
-		, Customizer &customizer
+		, generatorBase::GeneratorCustomizer &customizer
 		, const Id &id
 		, QObject *parent)
 	: AbstractSimpleGenerator(repo, customizer, id
-			, QList<Binding *>(), parent)
+			, parent)
 {
 }
 

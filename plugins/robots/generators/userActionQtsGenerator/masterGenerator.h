@@ -10,15 +10,19 @@ class MasterGenerator : public generatorBase::MasterGeneratorBase
 public:
 	MasterGenerator(const qrRepo::RepoApi &repo
 			, qReal::ErrorReporterInterface &errorReporter
-			, const utils::ParserErrorReporter &parserErrorReporter
 			, const kitBase::robotModel::RobotModelManagerInterface &robotModelManager
 			, qrtext::LanguageToolboxInterface &textLanguage
+			, const utils::ParserErrorReporter &parserErrorReporter
 			, const qReal::Id &diagramId
 			, const QString &generatorName);
 
 protected:
 	QString targetPath() override;
 	bool supportsGotoGeneration() const override;
+	generatorBase::GeneratorCustomizer *createCustomizer() override;
+
+
+	const QString mGeneratorName;
 };
 
 }

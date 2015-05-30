@@ -12,7 +12,7 @@ class GetPropertyRectangleGenerator : public generatorBase::simple::BindingGener
 {
 public:
 	GetPropertyRectangleGenerator(const qrRepo::RepoApi &repo
-			, Customizer &customizer
+			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
 			, QObject *parent = 0);
 };

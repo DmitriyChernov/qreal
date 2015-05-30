@@ -7,8 +7,8 @@ using namespace userAction::simpleGenerators;
 using namespace generatorBase::simple;
 using namespace qReal;
 
-PickComboBoxGenerator::PickComboBoxGenerator(const qrRepo::RepoApi &repo
-		, Customizer &customizer
+PickComboboxGenerator::PickComboboxGenerator(const qrRepo::RepoApi &repo
+		, generatorBase::GeneratorCustomizer &customizer
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
