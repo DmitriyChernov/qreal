@@ -60,8 +60,6 @@ void ScriptAPI::pickComboBoxItem(QComboBox *comboBox, int const index, int const
 	int const rowHeight = (comboBox->view()->height() - comboBoxHeight) / comboBox->count();
 
 	QRect itemRect = comboBox->view()->visualRect(comboBox->view()->indexAt(QPoint(0, rowHeight * (index + 1))));
-	qDebug()<<comboBox->view()->height();
-	qDebug()<<comboBox->view()->width();
 	QRect target = QRect(itemRect.center(), itemRect.size());
 
 	QWidget *parent = mVirtualCursor->parentWidget();

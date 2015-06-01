@@ -12,7 +12,8 @@ WaitGenerator::WaitGenerator(const qrRepo::RepoApi &repo
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "wait.t"
-			, QList<Binding *>(), parent)
+			, "userAction/wait.t"
+			, { Binding::createDirect("@@DURATION@@", "Duration") }
+			, parent)
 {
 }

@@ -223,7 +223,7 @@ bool RobotsPluginFacade::selectKit(const qReal::PluginConfigurator &configurer)
 	if (selectedKit.isEmpty() && !mKitPluginManager.kitIds().isEmpty()) {
 		qReal::SettingsManager::setValue("SelectedRobotKit", mKitPluginManager.kitIds()[0]);
 	} else if (mKitPluginManager.kitIds().isEmpty()) {
-		configurer.mainWindowInterpretersInterface().setEnabledForAllElementsInPalette(false);
+		configurer.mainWindowInterpretersInterface().setEnabledForAllElementsInPalette(qReal::Id("RobotsMetamodel"), false);
 
 		/// @todo Correctly handle unselected kit.
 		return false;

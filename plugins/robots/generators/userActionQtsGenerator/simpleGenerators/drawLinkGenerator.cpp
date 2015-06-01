@@ -12,7 +12,10 @@ DrawLinkGenerator::DrawLinkGenerator(const qrRepo::RepoApi &repo
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "drawLink.t"
-			, QList<Binding *>(), parent)
+			, "userAction/drawLink.t"
+			, { Binding::createDirect("@@FROMELEMENTID@@", "FromElementId")
+					, Binding::createDirect("@@TOELEMENTID@@", "ToElementId")
+					, Binding::createDirect("@@DURATION@@", "Duration") }
+			, parent)
 {
 }

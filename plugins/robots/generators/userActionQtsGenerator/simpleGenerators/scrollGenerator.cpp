@@ -12,7 +12,10 @@ ScrollGenerator::ScrollGenerator(const qrRepo::RepoApi &repo
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "scroll.t"
-			, QList<Binding *>(), parent)
+			, "userAction/scroll.t"
+			, { Binding::createDirect("@@SCROLLAREA@@", "ScrollArea")
+					, Binding::createDirect("@@ITEMNAME@@", "ItemName")
+					, Binding::createDirect("@@DURATION@@", "Duration") }
+			, parent)
 {
 }

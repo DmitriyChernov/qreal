@@ -2079,14 +2079,12 @@ void MainWindow::setElementInPaletteVisible(const Id &metatype, bool visible)
 	// may be greyed-out and still can't be used on diagrams.
 }
 
-void MainWindow::setVisibleForAllElementsInPalette(bool visible)
+void MainWindow::setVisibleForAllElementsInPalette(const Id &editor, bool visible)
 {
 	mUi->paletteTree->setVisibleForAllElements(visible);
-	for (const Id &editor : editorManager().editors()) {
-		for (const Id &diagram : editorManager().diagrams(editor)) {
-			for (const Id &element : editorManager().elements(diagram)) {
-				editorManager().setElementEnabled(element, visible);
-			}
+	for (const Id &diagram : editorManager().diagrams(editor)) {
+		for (const Id &element : editorManager().elements(diagram)) {
+			editorManager().setElementEnabled(element, visible);
 		}
 	}
 }
@@ -2097,14 +2095,13 @@ void MainWindow::setElementInPaletteEnabled(const Id &metatype, bool enabled)
 	editorManager().setElementEnabled(metatype, enabled);
 }
 
-void MainWindow::setEnabledForAllElementsInPalette(bool enabled)
+void MainWindow::setEnabledForAllElementsInPalette(const Id &metatype, bool enabled)
 {
 	mUi->paletteTree->setEnabledForAllElements(enabled);
-	for (const Id &editor : editorManager().editors()) {
-		for (const Id &diagram: editorManager().diagrams(editor)) {
-			for (const Id &element : editorManager().elements(diagram)) {
-				editorManager().setElementEnabled(element, enabled);
-			}
+
+	for (const Id &diagram: editorManager().diagrams(metatype)) {
+		for (const Id &element : editorManager().elements(diagram)) {
+			editorManager().setElementEnabled(element, enabled);
 		}
 	}
 }

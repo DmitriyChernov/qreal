@@ -12,7 +12,10 @@ HintMessageGenerator::HintMessageGenerator(const qrRepo::RepoApi &repo
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "hint.t"
-			, QList<Binding *>(), parent)
+			, "userAction/hint.t"
+			, { Binding::createDirect("@@MESSAGE@@", "Message")
+					, Binding::createDirect("@@DURATION@@", "Duration")
+					, Binding::createDirect("@@PARENT@@", "Parent") }
+			, parent)
 {
 }

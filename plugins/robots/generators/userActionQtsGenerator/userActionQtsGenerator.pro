@@ -7,14 +7,15 @@ QT += widgets
 TEMPLATE = lib
 CONFIG += plugin
 
-DESTDIR = $$DESTDIR/plugins/tools/userAction/
+DESTDIR = $$DESTDIR/plugins/tools/kitPlugins/
 
-includes(plugins/robots/generators/generatorBase \
+includes(plugins/robots/utils \
+	plugins/robots/generators/generatorBase \
 	plugins/robots/common/kitBase \
 	qrtext \
 )
 
-links(qrkernel qslog qrutils qrrepo qscintilla2 robots-generator-base)
+links(qrkernel qslog qrutils qrrepo qscintilla2 robots-generator-base robots-kit-base)
 
 HEADERS += \
 	$$PWD/simpleGenerators/hintMessageGenerator.h \
@@ -36,8 +37,8 @@ HEADERS += \
 	$$PWD/simpleGenerators/getPropertyRectangleGenerator.h \
 	$$PWD/simpleGenerators/recordGenerator.h \
 	$$PWD/simpleGenerators/mouseButtonActionGenerator.h \
-	$$PWD/simpleGenerators/getDraggableElementGenerator.h \
-    userActionBlockFactory.h
+	$$PWD/userActionBlockFactory.h \
+	$$PWD/noRobotModel.h \
 
 SOURCES += \
 	$$PWD/simpleGenerators/hintMessageGenerator.cpp \
@@ -59,8 +60,8 @@ SOURCES += \
 	$$PWD/simpleGenerators/getPropertyRectangleGenerator.cpp \
 	$$PWD/simpleGenerators/recordGenerator.cpp \
 	$$PWD/simpleGenerators/mouseButtonActionGenerator.cpp \
-	$$PWD/simpleGenerators/getDraggableElementGenerator.cpp \
-    userActionBlockFactory.cpp
+	$$PWD/userActionBlockFactory.cpp \
+	$$PWD/noRobotModel.cpp \
 
 RESOURCES = \
 	$$PWD/templates.qrc \

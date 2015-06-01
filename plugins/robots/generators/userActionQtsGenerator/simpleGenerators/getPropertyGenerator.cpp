@@ -12,7 +12,9 @@ GetPropertyGenerator::GetPropertyGenerator(const qrRepo::RepoApi &repo
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "getProperty.t"
-			, QList<Binding *>(), parent)
+			, "userAction/getProperty.t"
+			, { Binding::createDirect("@@STOREVAR@@", "StoreVar")
+					, Binding::createDirect("@@NAME@@", "Name") }
+			, parent)
 {
 }

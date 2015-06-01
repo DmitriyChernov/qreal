@@ -111,5 +111,22 @@
         <file>templates/luaPrinting/boolToString.t</file>
         <file>templates/luaPrinting/otherToString.t</file>
         <file>templates/variables/randomInitialization.t</file>
+        <file>templates/userAction/arrow.t</file>
+        <file>templates/userAction/changeWindow.t</file>
+        <file>templates/userAction/cursorMoveTo.t</file>
+        <file>templates/userAction/dragPaletteElement.t</file>
+        <file>templates/userAction/drawLink.t</file>
+        <file>templates/userAction/getDraggableElement.t</file>
+        <file>templates/userAction/getProperty.t</file>
+        <file>templates/userAction/getPropertyRectangle.t</file>
+        <file>templates/userAction/getWidget.t</file>
+        <file>templates/userAction/getWidgetWithoutParent.t</file>
+        <file>templates/userAction/hint.t</file>
+        <file>templates/userAction/mouseButtonAction.t</file>
+        <file>templates/userAction/mouseButtonActionWithoutDelay.t</file>
+        <file>templates/userAction/pickComboBox.t</file>
+        <file>templates/userAction/scroll.t</file>
+        <file>templates/userAction/type.t</file>
+        <file>templates/userAction/wait.t</file>
     </qresource>
 </RCC>

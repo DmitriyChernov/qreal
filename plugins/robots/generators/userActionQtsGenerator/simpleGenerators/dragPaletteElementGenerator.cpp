@@ -12,7 +12,11 @@ DragPaletteElementGenerator::DragPaletteElementGenerator(const qrRepo::RepoApi &
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "dragPaletteElement.t"
-			, QList<Binding *>(), parent)
+			, "userAction/dragPaletteElement.t"
+			, { Binding::createDirect("@@PALETTEELEMENTID@@", "PaletteElementId")
+					, Binding::createDirect("@@XCOORD@@", "XCoord")
+					, Binding::createDirect("@@YCOORD@@", "YCoord")
+					, Binding::createDirect("@@DURATION@@", "Duration") }
+			, parent)
 {
 }

@@ -201,7 +201,7 @@ void NullMainWindow::setElementInPaletteVisible(const Id &metatype, bool visible
 	Q_UNUSED(visible)
 }
 
-void NullMainWindow::setVisibleForAllElementsInPalette(bool visible)
+void NullMainWindow::setVisibleForAllElementsInPalette(const Id &metatype, bool visible)
 {
 	Q_UNUSED(visible)
 }
@@ -212,7 +212,7 @@ void NullMainWindow::setElementInPaletteEnabled(const Id &metatype, bool enabled
 	Q_UNUSED(enabled)
 }
 
-void NullMainWindow::setEnabledForAllElementsInPalette(bool enabled)
+void NullMainWindow::setEnabledForAllElementsInPalette(const Id &metatype, bool enabled)
 {
 	Q_UNUSED(enabled)
 }

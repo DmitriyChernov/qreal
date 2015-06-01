@@ -8,6 +8,9 @@ using namespace qReal;
 
 UserActionGeneratorPlugin::UserActionGeneratorPlugin()
 	: RobotsGeneratorPluginBase()
+	, mRobotModel(new NoRobotModel(kitId(), ""))
+	, mGenerateCodeAction(new QAction(nullptr))
+	, mBlocksFactory(new UserActionBlockFactory)
 {
 }
 
@@ -22,10 +25,10 @@ void UserActionGeneratorPlugin::init(const kitBase::KitPluginConfigurator &confi
 
 QList<ActionInfo> UserActionGeneratorPlugin::customActions()
 {
-//	mGenerateCodeAction->setText(tr("Generate QtScript code"));
-//	ActionInfo generateCodeActionInfo(mGenerateCodeAction, "generators", "tools");
-//	connect(mGenerateCodeAction, SIGNAL(triggered()), this, SLOT(generateCode()), Qt::UniqueConnection);
-//	mGenerateCodeAction->setObjectName("generateQtScriptCode");
+	mGenerateCodeAction->setText(tr("Generate userAcion QtScript code"));
+	ActionInfo generateCodeActionInfo(mGenerateCodeAction, "generators", "tools");
+	connect(mGenerateCodeAction, SIGNAL(triggered()), this, SLOT(generateCode()), Qt::UniqueConnection);
+	mGenerateCodeAction->setObjectName("generateUserAcionQtScriptCode");
 
 //	mStartRecordAction->setText(tr("Start record user actions"));
 //	ActionInfo startRecordActionInfo(mStartRecordAction, "generators", "tools");
@@ -37,20 +40,20 @@ QList<ActionInfo> UserActionGeneratorPlugin::customActions()
 //	//connect(mStartRecordAction, SIGNAL(triggered()), this, SLOT(generateCode()), Qt::UniqueConnection);
 //	mStopRecordAction->setObjectName("stopRecord");
 
-//	return {generateCodeActionInfo, startRecordActionInfo, stopRecordActionInfo };
+	return {generateCodeActionInfo };
 }
 
 QList<HotKeyActionInfo> UserActionGeneratorPlugin::hotKeyActions()
 {
-//	mGenerateCodeAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_A));
+	//mGenerateCodeAction->setShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F8));
 //	mStartRecordAction>setShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F9));
 //	mStopRecordAction>setShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F10));
 
-//	HotKeyActionInfo generateCodeInfo("Generator.GenerateQtScript", tr("Generate QtScript code"), mGenerateCodeAction);
+	//HotKeyActionInfo generateCodeInfo("Generator.GenerateUserAcionQtScript", tr("Generate userAcion QtScript code"), mGenerateCodeAction);
 //	HotKeyActionInfo startCodeInfo("Generator.StartRecord", tr("Start recording user actions"), mStartRecordAction);
 //	HotKeyActionInfo stopCodeInfo("Generator.StopRecord", tr("Stop recording user actions"), mStopRecordAction);
 
-//	return { generateCodeInfo, startCodeInfo, stopCodeInfo };
+	return { };
 }
 
 QIcon UserActionGeneratorPlugin::iconForFastSelector(const kitBase::robotModel::RobotModelInterface &robotModel) const
@@ -87,12 +90,12 @@ QString UserActionGeneratorPlugin::generatorName() const
 
 QString UserActionGeneratorPlugin::kitId() const
 {
-	return "userActionKit";
+	return "trikKit";
 }
 
 QList<kitBase::robotModel::RobotModelInterface *> UserActionGeneratorPlugin::robotModels()
 {
-	return {};
+	return { mRobotModel.data() };
 }
 
 kitBase::blocksBase::BlocksFactoryInterface *UserActionGeneratorPlugin::blocksFactoryFor(

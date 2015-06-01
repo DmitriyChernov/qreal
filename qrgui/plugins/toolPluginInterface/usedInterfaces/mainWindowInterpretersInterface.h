@@ -111,7 +111,7 @@ public:
 
 	/// Shows or hides all elements in palette.
 	/// @param visible - true, if all elements shall be visible, false if hidden.
-	virtual void setVisibleForAllElementsInPalette(bool visible) = 0;
+	virtual void setVisibleForAllElementsInPalette(const Id &editor, bool visible) = 0;
 
 	/// Disables/enables given element on a palette.
 	/// @param metatype - id of an element type to be disabled/enabled.
@@ -120,7 +120,7 @@ public:
 
 	/// Enables or disables all elements in palette.
 	/// @param enabled - true, if all elements shall be enabled, false if all elements shall be disabled.
-	virtual void setEnabledForAllElementsInPalette(bool enabled) = 0;
+	virtual void setEnabledForAllElementsInPalette(const Id &editor, bool enabled) = 0;
 
 	/// Commits palette modification in the system: shows or hides elements in palette, linker menus,
 	/// gestures tab and enables or disables elements on diagram.

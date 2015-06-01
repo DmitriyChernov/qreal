@@ -12,7 +12,8 @@ ChangeWindowGenerator::ChangeWindowGenerator(const qrRepo::RepoApi &repo
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "changeWindow.t"
-			, QList<Binding *>(), parent)
+			, "userAction/changeWindow.t"
+			, { Binding::createDirect("@@WINDOW@@", "Window") }
+			, parent)
 {
 }

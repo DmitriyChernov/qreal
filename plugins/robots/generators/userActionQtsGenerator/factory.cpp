@@ -73,10 +73,7 @@ AbstractSimpleGenerator *Factory::simpleGenerator(const qReal::Id &id
 		return new GetPropertyGenerator(mRepo, customizer, id, this);
 	} else if (elementType == "PropertyRectangle") {
 		return new GetPropertyRectangleGenerator(mRepo, customizer, id, this);
-	} else if (elementType == "DraggableElement") {
-		return new GetDraggableElementGenerator(mRepo, customizer, id, this);
 	}
-
 
 	return GeneratorFactoryBase::simpleGenerator(id, customizer);
 }

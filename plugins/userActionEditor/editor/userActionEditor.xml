@@ -835,35 +835,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="GetDraggableElement" name="DraggableElement" description="Store in variable targeted draggable element.">
-				<graphics>
-					<picture sizex="50" sizey="50">
-						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
-					</picture>
-					<labels>
-						<label x="-20" y="-30" text="Get plugin action tool button" hard="true" background="white"/>
-						<label x="50" y="60" textBinded="Name" background="white"/>
-						<label x="-50" y="60" text="Name:"/>
-						<label x="50" y="80" textBinded="StoreVar" background="white"/>
-						<label x="-50" y="80" text="Store variable:"/>
-					</labels>
-				</graphics>
-				<logic>
-					<properties>
-						<property displayedName="Name" type="string" name="Name">
-							<default></default>
-						</property>
-						<property displayedName="Store variable" type="string" name="StoreVar">
-							<default></default>
-						</property>
-					</properties>
-					<generalizations>
-						<parent parentName="AbstractNode"/>
-					</generalizations>
-				</logic>
-			</node>
 		</graphicTypes>
-
 		<palette sorted="false">
 			<group name="Algorithms">
 				<element name="InitialNode"/>
@@ -903,7 +875,6 @@
 			<group name="Ui">
 				<element name="Widget"/>
 				<element name="PluginActionToolButton"/>
-				<element name="DraggableElement"/>
 				<element name="Property"/>
 				<element name="PropertyRectangle"/>
 			</group>

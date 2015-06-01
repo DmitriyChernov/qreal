@@ -12,7 +12,9 @@ CursorMoveToGenerator::CursorMoveToGenerator(const qrRepo::RepoApi &repo
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "cursorMoveTo.t"
-			, QList<Binding *>(), parent)
+			, "userAction/cursorMoveTo.t"
+			, { Binding::createDirect("@@TARGET@@", "Target")
+					, Binding::createDirect("@@DURATION@@", "Duration") }
+			, parent)
 {
 }

@@ -12,7 +12,11 @@ MouseButtonActionGenerator::MouseButtonActionGenerator(const qrRepo::RepoApi &re
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "mouseButtonActionGenerator.t"
-			, QList<Binding *>(), parent)
+			, "userAction/mouseButtonActionGenerator.t"
+			, { Binding::createDirect("@@BUTTON@@", "Button")
+					, Binding::createDirect("@@ACTION@@", "Action")
+					, Binding::createDirect("@@TARGET@@", "Target")
+					, Binding::createDirect("@@DELAY@@", "Delay") }
+			, parent)
 {
 }

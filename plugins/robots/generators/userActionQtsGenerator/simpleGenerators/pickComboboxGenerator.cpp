@@ -12,7 +12,10 @@ PickComboboxGenerator::PickComboboxGenerator(const qrRepo::RepoApi &repo
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "pickCombobox.t"
-			, QList<Binding *>(), parent)
+			, "userAction/pickCombobox.t"
+			, { Binding::createDirect("@@COMBOBOX@@", "ComboBox")
+					, Binding::createDirect("@@ITEMNAME@@", "ItemName")
+					, Binding::createDirect("@@DURATION@@", "Duration") }
+			, parent)
 {
 }

@@ -21,7 +21,6 @@ protected:
 	bool supportsGotoGeneration() const override;
 	generatorBase::GeneratorCustomizer *createCustomizer() override;
 
-
 	const QString mGeneratorName;
 };
 

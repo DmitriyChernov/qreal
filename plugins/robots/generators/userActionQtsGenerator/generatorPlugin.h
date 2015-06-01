@@ -3,6 +3,7 @@
 #include <generatorBase/robotsGeneratorPluginBase.h>
 
 #include "userActionBlockFactory.h"
+#include "noRobotModel.h"
 
 namespace userAction {
 
@@ -41,6 +42,7 @@ protected:
 
 private:
 	UserActionBlockFactory *mBlocksFactory;
+	QScopedPointer<NoRobotModel> mRobotModel;
 	QAction *mGenerateCodeAction;
 	QAction *mStartRecordAction;
 	QAction *mStopRecordAction;

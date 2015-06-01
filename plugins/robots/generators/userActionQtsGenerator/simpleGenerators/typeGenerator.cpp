@@ -12,7 +12,9 @@ TypeGenerator::TypeGenerator(const qrRepo::RepoApi &repo
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "type.t"
-			, QList<Binding *>(), parent)
+			, "userAction/type.t"
+			, { Binding::createDirect("@@MESSAGE@@", "Message")
+					, Binding::createDirect("@@DURATION@@", "Duration") }
+			, parent)
 {
 }

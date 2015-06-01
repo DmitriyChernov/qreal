@@ -12,7 +12,11 @@ GetWidgetGenerator::GetWidgetGenerator(const qrRepo::RepoApi &repo
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "getWidget.t"
-			, QList<Binding *>(), parent)
+			, "userAction/getWidget.t"
+			, { Binding::createDirect("@@STOREVAR@@", "StoreVar")
+					, Binding::createDirect("@@NAME@@", "Name")
+					, Binding::createDirect("@@TYPE@@", "Type")
+					, Binding::createDirect("@@PARENT@@", "Parent") }
+			, parent)
 {
 }

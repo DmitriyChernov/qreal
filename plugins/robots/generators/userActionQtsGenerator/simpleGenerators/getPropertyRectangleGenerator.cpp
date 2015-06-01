@@ -12,7 +12,9 @@ GetPropertyRectangleGenerator::GetPropertyRectangleGenerator(const qrRepo::RepoA
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "getPropertyRectangle.t"
-			, QList<Binding *>(), parent)
+			, "userAction/getPropertyRectangle.t"
+			, { Binding::createDirect("@@STOREVAR@@", "StoreVar")
+					, Binding::createDirect("@@NAME@@", "Name") }
+			, parent)
 {
 }

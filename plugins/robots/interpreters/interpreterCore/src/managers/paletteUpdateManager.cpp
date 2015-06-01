@@ -28,8 +28,8 @@ PaletteUpdateManager::PaletteUpdateManager(qReal::gui::MainWindowInterpretersInt
 void PaletteUpdateManager::updatePalette(robotModel::RobotModelInterface &currentModel)
 {
 	mPaletteProvider.beginPaletteModification();
-	mPaletteProvider.setEnabledForAllElementsInPalette(false);
-	mPaletteProvider.setVisibleForAllElementsInPalette(false);
+	mPaletteProvider.setEnabledForAllElementsInPalette(qReal::Id("RobotsMetamodel"), false);
+	mPaletteProvider.setVisibleForAllElementsInPalette(qReal::Id("RobotsMetamodel"), false);
 
 	for (const qReal::Id &id : mFactoryManager.visibleBlocks(currentModel)) {
 		mPaletteProvider.setElementInPaletteVisible(id, true);

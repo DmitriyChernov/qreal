@@ -12,7 +12,11 @@ ArrowGenerator::ArrowGenerator(const qrRepo::RepoApi &repo
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "arrow.t"
-			, QList<Binding *>(), parent)
+			, "userAction/arrow.t"
+			, { Binding::createDirect("@@TARGET@@", "Target")
+					 , Binding::createDirect("@@ANGLE@@", "Angle")
+					 , Binding::createDirect("@@PARENT@@", "Parent")
+					 , Binding::createDirect("@@DURATION@@", "Duration") }
+			, parent)
 {
 }

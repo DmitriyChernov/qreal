@@ -19,29 +19,27 @@ using namespace kitBase::blocksBase::common;
 
 qReal::interpretation::Block *UserActionBlockFactory::produceBlock(const qReal::Id &element)
 {
-	Q_UNUSED(element)
-	return nullptr;
+	return new ClearEncoderBlock(mRobotModelManager->model());
 }
 
 qReal::IdList UserActionBlockFactory::providedBlocks() const
 {
 	return {
-		id("Hint")
-		, id("Arrow")
+		id("HintMessage")
+		, id("ArrowWidget")
 		, id("DragPaletteElement")
 		, id("DrawLink")
 		, id("Wait")
 		, id("ChangeWindow")
-		, id("PickComboBoxItem")
+		, id("PickComboBox")
 		, id("Scroll")
 		, id("CursorMoveTo")
 		, id("MouseButtonAction")
 		, id("Type")
 		, id("Record")
-		, id("GetWidget")
-		, id("GetProperty")
-		, id("GetPropertyRectangle")
-		, id("GetDraggableElement")
+		, id("Widget")
+		, id("Property")
+		, id("PropertyRectangle")
 	};
 }
 

@@ -12,7 +12,9 @@ GetDraggableElementGenerator::GetDraggableElementGenerator(const qrRepo::RepoApi
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "getDraggableElement.t"
-			, QList<Binding *>(), parent)
+			, "userAction/getDraggableElement.t"
+			, { Binding::createDirect("@@STOREVAR@@", "StoreVar")
+					, Binding::createDirect("@@NAME@@", "Name") }
+			, parent)
 {
 }
