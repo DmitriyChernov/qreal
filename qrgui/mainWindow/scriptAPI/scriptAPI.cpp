@@ -43,7 +43,7 @@ void ScriptAPI::init(MainWindow *mainWindow)
 
 void ScriptAPI::evaluate()
 {
-	QString const fileName(SettingsManager::value("scriptName").toString());
+	QString const fileName(qApp->applicationDirPath() + "/" + SettingsManager::value("scriptName").toString());
 	QString const &fileContent = InFile::readAll(fileName);
 
 	mVirtualCursor->show();

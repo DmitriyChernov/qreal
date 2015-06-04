@@ -62,6 +62,6 @@ recentProjectsLimit=5
 dragArea = 12
 touchMode=false
 scriptInterpretation=true
-scriptName=:/mainWindow/hintScripts/obstacle.js
+scriptName=userActions.js
 interpreterStackSize=4000
 gesturesEnabled=true

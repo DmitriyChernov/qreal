@@ -113,8 +113,8 @@ void UserActionRecorderPlugin::lowLevelEvent(QObject *obj, QEvent *e)
 		QGraphicsSceneDragDropEvent* event = dynamic_cast<QGraphicsSceneDragDropEvent*>(e);
 		eventTag.setAttribute("Type", "Drop");
 		eventTag.setAttribute("RecieverType", "EditorViewScene");
-		eventTag.setAttribute("Xcoord", event->scenePos().x());
-		eventTag.setAttribute("Ycoord", event->scenePos().y());
+		eventTag.setAttribute("Xcoord", static_cast<int>(event->scenePos().x()));
+		eventTag.setAttribute("Ycoord", static_cast<int>(event->scenePos().y()));
 
 		QByteArray itemData = event->mimeData()->data("application/x-real-uml-data");
 		QDataStream inStream(&itemData, QIODevice::ReadOnly);

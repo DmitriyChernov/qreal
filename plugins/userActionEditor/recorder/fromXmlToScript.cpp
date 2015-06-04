@@ -81,6 +81,15 @@ void FromXmlToScript::generateScript(QString const &xml)
 					script() << "var window = api.pluginUi(\"qRealRobots.RobotsPlugin\").d2ModelWidget();\n";
 				}
 				script() << "api.changeWindow(window);\n";
+			} else if (recieverType == "qReal::gui::DraggableElement") {
+				if (recieverName== "") {
+					mDraggingElement = "draggingElement";
+				} else {
+					mDraggingElement = recieverName;
+					mDraggingElement.replace(" ", "");
+				}
+				mIsDragFromPalette = true;
+				continue;
 			} else {
 				QDomNodeList const parentList = event.elementsByTagName("Parent");
 
@@ -120,7 +129,7 @@ void FromXmlToScript::generateScript(QString const &xml)
 								, event.attributes().namedItem("Button").nodeValue()
 								, "sceneViewport");
 						continue;
-					} else if (objectType == "QComboBox") {
+					} else if (objectType == "QComboBox" && eventAction == "Release") {
 						QString varName = objectName;
 						if (varName == "") {
 							varName = "widget";
@@ -138,6 +147,7 @@ void FromXmlToScript::generateScript(QString const &xml)
 						script() << "var prop = api.ui().propertyRect(\""
 								+ parent.attributes().namedItem("PropertyName").nodeValue()
 								+ "\");\n";
+						script() << "api.cursor().moveToRect(prop, 1000);\n";
 						script() << "var propertyEditor = api.ui().propertyEditor();\n";
 						script() << generateMouseAction(eventAction
 								, event.attributes().namedItem("Button").nodeValue()
