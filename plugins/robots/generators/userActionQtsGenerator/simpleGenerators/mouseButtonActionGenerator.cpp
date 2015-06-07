@@ -12,7 +12,7 @@ MouseButtonActionGenerator::MouseButtonActionGenerator(const qrRepo::RepoApi &re
 		, const Id &id
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "userAction/mouseButtonActionGenerator.t"
+			, "userAction/mouseButtonAction.t"
 			, { Binding::createDirect("@@BUTTON@@", "Button")
 					, Binding::createDirect("@@ACTION@@", "Action")
 					, Binding::createDirect("@@TARGET@@", "Target")

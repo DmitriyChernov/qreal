@@ -1,1 +1,1 @@
-api.hints().addHint("@@MESSAGE@@", @@PARENT@@, @@DURATION@@);
+api.hints().addHint("@@MESSAGE@@", @@DURATION@@, @@PARENT@@);

@@ -50,7 +50,7 @@ void ScriptAPI::evaluate()
 	mVirtualCursor->raise();
 
 	mScriptEngine.setProcessEventsInterval(20);
-	mScriptEngine.evaluate(fileContent, fileName);
+	mScriptEngine.evaluate(fileContent, "errors.txt");
 	abortEvaluate();
 }
 

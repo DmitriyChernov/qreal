@@ -8,7 +8,7 @@ namespace userAction {
 namespace simpleGenerators {
 
 /// Generator for 'Record' block
-class RecordGenerator : public generatorBase::simple::AbstractSimpleGenerator
+class RecordGenerator : public generatorBase::simple::BindingGenerator
 {
 public:
 	RecordGenerator(const qrRepo::RepoApi &repo
@@ -16,8 +16,6 @@ public:
 			, const qReal::Id &id
 			, QObject *parent = 0);
 
-	/// Generates and returns code using parameters specified in constructor
-	virtual QString generate();
 };
 
 }

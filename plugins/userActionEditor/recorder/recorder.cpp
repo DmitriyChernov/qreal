@@ -51,7 +51,9 @@ void UserActionRecorderPlugin::init(PluginConfigurator const &configurator)
 		disconnect(&configurator.systemEvents(), &SystemEvents::lowLevelEvent
 				, this, &UserActionRecorderPlugin::lowLevelEvent);
 		if (mRecordElementId.toString() != "qrm:/") {
-			configurator.logicalModelApi().setPropertyByRoleName(mRecordElementId, mEventsFileName, "UserActions");
+			configurator.logicalModelApi().setPropertyByRoleName(mRecordElementId
+					, mUserActioDomDocument.toString()
+					, "UserActions");
 		}
 	});
 

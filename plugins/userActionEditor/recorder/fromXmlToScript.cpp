@@ -57,7 +57,8 @@ void FromXmlToScript::generateScript(QString const &xml)
 
 				script() << generateDragCommand(id, mDraggingElement, xcoord, ycoord);
 			} else if ((recieverType == "QScrollBar" && eventAction == "Press")
-					|| recieverName == "QComboBoxPrivateContainerClassWindow") {
+					|| recieverName == "QComboBoxPrivateContainerClassWindow"
+					|| recieverType == "qReal::gui::DraggableElement") {
 				continue;
 			} else if (recieverName != "" && recieverName != "qt_scrollarea_viewport") {
 				if (!mVariables->contains(recieverName)) {
@@ -209,8 +210,15 @@ QString FromXmlToScript::generateDragCommand(QString const &id
 		, QString const &xcoord
 		, QString const &ycoord) const
 {
+	QString varName;
+	if (var == "") {
+		varName = "varName";
+	} else {
+		varName = var;
+	}
+
 	return "var "
-			+ var
+			+ varName
 			+ " = api.palette().dragPaletteElement(\""
 			+ id
 			+ "\", 500, "

@@ -501,7 +501,7 @@
 						<property displayedName="From element id" type="string" name="FromElementId">
 							<default></default>
 						</property>
-						<property displayedName="To element id" type="string" name="FromElementId">
+						<property displayedName="To element id" type="string" name="ToElementId">
 							<default></default>
 						</property>
 						<property displayedName="Duration" type="int" name="Duration">
@@ -695,7 +695,7 @@
 					</generalizations>
 				</logic>
 			</node>
-			<node displayedName="Type" name="Type" description="Emulating keyboard: type message.">
+			<node displayedName="Type" name="Type" description="Emulating keyboard: type 	message.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>

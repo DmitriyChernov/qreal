@@ -1,1 +1,1 @@
-api.hints().arrowToWidget(@@TARGET@@, @@ANGLE@@, @@PARENT@@, @@DURATION@@);
+api.hints().arrowToWidget(@@TARGET@@, @@ANGLE@@, @@DURATION@@, @@PARENT@@);

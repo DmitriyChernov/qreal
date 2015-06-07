@@ -16,7 +16,8 @@ DragPaletteElementGenerator::DragPaletteElementGenerator(const qrRepo::RepoApi &
 			, { Binding::createDirect("@@PALETTEELEMENTID@@", "PaletteElementId")
 					, Binding::createDirect("@@XCOORD@@", "XCoord")
 					, Binding::createDirect("@@YCOORD@@", "YCoord")
-					, Binding::createDirect("@@DURATION@@", "Duration") }
+					, Binding::createDirect("@@DURATION@@", "Duration")
+					, Binding::createDirect("@@IDVAR@@", "IdVar")}
 			, parent)
 {
 }
