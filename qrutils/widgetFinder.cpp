@@ -15,5 +15,17 @@ QWidget *WidgetFinder::widget(QWidget const *parent, QString const &type, QStrin
 		}
 	}
 
+	if (name == "") {
+		QList<QWidget *> const widgetList = parent->findChildren<QWidget *>();
+
+		for (QWidget * const widget : widgetList) {
+			const char *typeName = type.toStdString().c_str();
+			if (widget->inherits(typeName) && widget->isVisible()) {
+				return widget;
+			}
+		}
+	}
+
+
 	return nullptr;
 }

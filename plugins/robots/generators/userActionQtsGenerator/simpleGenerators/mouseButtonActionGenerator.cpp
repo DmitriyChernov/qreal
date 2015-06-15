@@ -10,13 +10,14 @@ using namespace qReal;
 MouseButtonActionGenerator::MouseButtonActionGenerator(const qrRepo::RepoApi &repo
 		, generatorBase::GeneratorCustomizer &customizer
 		, const Id &id
+		, bool haveDelay
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "userAction/mouseButtonAction.t"
+			, haveDelay ? "userAction/mouseButtonAction.t" : "userAction/mouseButtonActionWithoutDelay.t"
 			, { Binding::createDirect("@@BUTTON@@", "Button")
 					, Binding::createDirect("@@ACTION@@", "Action")
 					, Binding::createDirect("@@TARGET@@", "Target")
-					, Binding::createDirect("@@DELAY@@", "Delay") }
+					, Binding::createDirect("@@DELAY@@", "Delay")}
 			, parent)
 {
 }

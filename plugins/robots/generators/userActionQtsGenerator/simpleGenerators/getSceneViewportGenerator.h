@@ -7,14 +7,13 @@
 namespace userAction {
 namespace simpleGenerators {
 
-/// Generator for 'MouseButtonAction' block
-class MouseButtonActionGenerator : public generatorBase::simple::BindingGenerator
+/// Generator for 'GetSceneViewport' block
+class GetSceneViewportGenerator : public generatorBase::simple::BindingGenerator
 {
 public:
-	MouseButtonActionGenerator(const qrRepo::RepoApi &repo
+	GetSceneViewportGenerator(const qrRepo::RepoApi &repo
 			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
-			, bool haveDelay
 			, QObject *parent = 0);
 };
 

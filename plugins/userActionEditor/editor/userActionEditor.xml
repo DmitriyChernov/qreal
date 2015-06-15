@@ -16,8 +16,8 @@
 				<value name="right" displayedName="right"/>
 			</enum>
 			<enum name="MouseAction" editable="false">
-				<value name="press" displayedName="press"/>
-				<value name="release" displayedName="release"/>
+				<value name="Press" displayedName="press"/>
+				<value name="Release" displayedName="release"/>
 			</enum>
 			<groups>
 				<group name="UserActionDiagramGroup" rootNode="diagram">
@@ -182,7 +182,7 @@
 			<node displayedName="Subprogram" name="Subprogram" description="Subprogram call. Subprograms are used for splitting repetitive program parts into a separate diagram and then calling it from main diagram or other subprograms. When this block is added into a diagram it will be suggested to enter subprogram name. The double click on subprogram call block may open the corresponding subprogram diagram. Moreover user palette will appear containing existing subrpograms, they can be dragged into a diagram like the usial blocks.">
 				<graphics>
 					<picture sizex="50" sizey="50">
-						<image y1="0" name="images/subprogramBlock.svg" x1="0" y2="50" x2="50"/>
+						<image y1="0" name="images/subprogramRobotsBlock.svg" x1="0" y2="50" x2="50"/>
 					</picture>
 					<labels>
 						<label x="-20" y="-30" textBinded="name" hard="true"/>
@@ -647,10 +647,37 @@
 							<default>1000</default>
 						</property>
 						<property displayedName="X coordinate" type="int" name="XCoord">
-							<default>100</default>
+							<default>-1</default>
 						</property>
 						<property displayedName="Y coordinate" type="int" name="YCoord">
-							<default>100</default>
+							<default>-1</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Cursor move to rectangle" name="CursorMoveToRect" description="Moves virtual cursor to targeted rectangle for duration.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Cursor move to rectangle:" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="Target" background="white"/>
+						<label x="-50" y="60" text="Target:"/>
+						<label x="50" y="80" textBinded="Duration" background="white"/>
+						<label x="-50" y="80" text="Duration:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Target" type="string" name="Target">
+							<default></default>
+						</property>
+						<property displayedName="Duration" type="int" name="Duration">
+							<default>1000</default>
 						</property>
 					</properties>
 					<generalizations>
@@ -684,7 +711,7 @@
 							<default>left</default>
 						</property>
 						<property displayedName="Action" type="MouseAction" name="Action">
-							<default>press</default>
+							<default>Press</default>
 						</property>
 						<property displayedName="Delay" type="int" name="Delay">
 							<default>1000</default>
@@ -835,6 +862,114 @@
 					</generalizations>
 				</logic>
 			</node>
+			<node displayedName="GetPropertyEditor" name="PropertyEditor" description="Store in variable property editor">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Get property editor" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="StoreVar" background="white"/>
+						<label x="-50" y="60" text="Store variable:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Store variable" type="string" name="StoreVar">
+							<default></default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="GetMainWindow" name="MainWindow" description="Store in variable main window.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Get main window" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="StoreVar" background="white"/>
+						<label x="-50" y="60" text="Store variable:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Store variable" type="string" name="StoreVar">
+							<default></default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="GetSceneViewport" name="SceneViewport" description="Store in variable scene viewport.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Get scene viewport" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="StoreVar" background="white"/>
+						<label x="-50" y="60" text="Store variable:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Store variable" type="string" name="StoreVar">
+							<default></default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Lead round" name="LeadRound" description="Leads round the target widget.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Lead round" hard="true" background="white"/>
+						<label x="50" y="60" textBinded="target" background="white"/>
+						<label x="-50" y="60" text="target:"/>
+						<label x="50" y="80" textBinded="Duration" background="white"/>
+						<label x="-50" y="80" text="Duration:"/>
+					</labels>
+				</graphics>
+				<logic>
+					<properties>
+						<property displayedName="Target" type="string" name="Target">
+							<default></default>
+						</property>
+						<property displayedName="Duration" type="string" name="Duration">
+							<default></default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Clear scene" name="ClearScene" description="Remove all blocks from scene.">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/default.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="-20" y="-30" text="Clear scene" hard="true" background="white"/>
+					</labels>
+				</graphics>
+				<logic>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
 		</graphicTypes>
 		<palette sorted="false">
 			<group name="Algorithms">
@@ -852,6 +987,7 @@
 			<group name="Virtual cursor">
 				<element name="MouseButtonAction"/>
 				<element name="CursorMoveTo"/>
+				<element name="CursorMoveToRect"/>
 			</group>
 			<group name="Virtual keyboard">
 				<element name="Type"/>
@@ -867,16 +1003,21 @@
 			</group>
 			<group name="Scene">
 				<element name="DrawLink"/>
+				<element name="ClearScene"/>
 			</group>
 			<group name="Hint">
 				<element name="HintMessage"/>
 				<element name="ArrowWidget"/>
+				<element name="LeadRound"/>
 			</group>
 			<group name="Ui">
 				<element name="Widget"/>
 				<element name="PluginActionToolButton"/>
 				<element name="Property"/>
 				<element name="PropertyRectangle"/>
+				<element name="PropertyEditor"/>
+				<element name="MainWindow"/>
+				<element name="SceneViewport"/>
 			</group>
 			<group name="Recording">
 				<element name="Record"/>

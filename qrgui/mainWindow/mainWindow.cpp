@@ -1661,6 +1661,15 @@ void MainWindow::traverseListOfActions(QList<ActionInfo> const &actions)
 			QToolBar * const toolbar = findChild<QToolBar *>(action.toolbarName() + "Toolbar");
 			if (toolbar) {
 				toolbar->addAction(action.action());
+
+				QList<QWidget *> widgetList = action.action()->associatedWidgets();
+				for (QWidget * widget : widgetList) {
+					QString const buttonClassName = "QToolButton";
+					if (buttonClassName == widget->metaObject()->className()) {
+						widget->setObjectName(action.action()->objectName());
+					}
+				}
+
 				connect(action.action(), &QAction::changed, [toolbar]() {
 					for (QAction * const action : toolbar->actions()) {
 						if (action->isVisible()) {

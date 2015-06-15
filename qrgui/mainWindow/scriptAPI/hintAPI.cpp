@@ -1,16 +1,11 @@
 #include "hintAPI.h"
 
-#include <QtCore/QtMath>
-
 #include "scriptAPI.h"
 #include "arrow.h"
 #include "hintReporter.h"
 
-#include <qrutils/mathUtils/math.h>
-
 using namespace qReal;
 using namespace gui;
-using namespace mathUtils;
 
 HintAPI::HintAPI(ScriptAPI *scriptAPI)
 	: mScriptAPI(scriptAPI)
@@ -24,18 +19,32 @@ void HintAPI::addHint(QString const &message, int const lifeTime, QWidget *paren
 	mHintReporter = new HintReporter(parent, message, lifeTime);
 }
 
-void HintAPI::arrowToWidget(QWidget *target, qreal angle, int lifeTime, QWidget *parent)
+void HintAPI::arrowToWidget(QWidget *target, qreal const angle, int const lifeTime, QWidget *parent)
 {
-	int const xcoord = target->mapToGlobal(QPoint(0,0)).x();
-	int const ycoord = target->mapToGlobal(QPoint(0,0)).y();
+	int const xcoord = mScriptAPI->guiFacade()->mainWindow()->mapFromGlobal(
+			target->mapToGlobal(target->rect().topLeft())).x();
+	int const ycoord = mScriptAPI->guiFacade()->mainWindow()->mapFromGlobal(
+			target->mapToGlobal(target->rect().topLeft())).y();
 
-	int const sourcePointDeviation = 50;
+	mArrow = new Arrow(target, angle, lifeTime, parent);
+	mArrow->move(xcoord, ycoord);
+}
 
-	qreal const angleInRads = angle * pi / 180;
+void HintAPI::leadRound(QWidget *target, int const duration)
+{
+	QPoint topLeft = target->mapToGlobal(QPoint(0, 0));
+	QPoint topRight = target->mapToGlobal(QPoint(target->width(), 0));
+	QPoint botLeft = target->mapToGlobal(QPoint(0, target->height()));
+	QPoint botRight = target->mapToGlobal(QPoint(target->width(), target->height()));
 
-	QPoint const sourcePoint = QPoint(xcoord + sourcePointDeviation * qCos(angleInRads)
-									, ycoord + sourcePointDeviation * qSin(angleInRads));
-	QPoint const destPoint = QPoint(xcoord, ycoord);
+	mScriptAPI->virtualCursor()->move(topLeft);
 
-	mArrow = new Arrow(sourcePoint, destPoint, lifeTime, parent);
+	mScriptAPI->virtualCursor()->moveToPoint(topRight.x() - target->width()/6
+			, topRight.y() + target->height()/6, duration/4);
+	mScriptAPI->virtualCursor()->moveToPoint(botRight.x() - target->width()/6
+			, botRight.y() - target->height()/6, duration/4);
+	mScriptAPI->virtualCursor()->moveToPoint(botLeft.x() + target->width()/6
+			, botLeft.y() - target->height()/6, duration/4);
+	mScriptAPI->virtualCursor()->moveToPoint(topLeft.x() + target->width()/6
+			, topLeft.y() + target->height()/6, duration/4);
 }

@@ -7,14 +7,13 @@
 namespace userAction {
 namespace simpleGenerators {
 
-/// Generator for 'MouseButtonAction' block
-class MouseButtonActionGenerator : public generatorBase::simple::BindingGenerator
+/// Generator for 'CursorMoveTo' block
+class CursorMoveToRectGenerator : public generatorBase::simple::BindingGenerator
 {
 public:
-	MouseButtonActionGenerator(const qrRepo::RepoApi &repo
+	CursorMoveToRectGenerator(const qrRepo::RepoApi &repo
 			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
-			, bool haveDelay
 			, QObject *parent = 0);
 };
 

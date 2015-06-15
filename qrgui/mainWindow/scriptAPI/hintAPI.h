@@ -24,7 +24,10 @@ public:
 	Q_INVOKABLE void addHint(QString const &message, int const lifeTime, QWidget *parent);
 
 	/// Draws arrow near target with parent widget with angle. Exists for lifeTime.
-	Q_INVOKABLE void arrowToWidget(QWidget *target, qreal angle, int lifeTime, QWidget *parent);
+	Q_INVOKABLE void arrowToWidget(QWidget *target, qreal const angle, int const lifeTime, QWidget *parent);
+
+	/// Lead virtual cursor round the widget.
+	Q_INVOKABLE void leadRound(QWidget *target, int const duration);
 
 private:
 	ScriptAPI *mScriptAPI;

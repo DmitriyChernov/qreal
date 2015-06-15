@@ -32,6 +32,9 @@ public:
 	/// Returns list of nodes id from scene by diagram and element names.
 	Q_INVOKABLE QStringList nodeList(QString const &diagram, QString const &element);
 
+	/// Deletes all existing elements on scene.
+	Q_INVOKABLE void clearScene();
+
 	/// Creates block with id, like paletteElement on scene on (xSceneCoord, ySceneCoord) point on scene.
 	QString createBlockOnScene(DraggableElement const  *paletteElement, int const xSceneCoord, int const ySceneCoord);
 

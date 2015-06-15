@@ -1,1 +1,1 @@
-@@STOREVAR@@ = api.ui().widget("@@TYPE@@", "@@NAME@@");
+var @@STOREVAR@@ = api.ui().widget("@@TYPE@@", "@@NAME@@");

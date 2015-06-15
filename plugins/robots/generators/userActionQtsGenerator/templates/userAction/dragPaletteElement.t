@@ -1,1 +1,1 @@
-@@IDVAR@@ = api.palette().dragPaletteElement("@@PALETTEELEMENTID@@", @@DURATION@@, @@XCOORD@@, @@YCOORD@@);
+var @@IDVAR@@ = api.palette().dragPaletteElement("@@PALETTEELEMENTID@@", @@DURATION@@, @@XCOORD@@, @@YCOORD@@);

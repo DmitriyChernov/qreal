@@ -262,6 +262,12 @@ void ActionsManager::giveObjectNames()
 	mStopRobotAction.setObjectName("stopRobot");
 	mConnectToRobotAction.setObjectName("connectToRobot");
 	mRobotSettingsAction.setObjectName("robotSettings");
+	mEditModeAction.setObjectName("editMode");
+	mDebugModeAction.setObjectName("debugMode");
+	mExportExerciseAction.setObjectName("exportExercise");
+	mDebugModeAction.setObjectName("debugMode");
+	mDebugModeAction.setObjectName("debugMode");
+	mDebugModeAction.setObjectName("debugMode");
 }
 
 QAction *ActionsManager::produceMenuAction(const QString &kitId, const QString &name

@@ -1,1 +1,1 @@
-@@STOREVAR@@ = api.ui().propertyRect("@@NAME@@");
+var @@STOREVAR@@ = api.ui().propertyRect("@@NAME@@");

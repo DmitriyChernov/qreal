@@ -52,6 +52,7 @@ void ScriptAPI::evaluate()
 	mScriptEngine.setProcessEventsInterval(20);
 	mScriptEngine.evaluate(fileContent, "errors.txt");
 	abortEvaluate();
+	mVirtualCursor->hide();
 }
 
 void ScriptAPI::pickComboBoxItem(QComboBox *comboBox, int const index, int const duration)

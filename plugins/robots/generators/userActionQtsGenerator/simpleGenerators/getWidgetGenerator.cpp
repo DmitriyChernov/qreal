@@ -10,9 +10,10 @@ using namespace qReal;
 GetWidgetGenerator::GetWidgetGenerator(const qrRepo::RepoApi &repo
 		, generatorBase::GeneratorCustomizer &customizer
 		, const Id &id
+		, bool haveParent
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, "userAction/getWidget.t"
+			, haveParent ? "userAction/getWidget.t" : "userAction/getWidgetWithoutParent.t"
 			, { Binding::createDirect("@@STOREVAR@@", "StoreVar")
 					, Binding::createDirect("@@NAME@@", "Name")
 					, Binding::createDirect("@@TYPE@@", "Type")

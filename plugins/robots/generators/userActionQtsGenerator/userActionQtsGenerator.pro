@@ -39,6 +39,12 @@ HEADERS += \
 	$$PWD/simpleGenerators/mouseButtonActionGenerator.h \
 	$$PWD/userActionBlockFactory.h \
 	$$PWD/noRobotModel.h \
+    simpleGenerators/getMainWindowGenerator.h \
+    simpleGenerators/getPropertyEditorGenerator.h \
+    simpleGenerators/leadRoundGenerator.h \
+    simpleGenerators/getSceneViewportGenerator.h \
+    simpleGenerators/clearSceneGenerator.h \
+    simpleGenerators/cursorMoveToRectGenerator.h
 
 SOURCES += \
 	$$PWD/simpleGenerators/hintMessageGenerator.cpp \
@@ -62,6 +68,12 @@ SOURCES += \
 	$$PWD/simpleGenerators/mouseButtonActionGenerator.cpp \
 	$$PWD/userActionBlockFactory.cpp \
 	$$PWD/noRobotModel.cpp \
+    simpleGenerators/getMainWindowGenerator.cpp \
+    simpleGenerators/leadRoundGenerator.cpp \
+    simpleGenerators/getSceneViewportGenerator.cpp \
+    simpleGenerators/getPropertyEditorGenerator.cpp \
+    simpleGenerators/clearSceneGenerator.cpp \
+    simpleGenerators/cursorMoveToRectGenerator.cpp
 
 RESOURCES = \
 	$$PWD/templates.qrc \

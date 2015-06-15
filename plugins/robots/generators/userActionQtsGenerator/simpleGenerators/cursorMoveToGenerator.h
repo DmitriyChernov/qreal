@@ -14,6 +14,7 @@ public:
 	CursorMoveToGenerator(const qrRepo::RepoApi &repo
 			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
+			, const bool haveCoords
 			, QObject *parent = 0);
 };
 

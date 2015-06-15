@@ -116,7 +116,6 @@
         <file>templates/userAction/cursorMoveTo.t</file>
         <file>templates/userAction/dragPaletteElement.t</file>
         <file>templates/userAction/drawLink.t</file>
-        <file>templates/userAction/getDraggableElement.t</file>
         <file>templates/userAction/getProperty.t</file>
         <file>templates/userAction/getPropertyRectangle.t</file>
         <file>templates/userAction/getWidget.t</file>

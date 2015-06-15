@@ -7,6 +7,8 @@
 
 #include <qrutils/graphicsUtils/animatedEffects.h>
 
+#include <QDebug>
+
 using namespace qReal;
 using namespace gui;
 using namespace graphicsUtils;
@@ -14,19 +16,17 @@ using namespace graphicsUtils;
 HintReporter::HintReporter(QWidget *parent, QString const &message, int const lifeTime)
 	: QLabel(parent)
 {
-	setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
-	setWindowFlags(Qt::WindowStaysOnTopHint);
-	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-
-	setAutoFillBackground(false);
+	setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 	setStyleSheet("background-color: #ffffff; border: 1px solid; border-radius: 7px; border-color: #303030;");
-	setMinimumSize(300, 50);
-	move(parent->width() - this->width(), 0);
 	setWordWrap(true);
+
+	addHint(message);
+	setMinimumSize(300, 50);
+	setFixedSize(sizeHint());
+	move(parent->width() - this->width(), 0);
 	show();
 	raise();
 
-	addHint(message);
 	mDuration = lifeTime / 2;
 
 	QTimer::singleShot(mDuration, this, SLOT(disappear()));

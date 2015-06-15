@@ -1,4 +1,4 @@
-#include "cursorMoveToGenerator.h"
+#include "leadRoundGenerator.h"
 
 #include <generatorBase/simpleGenerators/bindingGenerator.h>
 
@@ -7,17 +7,14 @@ using namespace userAction::simpleGenerators;
 using namespace generatorBase::simple;
 using namespace qReal;
 
-CursorMoveToGenerator::CursorMoveToGenerator(const qrRepo::RepoApi &repo
+LeadRoundGenerator::LeadRoundGenerator(const qrRepo::RepoApi &repo
 		, generatorBase::GeneratorCustomizer &customizer
 		, const Id &id
-		, bool hasCoords
 		, QObject *parent)
 	: BindingGenerator(repo, customizer, id
-			, hasCoords ? "userAction/cursorMoveToPoint.t" : "userAction/cursorMoveTo.t"
+			, "userAction/leadRound.t"
 			, { Binding::createDirect("@@TARGET@@", "Target")
-					, Binding::createDirect("@@DURATION@@", "Duration")
-					, Binding::createDirect("@@XCOORD@@", "XCoord")
-					, Binding::createDirect("@@YCOORD@@", "YCoord")}
+					, Binding::createDirect("@@DURATION@@", "Duration") }
 			, parent)
 {
 }

@@ -101,3 +101,8 @@ QStringList SceneAPI::nodeList(QString const &diagram, QString const &element)
 
 	return result;
 }
+
+void SceneAPI::clearScene()
+{
+	mMainWindow->getCurrentTab()->mutableScene().clearScene();
+}

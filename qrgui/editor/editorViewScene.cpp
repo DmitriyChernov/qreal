@@ -118,12 +118,15 @@ void EditorViewScene::setEnabled(bool enabled)
 
 void EditorViewScene::clearScene()
 {
+	IdList idsToDelete;
 	foreach (QGraphicsItem *item, items()) {
-		// looks really insane, but some elements were alreadt deleted together with their parent
-		if (items().contains(item) && !(item == mTopLeftCorner || item == mBottomRightCorner)) {
-			removeItem(item);
+		const Element *element = dynamic_cast<const Element *>(item);
+		if (element) {
+			idsToDelete << element->id();
 		}
 	}
+
+	deleteElements(idsToDelete);
 }
 
 void EditorViewScene::itemSelectUpdate()

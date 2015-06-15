@@ -19,6 +19,11 @@
 #include "simpleGenerators/scrollGenerator.h"
 #include "simpleGenerators/typeGenerator.h"
 #include "simpleGenerators/waitGenerator.h"
+#include "simpleGenerators/leadRoundGenerator.h"
+#include "simpleGenerators/getMainWindowGenerator.h"
+#include "simpleGenerators/getPropertyEditorGenerator.h"
+#include "simpleGenerators/getSceneViewportGenerator.h"
+#include "simpleGenerators/cursorMoveToRectGenerator.h"
 
 using namespace userAction;
 using namespace userAction::simpleGenerators;
@@ -47,6 +52,8 @@ AbstractSimpleGenerator *Factory::simpleGenerator(const qReal::Id &id
 		return new HintMessageGenerator(mRepo, customizer, id, this);
 	} else if (elementType == "ArrowWidget") {
 		return new ArrowGenerator(mRepo, customizer, id, this);
+	} else if (elementType == "LeadRound") {
+		return new LeadRoundGenerator(mRepo, customizer, id, this);
 	} else if (elementType == "DragPaletteElement") {
 		return new DragPaletteElementGenerator(mRepo, customizer, id, this);
 	} else if (elementType == "DrawLink") {
@@ -60,19 +67,31 @@ AbstractSimpleGenerator *Factory::simpleGenerator(const qReal::Id &id
 	} else if (elementType == "Scroll") {
 		return new ScrollGenerator(mRepo, customizer, id, this);
 	} else if (elementType == "CursorMoveTo") {
-		return new CursorMoveToGenerator(mRepo, customizer, id, this);
+		bool const haveCoords = mRepo.property(id, "XCoord").toInt() != -1
+				&& mRepo.property(id, "YCoord").toInt() != -1;
+		return new CursorMoveToGenerator(mRepo, customizer, id, haveCoords, this);
+	} else if (elementType == "CursorMoveToRect") {
+		return new CursorMoveToRectGenerator(mRepo, customizer, id, this);
 	} else if (elementType == "MouseButtonAction") {
-		return new MouseButtonActionGenerator(mRepo, customizer, id, this);
+		bool const haveDelay = mRepo.property(id, "Delay").toInt() != 0;
+		return new MouseButtonActionGenerator(mRepo, customizer, id, haveDelay, this);
 	} else if (elementType == "Type") {
 		return new TypeGenerator(mRepo, customizer, id, this);
 	} else if (elementType == "Record") {
 		return new RecordGenerator(mRepo, customizer, id, this);
 	} else if (elementType == "Widget") {
-		return new GetWidgetGenerator(mRepo, customizer, id, this);
+		bool const haveParent = mRepo.property(id, "Parent").toString() != "";
+		return new GetWidgetGenerator(mRepo, customizer, id, haveParent, this);
 	} else if (elementType == "Property") {
 		return new GetPropertyGenerator(mRepo, customizer, id, this);
 	} else if (elementType == "PropertyRectangle") {
 		return new GetPropertyRectangleGenerator(mRepo, customizer, id, this);
+	} else if (elementType == "PropertyEditor") {
+		return new GetPropertyEditorGenerator(mRepo, customizer, id, this);
+	} else if (elementType == "MainWindow") {
+		return new GetMainWindowGenerator(mRepo, customizer, id, this);
+	} else if (elementType == "SceneViewport") {
+		return new GetSceneViewportGenerator(mRepo, customizer, id, this);
 	}
 
 	return GeneratorFactoryBase::simpleGenerator(id, customizer);

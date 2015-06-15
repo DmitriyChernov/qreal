@@ -44,7 +44,7 @@ public:
 	Q_INVOKABLE QWidget *mainWindow();
 
 	/// Returns viewport(because viewport, not PropertyEditorView, recieve mouse event) PropertyEditorView.
-	Q_INVOKABLE QWidget *propertyEditor();
+	Q_INVOKABLE QWidget *propertyEditorViewport();
 
 	/// Returns widget by his type and layout index.
 	Q_INVOKABLE QWidget *widgetByIndex(int const layoutIndex, QWidget const *parent);

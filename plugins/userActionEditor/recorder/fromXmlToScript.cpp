@@ -144,15 +144,22 @@ void FromXmlToScript::generateScript(QString const &xml)
 								+ ", "
 								+ "1000);\n";
 						continue;
-					} else if (objectType == "QtTreePropertyBrowser"  && recieverName == "qt_scrollarea_viewport") {
+					} else if (objectType == "QtTreePropertyBrowser"
+							&& recieverName == "qt_scrollarea_viewport"
+							&& eventAction == "Release") {
 						script() << "var prop = api.ui().propertyRect(\""
 								+ parent.attributes().namedItem("PropertyName").nodeValue()
 								+ "\");\n";
 						script() << "api.cursor().moveToRect(prop, 1000);\n";
-						script() << "var propertyEditor = api.ui().propertyEditor();\n";
+						script() << "var propertyEditor = api.ui().propertyEditorViewport();\n";
+						script() << generateMouseAction("Press"
+								, event.attributes().namedItem("Button").nodeValue()
+								, "propertyEditor");
 						script() << generateMouseAction(eventAction
 								, event.attributes().namedItem("Button").nodeValue()
 								, "propertyEditor");
+						continue;
+					} else if (recieverName == "qt_scrollarea_viewport") {
 						continue;
 					}
 				}
@@ -249,9 +256,7 @@ QString FromXmlToScript::generateMouseAction(QString const &action, QString cons
 	QString commands = "";
 	if (action == "Press") {
 		mMousePressRecieverName = reciever;
-		if (reciever == "propertyEditor") {
-			commands += "api.cursor().moveToRect(prop, 500);\n";
-		} else {
+		if (reciever != "propertyEditor") {
 			commands += "api.cursor().moveTo(" + reciever + ", 500);\n";
 		}
 	} else if (action == "Release" && reciever != mMousePressRecieverName) {

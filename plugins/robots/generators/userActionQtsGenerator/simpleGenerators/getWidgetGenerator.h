@@ -14,6 +14,7 @@ public:
 	GetWidgetGenerator(const qrRepo::RepoApi &repo
 			, generatorBase::GeneratorCustomizer &customizer
 			, const qReal::Id &id
+			, bool haveParent
 			, QObject *parent = 0);
 };
 

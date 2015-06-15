@@ -98,7 +98,7 @@ QWidget *GuiFacade::mainWindow()
 	return mMainWindow;
 }
 
-QWidget *GuiFacade::propertyEditor()
+QWidget *GuiFacade::propertyEditorViewport()
 {
 	PropertyEditorView const *propertyEditor = mMainWindow->propertyEditor();
 	return propertyEditor->
